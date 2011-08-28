@@ -1,0 +1,588 @@
+# detach on hangup
+autodetach on
+# don't display the copyright page
+startup_message off
+# known problems HOME/END key not working for manually set TERM
+# https://wiki.archlinux.org/index.php/Home_and_End_keys_not_working
+term xterm-256color
+# no annoying audible bell, please
+# vbell on
+vbell off
+# terminfo and termcap for nice 256 color terminal
+termcapinfo xterm* 'hs:ts=\E]0;:fs=\007:ds=\E]0;\007'
+#termcapinfo xterm*|rxvt-* 'Co#256:AB=\E[48;5;%dm:AF=\E[38;5;%dm'
+#termcapinfo xterm*|rxvt-* ti@:te=\E[3J
+#termcapinfo xterm*|rxvt-* hs@:cs=\E[%i%d;%dr:im=\E[4h:ei=\E[4l
+#termcapinfo xterm*|rxvt-* hs@:cs=\E[%i%p1%d;%p2%dr:im=\E[4h:ei=\E[4l
+#defhstatus "screen ^E (^Et) | $USER@^EH"
+shelltitle '$ |bash'
+defscrollback 2000
+msgwait 2
+
+# X scroll mechisam
+# This enables you to use Shift-PageUp/Shift-PageDown to move back and forth in scroll buffer.
+# Another frequent cause of using scrollback buffer is,
+# when programs like Vim exit they leave their content on the window. To get rid of this behavior use: 
+termcapinfo xterm* ti@:te@
+# restore window contents after using (e.g.) vi
+altscreen on 
+
+# start from 1
+bind c screen 1
+bind ^c screen 1
+bind 0 select 10                                                            
+screen 1
+
+backtick 1 60 60 $HOME/bin/get_used_mem
+#hardstatus ingore
+#caption always "%{= kw}%-w%{= BW}%n %t%{-}%+w %-= %c"
+#caption always '%{= dg} %H %{G}| %{B}%l %{G}|%=%?%{d}%-w%?%{r}(%{d}%n %t%? {%u} %?%{r})%{d}%?%+w%?%=%{G}| %{B}%M %d %c:%s '
+#caption always "%?%F%{-b bc}%:%{-b bb}%?%C|%D|%M %d|%H%?%F%{+u wb}%? %L=%-Lw%45>%{+b by}%n%f*%t%{-}%+Lw%-0<"
+#hardstatus string "%{= B}:%{= b}: %{= r}[ %{G}%H%{= r} ] %= %{=b b}%-w%{=rb db}%>%n %t%{-}%+w %=%{= r}[ %{G}%c %{M}%D %m-%d %{r}] %{= b}:%{B}:"
+#hardstatus string '%{= kG}[ %{G}%H %{g}][%= %{= kw}%?%-Lw%?%{r}(%{W}%n*%f%t%?(%u)%?%{r})%{w}%?%+Lw%?%?%= %{g}][%{B} %d/%m %{W}%c %{g}]'
+hardstatus alwayslastline
+hardstatus string '%{= kG}%{g}[%{= kw}%-w%{= BW}%n_%h%{-}%+w %{g}]'
+#hardstatus string '%{= kG}%{g}[%{= kw}%-w%{= BW}%n_%h%{-}%+w %{g} | free: %1`]'
+#%-Lw%{= BW}%50>%n%f* %t%{-}%+Lw%<
+#hardstatus string "%n [%h]%?"
+
+#https://bbs.archlinux.org/viewtopic.php?id=55618&p=3
+#chdir $HOME
+#maxwin 11
+#verbose on
+#autodetach on
+#nethack on                      # print wackier status messages
+#password HJa4lhjDp4UIDlLA          # always of course
+#defobuflimit 4096
+#setenv LC_CTYPE en_US.UTF-8
+#defutf8 on
+#defencoding UTF-8
+#
+#idle 360 eval "screen nice -n 19 /opt/s/cmatrix" "idle 360000 pow_detach"
+#
+#shell -$SHELL                   # use the default shell
+#shelltitle '$ | bash'           # search | name for dynamic window titles
+#
+#defmode 600
+#defmonitor off         # turn monitoring on
+#defnonblock 2             # flaky/slow ssh lines
+#defscrollback 15000     # 5000 line scrollback
+#deflog off
+#defbce on     # erase background with current bg color
+#defflow off  # will force screen to process ^S/^Q
+#deflogin on             # Log new screen windows in utmp.
+#
+#
+#
+#hardcopy_append on
+#hardcopydir ~/.backups/.screen
+#bufferfile ~/.backups/.screen/buffer
+#logfile ~/.backups/.screen/screen_%y-%m-%d_%n
+#
+#zombie cr # don't kill window after the process died
+#silencewait 4
+#
+#startup_message off     # no way
+#autodetach on           # Never, ever turn this off.
+#zombie cr               # Keep dead windows around until I tell them to exit.
+#verbose on              # And show the command for the windows when they're resurrected.
+#
+#altscreen on            # restore window contents after using (e.g.) vi
+#attrcolor b ".I"        # allow bold colors - necessary for some reason
+#
+#msgwait 6               # 6 second messages
+#msgminwait 2
+#multiuser off
+#
+#pow_detach_msg "Screen session of $LOGNAME $:cr:$:nl:ended." # emulate .logout message
+#
+#
+#
+## debug         -       debugging info is written to /tmp/debug/
+## dumptermcap   -       Termcap entry written to "/home/srot/tmp/.screen/.termcap".
+## info          -       (1,3)/(270,37)+5000 -(-)flow bce UTF-8 6(hellopwd)
+## dinfo         -       (270,77) UTF-8 color iso2022
+#
+## ===============================================================
+## Messages
+## ===============================================================
+## They are also the names of the commands that set the respective messages.  In every message there can be "meta
+## strings" which are replaced by values.  A meta string starts with a percent sign and is then followed by one
+## of the following letters: aAcCdDfFhHlmMnstuwWyY The meta strings usually refer to the current
+## date and time or to a window title or number. There are also some specials like embedded branches (with %?),
+## color codes (with %{xy}) and padding (with %=, %<, %>). you can find their description in the manual in section  "STRING ESCAPES":
+##
+##  %%      percent sign (the escape character itself)
+##  %f      flags of the window
+##  %F      sets %? to true if the window has the focus
+##  %h      hardstatus of the window
+##  %H      hostname of the system
+##  %l      current load of the system
+##  %n      window number
+##  %t      window title
+##  %u      all other users on this window
+##  %w      all window numbers and names.
+##  %-w     all window numbers up to the current window
+##  %+w     all window numbers after the current window
+##  %W      all window numbers and names except the current one
+##
+##  DATE VARS -- USELESS!
+##  %a      either 'am' or 'pm' - according to the current time
+##  %A      either 'AM' or 'PM' - according to the current time
+##  %c      current time HH:MM in 24h format
+##  %C      current time HH:MM in 12h format
+##  %d      day number - number of current day
+##  %D      Day's name - the weekday name of the current day
+##  %m      month number
+##  %M      month name
+##  %s      seconds
+##  %y      last two digits of the year number
+##  %Y      full year number
+## ===============================================================
+#vbell off                               # I like to hear the beep.
+#activity "%c activity -> %n%f %t^G"     # ^G makes it beep
+#bell "%c bell -> %n%f %t^G"             # likewise
+#
+############################################################################################################################
+# #
+#  # TERMINAL CONTROL
+#   # ae: Standout          # ct: Initialization    # es: Status Line
+#    # AL: Insdel Line       # cv: Cursor Motion     # ff: Cursor Motion
+#     # al: Insdel Line       # da: Scrolling         # fs: Status Line
+#     # am: Wrapping          # dB: Pad Specs         # gn: Basic
+#     # as: Standout          # db: Scrolling         # hc: Basic
+#     # bc: Cursor Motion     # dC: Pad Specs         # hd: Half-Line
+#     # bl: Bell              # DC: Insdel Char       # ho: Cursor Motion
+#     # bs: Cursor Motion     # dc: Insdel Char       # hs: Status Line
+#     # bt: Cursor Motion     # dF: Pad Specs         # hu: Half-Line
+#     # bw: Cursor Motion     # DL: Insdel Line       # hz: Basic
+#     # CC: Basic             # dl: Insdel Line       # i1: Initialization
+#     # cd: Clearing          # dm: Insdel Char       # i3: Initialization
+#     # ce: Clearing          # dN: Pad Specs         # IC: Insdel Char
+#     # ch: Cursor Motion     # DO: Cursor Motion     # ic: Insdel Char
+#     # cl: Clearing          # do: Cursor Motion     # if: Initialization
+#     # CM: Cursor Motion     # ds: Status Line       # im: Insdel Char
+#     # cm: Cursor Motion     # dT: Pad Specs         # in: Insdel Char
+#     # co: Screen Size       # ec: Clearing          # ip: Insdel Char
+#     # cr: Cursor Motion     # ed: Insdel Char       # is: Initialization
+#     # cS: Scrolling         # ei: Insdel Char       # it: Initialization
+#     # cs: Scrolling         # eo: Basic
+#     #
+#     termcapinfo * hs@
+#
+#     ###########################################################################################################################
+#     # COLOR:  colors codes are combinations of [attribute modifier] [color description]
+#     # the manual talks of "attribute/color modifiers".
+#     #
+#     # 0 Black             .    leave color unchanged
+#     # 1 Red               b    blue
+#     # 2 Green             c    cyan
+#     # 3 Brown / yellow    d    default color
+#     # 4 Blue              g    green           b    bold
+#     # 5 Purple            k    blacK           B    blinking
+#     # 6 Cyan              m    magenta         d    dim
+#     # 7 White             r    red             r    reverse
+#     # 8 unused/illegal    w    white           s    standout
+#     # 9 transparent       y    yellow          u    underline
+#     #
+#     # note: "dim" is not mentioned in the manual.
+#     #hardstatus string "%-Lw%{= G0}%50>%n%f* %t%{-}%+Lw%<"
+#
+#     #hardstatus string "%?%F%{-b bc}%:%{-b bb}%?%C|%D|%M %d|%H|%0`%?%F%{+u wb}%? %L=%-Lw%45>%{+b by}%n%f* %t%{-}%+Lw%-0<"
+#
+#     #yaption always "%?%F%{.R.}%?%3n %t%? [%h]%?"
+#     #caption always "%?%F%{-b bc}%:%{-b bb}%?%C|%D|%M %d|%H|%1`%?%F%{+u wb}%? %L=%-Lw%45>%{+b by}%n%f* %t%{-}%+Lw%-0<"
+#     #hardstatus alwayslastline
+#     #hardstatus string "%?%F%{-b bc}%:%{-b bb}%?%C|%D|%M %d|%H|%1`%?%F%{+u wb}%? %L=%-Lw%45>%{+b kG}%n%f* %t%{-}%+Lw%-0<"
+#     hardstatus alwayslastline "[%02c] %`%-w%{=b bw}%n %t%{-}%+w"
+#     # Make screen messages stand out a little more - black on bright green.
+#     #sorendition "= kG"
+#     #caption always "%{.wB}%-w%{.bW}%n %t%{-}%+w %=%{..Lw} %H %{..b} %m/%d %C%a "
+#     caption always "%{cK}$LOGNAME %{bK}(%d %M %Y, %c) %{-}%{bW} %-w%{bW}%50>%{= wb}%n%f %t%{-}%+w%< %{-}"
+#
+#
+#
+#     ###########################################################################################################################
+#     #
+#     # default windows
+#     # L - LOGGING
+#     # l - log to utmp
+#     # ln - nolog to utmp
+#     # O - better vt100 emul
+#     # a - all terminal caps
+#     # A - resize
+#     # h - scrol lines
+#     #
+#     screen -t 'LOG' -h 0   1 nice -n 19 sh -c 'read -n1 -t1000000 -p "[ LOG ]" && exec sudo nice tail -n 60 -s 10 -f /var/log/everything.log | ccze -A'
+#     screen -t 'MEM' -h 0   2 nice -n 19 sh -c 'read -n1 -t1000000 -p "[ MEM ]" && sleep 4 && tput civis; CLS=$`tput clear`; trap "tput cnorm; exit 0" 1 2 3; while :; do free -olt && sleep 2 && echo $CLS; done;'
+#     screen -t 'NET' -h 0   3 nice -n 19 sh -c 'read -n1 -t1000000 -p "[ NET ]" && while :; do /bin/netstat --numeric-ports -a -e --tcp |sort --key=4 && sleep 5; done;'
+#     screen -t 'WWW' lynx http://www.askapache.com/
+#     screen -t '# |ROOT'    4 sh -c 'read -n1 -t1000000 -p "[ ROOT ]" && exec sudo su -'
+#     screen -t 'askapache'      5 sh -c 'read -n1 -t1000000 -p "[ ASKAPACHE ]" && exec sudo su - askapache'
+#     screen -t 'compiler'     6       sh -c 'read -n1 -t1000000 -p "[ srot ]" && exec sudo su - compiler'
+#
+#     #select 5
+#     windowlist
+#
+#
+#     # screen -t 'BASH4'     5 sh -c 'read -n1 -p "[ BASH4 ] && export SHELL=/bin/bash4 && /bin/bash4 -l'
+#     # screen -h 5000 -t 'bash' 1
+#     # screen -h 5000 -t 'root' 2
+#     # sudo -i screen -h 5000 -t 'gator' 3
+#     # $HOME/.ssh/start_control.sh select
+#     # screen -h 100 -t 'log' 4 sudo sh -c 'nice tail -n 60 -s 10 -f /var/log/everything.log | ccze -A'
+#     # screen -h 100 -t 'top' 5 nice top -c
+#     # screen -h 100 -t 'netstat' 6 nice sh -c 'watch -n 30 -t netstat -ane'
+#     # links http://www.askapache.com/
+#
+#
+#
+#
+#
+#
+#     ###########################################################################################################################
+#     #
+#     # CUSTOM keybindings
+#     #
+#     # bind ^t screen -t 'TOP' sh -c 'exec sudo nice /usr/bin/top'
+#     # bind ^g screen -t 'LOG' sh -c 'exec sudo nice tail -s 3 -n 25 -f /usr/local/apache/logs/error_log /home/askapache/sites/askapache.com/logs/php_error.log|ccze -A'
+#     # bind ^g screen -t 'gator' -$SHELL $HOME/.ssh/start_control.sh
+#     # bind ^s screen -t 'root' sudo -i
+#     ###########################################################################################################################
+#     # bindkey [@var{opts}] [@var{string} [@var{cmd} @var{args}]]
+#     #
+#     # keybindings
+#     #
+#     # remove some stupid / dangerous key bindings
+#     bind k
+#     bind ^k
+#     bind ^.
+#     bind .
+#     bind ^\
+#     bind \\
+#     bind ^h
+#     bind h
+#     bind ^x
+#     bind x
+#     bind }
+#     bind ^}
+#
+#     # Window numbering starts at 1, not 0
+#     bind c screen 1
+#     bind 0 select 10
+#     bind = resize =
+#     bind + resize +1
+#     bind - resize -1
+#     bind _ resize max
+#
+#     bind 'K' kill
+#     bind 'X' lockscreen
+#     bind 'I' login on
+#     bind 'O' login off
+#     bind '}' history
+#
+#
+#     # Prepend/append register [/] to the paste if ^a^] is pressed.  autoindent mode in vi.
+#     register [ "\033:se noai\015a"
+#     register ] "\033:se ai\015a"
+#     bind ^] paste [.]
+#
+#     # A better detach
+#     bind ^D eval 'echo -p "\^\^D%080="' 'command -c detach'
+#     bind -c detach d detach
+#     bind -c detach ^D detach
+#     bind -c detach D pow_detach
+#
+#     # This one is great, restarts/reloads screen
+#     bind . eval 'source /etc/screenrc' 'echo "/etc/screenrc has been reloaded."'
+#
+#     ###
+#     # Use the function keys to switch among windows.
+#     ##
+#     bindkey -k k1 select 1
+#     bindkey -k k2 select 2
+#     bindkey -k k3 select 3
+#     bindkey -k k4 select 4
+#     bindkey -k k5 select 5
+#     bindkey -k k6 select 6
+#     bindkey -k k7 select 7
+#     bindkey -k k8 select 8
+#     bindkey -k k9 select 9
+#     bindkey -k k; select 10
+#     bindkey -k F1 select 11
+#     bindkey -k F2 select 12
+#     # windows 13-24 are Shift-Fn
+#     #bindkey -k F3 select 13
+#     #bindkey -k F4 select 14
+#     #bindkey -k F5 select 15
+#     #bindkey -k F6 select 16
+#     #bindkey -k F7 select 17
+#     #bindkey -k F8 select 18
+#     #bindkey -k F9 select 19
+#     #bindkey -k FA select 20
+#
+#   http://www.digiworldinc.com/users/r/rob/.screenrc
+#     #password ODSJQf.4IJN7E    # "1234"
+#
+#     vbell on
+#     autodetach on
+#     startup_message off
+#
+#     # Extend the vt100 desciption with some sequences.
+#     termcap  vt100* ms:AL=\E[%dL:DL=\E[%dM:UP=\E[%dA:DO=\E[%dB:LE=\E[%dD:RI=\E[%dC
+#     terminfo vt100* ms:AL=\E[%p1%dL:DL=\E[%p1%dM:UP=\E[%p1%dA:DO=\E[%p1%dB:LE=\E[%p1%dD:RI=\E[%p1%dC
+#
+#     #xterm understands both im/ic and doesn't have a status line.
+#     #Note: Do not specify im and ic in the real termcap/info file as
+#     #some programs (e.g. vi) will not work anymore.
+#     termcap  xterm hs@:cs=\E[%i%d;%dr:im=\E[4h:ei=\E[4l
+#     terminfo xterm hs@:cs=\E[%i%p1%d;%p2%dr:im=\E[4h:ei=\E[4l
+#
+#     #80/132 column switching must be enabled for Z0/Z1 to work
+#     #change init sequence to not switch width
+#     termcap  xterm Z0=\E[?3h:Z1=\E[?3l:is=\E[r\E[m\E[2J\E[H\E[?7h\E[?1;4;6l
+#     terminfo xterm Z0=\E[?3h:Z1=\E[?3l:is=\E[r\E[m\E[2J\E[H\E[?7h\E[?1;4;6l
+#
+#     #make hp700 termcap/info better
+#     termcap  hp700 'Z0=\E[?3h:Z1=\E[?3l:hs:ts=\E[62"p\E[0$~\E[2$~\E[1$}:fs=\E[0}\E[61"p:ds=\E[62"p\E[1$~\E[61"p:ic@'
+#     terminfo hp700 'Z0=\E[?3h:Z1=\E[?3l:hs:ts=\E[62"p\E[0$~\E[2$~\E[1$}:fs=\E[0}\E[61"p:ds=\E[62"p\E[1$~\E[61"p:ic@'
+#
+#     #wyse-75-42 must have flow control (xo = "terminal uses xon/xoff")
+#     #essential to have it here, as this is a slow terminal.
+#     termcap wy75-42 xo
+#     terminfo wy75-42 xo
+#
+#     # New termcap sequences for cursor application mode.
+#     termcap wy* CS=\E[?1h:CE=\E[?1l:vi=\E[?25l:ve=\E[?25h:VR=\E[?5h:VN=\E[?5l:cb=\E[1K:CD=\E[1J
+#     terminfo wy* CS=\E[?1h:CE=\E[?1l:vi=\E[?25l:ve=\E[?25h:VR=\E[?5h:VN=\E[?5l:cb=\E[1K:CD=\E[1J
+#
+#     # Make the output buffer large for (fast) xterms.
+#     termcap xterm* OL=10000
+#     terminfo xterm* OL=10000
+#
+#     #remove some stupid / dangerous key bindings
+#     bind k
+#     bind ^k
+#     bind .
+#     bind ^\
+#     bind \\
+#     bind ^h
+#     bind h
+#     #make them better
+#     bind '\\' quit
+#     bind 'K' kill
+#     bind 'I' login on
+#     bind 'O' login off
+#     bind '}' history
+#
+#     pow_detach_msg "Screen session of \$LOGNAME \$:cr:\$:nl:ended."
+#
+#     # Yet another hack:
+#     # Prepend/append register [/] to the paste if ^a^] is pressed.
+#     # This lets me have autoindent mode in vi.
+#     register [ "\033:se noai\015a"
+#     register ] "\033:se ai\015a"
+#     bind ^] paste [.]
+#
+#     terminfo xterm 'VR=\E[?5h:VN=\E[?5l:k1=\E[11~:k2=\E[12~:k3=\E[13~'
+#     termcap  xterm 'VR=\E[?5h:VN=\E[?5l:k1=\E[11~:k2=\E[12~:k3=\E[13~'
+#     termcap  xterm 'kh=\E[1~:kI=\E[2~:kD=\E[3~:kH=\E[4~:kP=\E[5~:kN=\E[6~'
+#     terminfo xterm 'kh=\E[1~:kI=\E[2~:kD=\E[3~:kH=\E[4~:kP=\E[5~:kN=\E[6~'
+#
+#     # xterm hardstatus: use the window title.
+#     termcap  xterm 'hs:ts=\E]0;:fs=\007:ds=\E]0;Screen\007'
+#     terminfo xterm 'hs:ts=\E]0;:fs=\007:ds=\E]0;Screen\007'
+#
+#     termcap con80x* "xn:f0=\033Op:f1=\033Oq:f2=\033Or:f3=\033Os:f4=\033Ot:f5=\033Ou:f6=\033Ov:f7=\033Ow:f8=\033Ox:f9=\033Oy:f.=\033On:f,=\033Ol:fe=\033OM:f+=\033Ok:f-=\033Om:f*=\033Oj:f/=\033Oo:fq=\033OX:kN=\033[6~:kP=\033[5~"
+#
+#     # advertise hardstatus support to $TERMCAP
+#     termcap  * '' 'hs:ts=\E_:fs=\E\\:ds=\E_\E\\'
+#     terminfo * '' 'hs:ts=\E_:fs=\E\\:ds=\E_\E\\'
+#
+#     # make the shell in every window a login shell
+#     #shell -$SHELL
+#
+#     http://www.jukie.net/bart/conf/screenrc
+#     #
+#     # Example of a user's .screenrc file
+#     #
+#
+#     # http://www.orkut.com/CommMsgs.aspx?cmm=1988&tid=4
+#
+#     # This is how one can set a reattach password:
+#     # password ODSJQf.4IJN7E    # "1234"
+#
+#     # no annoying audible bell, please
+#     vbell on
+#
+#     # detach on hangup
+#     autodetach on
+#
+#     # don't display the copyright page
+#     startup_message off
+#
+#     # emulate .logout message
+#     pow_detach_msg "Screen session of \$LOGNAME \$:cr:\$:nl:ended."
+#
+#     # advertise hardstatus support to $TERMCAP
+#     # termcapinfo  * '' 'hs:ts=\E_:fs=\E\\:ds=\E_\E\\'
+#
+#     # make the shell in every window a login shell
+#     #shell -$SHELL
+#
+#     # autoaka testing
+#     # shellaka '> |tcsh'
+#     # shellaka '$ |sh'
+#
+#     # set every new windows hardstatus line to somenthing descriptive
+#     # defhstatus "screen: ^En (^Et)"
+#
+#     defscrollback 10000
+#
+#     # don't kill window after the process died
+#     # zombie "^["
+#
+#     ################
+#     #
+#     # xterm tweaks
+#     #
+#
+#     #xterm understands both im/ic and doesn't have a status line.
+#     #Note: Do not specify im and ic in the real termcap/info file as
+#     #some programs (e.g. vi) will not work anymore.
+#     termcap  xterm hs@:cs=\E[%i%d;%dr:im=\E[4h:ei=\E[4l
+#     terminfo xterm hs@:cs=\E[%i%p1%d;%p2%dr:im=\E[4h:ei=\E[4l
+#
+#     #80/132 column switching must be enabled for ^AW to work
+#     #change init sequence to not switch width
+#     termcapinfo  xterm Z0=\E[?3h:Z1=\E[?3l:is=\E[r\E[m\E[2J\E[H\E[?7h\E[?1;4;6l
+#
+#     # Make the output buffer large for (fast) xterms.
+#     termcapinfo xterm* OL=10000
+#
+#     # tell screen that xterm can switch to dark background and has function
+#     # keys.
+#     termcapinfo xterm 'VR=\E[?5h:VN=\E[?5l'
+#     termcapinfo xterm 'k1=\E[11~:k2=\E[12~:k3=\E[13~:k4=\E[14~'
+#     termcapinfo xterm 'kh=\E[1~:kI=\E[2~:kD=\E[3~:kH=\E[4~:kP=\E[H:kN=\E[6~'
+#
+#     # special xterm hardstatus: use the window title.
+#     termcapinfo xterm 'hs:ts=\E]2;:fs=\007:ds=\E]2;screen\007'
+#     termcapinfo xterm 'hs:ts=\E]2;:fs=\007:ds=\E]1;screen\007'
+#
+#     #terminfo xterm 'vb=\E[?5h$<200/>\E[?5l'
+#     termcapinfo xterm 'vi=\E[?25l:ve=\E[34h\E[?25h:vs=\E[34l'
+#
+#     # emulate part of the 'K' charset
+#     termcapinfo   xterm 'XC=K%,%\E(B,[\304,\\\\\326,]\334,{\344,|\366,}\374,~\337'
+#
+#     # xterm-52 tweaks:
+#     # - uses background color for delete operations
+#     termcapinfo xterm ut
+#
+#     # pgup pgdn for xterm
+#     termcapinfo xterm*|rxvt* 'ti@:te@'
+#
+#     ################
+#     #
+#     # wyse terminals
+#     #
+#
+#     #wyse-75-42 must have flow control (xo = "terminal uses xon/xoff")
+#     #essential to have it here, as this is a slow terminal.
+#     termcapinfo wy75-42 xo:hs@
+#
+#     # New termcap sequences for cursor application mode.
+#     termcapinfo wy* CS=\E[?1h:CE=\E[?1l:vi=\E[?25l:ve=\E[?25h:VR=\E[?5h:VN=\E[?5l:cb=\E[1K:CD=\E[1J
+#
+#     ################
+#     #
+#     # other terminals
+#     #
+#
+#     #make hp700 termcap/info better
+#     termcapinfo  hp700 'Z0=\E[?3h:Z1=\E[?3l:hs:ts=\E[62"p\E[0$~\E[2$~\E[1$}:fs=\E[0}\E[61"p:ds=\E[62"p\E[1$~\E[61"p:ic@'
+#
+#     # Extend the vt100 desciption by some sequences.
+#     termcap  vt100* ms:AL=\E[%dL:DL=\E[%dM:UP=\E[%dA:DO=\E[%dB:LE=\E[%dD:RI=\E[%dC
+#     terminfo vt100* ms:AL=\E[%p1%dL:DL=\E[%p1%dM:UP=\E[%p1%dA:DO=\E[%p1%dB:LE=\E[%p1%dD:RI=\E[%p1%dC
+#
+#
+#     ################
+#     #
+#     # 256 colours
+#     #
+#     # ... http://frexx.de/xterm-256-notes/
+#     #
+#
+#     # terminfo and termcap for nice 256 color terminal
+#     # allow bold colors - necessary for some reason
+#     attrcolor b ".I"
+#     # tell screen how to set colors. AB = background, AF=foreground
+#     termcapinfo xterm 'Co#256:AB=\E[48;5;%dm:AF=\E[38;5;%dm'
+#     # erase background with current bg color
+#     defbce "on"
+#
+#     #term "screen-256color"
+#     #term "screen-88color-bce"
+#     #term "screen-256color-bce"
+#     #term xterm
+#
+#     ################
+#     #
+#     # ssh-agent support
+#     #
+#     # http://www.jukie.net/~bart/blog/screen-ssh-agent
+#     #
+#
+#     unsetenv SSH_AUTH_SOCK
+#     setenv SSH_AUTH_SOCK "$HOME/.screen/ssh-auth-sock.$HOSTNAME"
+#
+#     ################
+#     #
+#     # keybindings
+#     #
+#
+#     #remove some stupid / dangerous key bindings
+#     bind k
+#     bind ^k
+#     bind .
+#     bind ^\
+#     bind \\
+#     bind ^h
+#     bind h
+#     #make them better
+#     bind 'K' kill
+#     bind 'I' login on
+#     bind 'O' login off
+#     bind '}' history
+#
+#     # Yet another hack:
+#     # Prepend/append register [/] to the paste if ^a^] is pressed.
+#     # This lets me have autoindent mode in vi.
+#     register [ "\033:se noai\015a"
+#     register ] "\033:se ai\015a"
+#     bind ^] paste [.]
+#
+#     ################
+#     #
+#     # default windows
+#     #
+#
+#     # screen -t local 0
+#     # screen -t mail 1 elm
+#     # screen -t 40 2 rlogin faui40
+#
+#     #################
+#     #
+#     # caption/hardstatus
+#     # http://jinome.stanford.edu/stat366/unix/.screenrc
+#
+#     # caption always "%3n %t%? @%u%?%? [%h]%?"
+#     # hardstatus alwaysignore
+#     # hardstatus alwayslastline "%w"
+#
+#     # caption always "%{Yb} %Y-%02m-%02d %0c %{k}|%{C} %LD %{k}|%{G} %l %{k}|%{W} %-Lw%{+u}%n %t%{-u}%+Lw"
+#
+#     caption always "%{Yb} %D %Y-%02m-%02d %0c %{k}|%{G} %l %{k}|%{W} %-w%{+b}%n %t%{-b}%+w"
+#
