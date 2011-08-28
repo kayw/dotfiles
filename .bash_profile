@@ -4,6 +4,7 @@ logout
 fi
 
 . $HOME/.bashrc
+alias dotfiles='git --git-dir=/home/kayw/.git --work-tree=/home/kayw'
 
 # start screen (wheee!!)
 # put here because .bash_profile read only once
@@ -13,4 +14,3 @@ fi
 #if [ -z "$STY" ] ; then
 #	exec screen -dR
 #fi
-alias dotfiles='git --git-dir=/home/kayw/.git --work-tree=/home/kayw'

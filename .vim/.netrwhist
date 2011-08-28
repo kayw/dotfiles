@@ -1,11 +1,2 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =9
-let g:netrw_dirhist_1='/home/kayw/share/codebase/native/downbar/downbarPackage/chrome/content/colorPicker'
-let g:netrw_dirhist_2='/home/kayw/share/codebase/native/brief15/chrome/content'
-let g:netrw_dirhist_3='/home/kayw/share/codebase/native/devgnote4'
-let g:netrw_dirhist_4='/home/kayw/subversion/build/win32'
-let g:netrw_dirhist_5='/home/kayw'
-let g:netrw_dirhist_6='/home/kayw/dwm'
-let g:netrw_dirhist_7='/usr/include/X11'
-let g:netrw_dirhist_8='/usr/lib/X11'
-let g:netrw_dirhist_9='/usr/local/lib/python2.7/config'
+let g:netrw_dirhist_cnt =0
