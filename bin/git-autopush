@@ -1,4 +1,6 @@
 #!/bin/sh
+#http://chopmode.wordpress.com/2011/01/10/git-autopush/
+#https://github.com/chopmo/git-autopush/blob/master/git-autopush.sh
 
 HOOKS_FOLDER=.git/hooks
 POST_COMMIT=$HOOKS_FOLDER/post-commit
