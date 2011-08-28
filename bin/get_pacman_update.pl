@@ -1,0 +1,21 @@
+#!/usr/bin/perl-w
+usestrict;
+#November15,2006
+#DanielVredenburg(Vredfreak)
+#ThisisaprogramthatchecksforpackageupdatesforArchLinuxusers.
+open(MYINPUTFILE,"/home/aleyscha/bin/arch-updates/updates.log")ordie"Nosuchfileordirectory:!";
+myi=0;
+while(<MYINPUTFILE>)
+{
+	if(/^(.*)\/(.*)(\..*\..*\.)/){
+#print"\n";
+		i++;
+	}
+
+}
+if($i==0){
+	print"0";
+}else{
+	print"$i";
+}
+close(MYINPUTFILE);

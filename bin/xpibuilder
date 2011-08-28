@@ -1,0 +1,18 @@
+#!/bin/sh
+VER=`date +"%Y_%m_%d"`
+echo $VER\n
+XPI="google-note-4-$VER.xpi"
+echo "$XPI\n"
+echo "Creating working directory"
+mkdir build
+cp -r 							\
+	chrome.manifest components chrome install.rdf lib\
+	build/
+
+cd build
+echo "Creating $XPI"
+zip -qr9XD "../$XPI" *
+
+echo "Cleaning up"
+cd ..
+rm -rf build
