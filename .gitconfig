@@ -1,0 +1,5 @@
+[user]
+	email = kayw@gmail.com
+	name = kayw
+[alias]
+	unstage = reset HEAD --
