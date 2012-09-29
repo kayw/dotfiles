@@ -1,0 +1,121 @@
+#!/bin/bash
+
+find . \
+    -type d \( \
+            -wholename './lib' -o \
+            -wholename './vc6' -o \
+            -name 'gen' -o \
+            -name '.svn' \
+            \) -prune -o \
+    -type f \( \
+            -name '*.h' -o \
+            -name '*.cpp' -o \
+            -name '*.c' -o \
+            -name '*.lua' -o \
+            -name '*.*awk' \) -print \
+    | sort
+
+find . -not -path "*/.svn*" -not -type d -exec grep -ni "myfunc" {} \; -print
+the only difference between the output is that "grep -Rni" will print the file name for each match, whereas "find -exec grep" will print the filename on one line and then one line for each match (with line number and line content). using "grep -Hni" forces the filename to be displayed on each line 
+#http://superuser.com/questions/66715/recursive-grep-exclude-specific-directories
+find /dir \( -name node_modules -prune \) -o -name "*.sh" -exec grep --color -Hn "your text to find" {} 2>/dev/null \;
+#http://stackoverflow.com/questions/6565471/how-can-i-exclude-directories-from-grep-r?lq=1
+find . \( -path ./layouts -prune \) -o  \( -path ./tests -prune \) -o -exec grep --color -Hni "walk(" {} \; -print
+#\( no must
+
+hg pull --update git pull
+
+git remote -v #It will print all your remote fetch / push urls.
+git config --get remote.origin.url
+#http://stackoverflow.com/questions/4089430/how-can-i-determine-the-url-that-a-local-git-repo-was-originally-pulled-from
+git remote set-url origin <URL> #git remote set-url origin <URL>
+#http://stackoverflow.com/questions/1800859/how-can-i-change-the-remote-target-repository-url-on-windows
+
+#http://svn.haxx.se/users/archive-2008-01/0313.shtml
+#show the last 3-4 revisions (like 4 digit number)
+svn log --quiet --limit(-l) 4 $FOO 
+#show all the changed files in a revision number
+svn diff --summarize -c 7400 
+#see all files (just the file name) that changed in revision 7400
+svn log --verbose -r 7400 
+
+unzip all.zip
+bzip2 -d all.bz2
+bunzip2 all.bz2
+tar -xjf all.tar.bz2
+
+uncompress all.Z
+tar -xZf all.tar.z
+
+tar -tf all.tar
+tar -xjf test.tbz -C /tmp/test 
+
+
+pacman -Syu #Totally
+pacman -Scc
+
+#https://bbs.archlinux.org/viewtopic.php?id=144616&p=1
+#https://bbs.archlinux.org/viewtopic.php?pid=1126667#p1126667
+/bin/ls:not found ==> /lib/ld-2.14.so /bin/ls
+
+#http://www.cyberciti.biz/faq/grub-boot-into-single-user-mode/
+Boot Linux Grub Boot Loader into single user mode
+
+(1) At grub boot screen (after restart)
+
+(2) Select the kernel
+
+(3) Press the e key to edit the entry
+
+(4) Select second line (the line starting with the word kernel)
+(5) Press the e key to edit kernel entry so that you can append single user mode
+
+(6) Append the letter S (or word Single) to the end of the (kernel) line
+(7) Press ENTER key
+
+(8) Now press the b key to boot the Linux kernel into single user mode
+
+#http://askubuntu.com/questions/9853/how-can-i-make-rc-local-run-on-startup
+head -n1 /etc/rc.local
+
+#https://forums.virtualbox.org/viewtopic.php?f=2&t=22264
+XTerm*selectToClipboard:true &together with http://linux.seindal.dk/2005/06/16/xterm-and-the-clipboard/
+
+#https://bbs.archlinux.org/viewtopic.php?id=128249
+pacman -Qo and rename before flat-out deleting stuff.
+
+#https://bbs.archlinux.org/viewtopic.php?pid=1005613
+be sure you did pacman-key --init  and then set up in pacman.conf
+SigLevel = Optional TrustAll
+if importing key is slow, change the keyserver from /etc/pacman.d/gnupg/gpg.conf to hkp://pgp.mit.edu
+
+yaourt installed because of chrome need of some version of libpng or some else lib
+
+/usr/lib/initcpio/busybox #https://bbs.archlinux.org/viewtopic.php?id=144620&p=1
+
+curl http://betterthangrep.com/ack-standalone > ~/bin/ack && chmod 0755 !#:3 
+
+#http://stackoverflow.com/questions/6710878/diff-a-directory-recursively-ignoring-all-binary-files
+#Maybe use grep -I (which is equivalent to grep --binary-files=without-match) as a filter to sort out binary files.
+dir1='folder-1'
+dir2='folder-2'
+IFS=$'\n'
+for file in $(grep -Ilsr -m 1 '.' "$dir1"); do   
+    diff -q "$file" "${file/${dir1}/${dir2}}"
+done
+#http://superuser.com/questions/53374/how-to-diff-directories-for-different-files-but-not-line-by-line
+diff -rq DIR1 DIR2 #-q is for brief, and will just tell you if the files are different (i.e., it won't show the line-by-line differences)
+diff -rqb DIR1 DIR2 # -b ignores whitespace changes
+
+
+CPP:
+#http://stackoverflow.com/questions/9678665/compiling-a-class-with-GCC
+Just compile source files and include the headers as necessary.
+gcc defaults to compiling your program as C. Since it's a C++ program, that's not going to work. Use the -x c++ flag, or rename your file to have a .C (case is important) or .cpp extension.
+gcc -lstdc++ man gcc -l
+-g #for gdb 
+#http://stackoverflow.com/questions/9245685/gdb-no-symbol-table-is-loaded
+#exec-file\file\
+
+#http://www.yolinux.com/TUTORIALS/LibraryArchives-StaticAndDynamic.html
+ar -t lib.a
