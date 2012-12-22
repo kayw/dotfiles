@@ -31,6 +31,87 @@ git config --get remote.origin.url
 git remote set-url origin <URL> #git remote set-url origin <URL>
 #http://stackoverflow.com/questions/1800859/how-can-i-change-the-remote-target-repository-url-on-windows
 
+#http://blog.gautamkedia.com/discarding-local-changes-in-git
+Discarding local changes in Git
+
+If you want to discard all local unpushed modifications and reset everything, here is what needs to be done.
+
+1. If you have local uncommitted changes, commit them:
+
+     $ git commit -a -m "Final commit before reset."
+
+    Or discard uncommitted changes:
+
+     $ git checkout -f
+
+2. To view the unpushed commits or diff between local & remote:
+
+     $ git log origin/master..HEAD
+
+3. Move all the local commits to a new branch:
+
+     $ git checkout -b dirty
+
+4. Switch back to the original branch:
+
+     $ git checkout master
+
+5. Reset the master branch to look exactly like remote:
+
+     $ git fetch origin
+
+     $ git reset --hard origin/master
+
+6. Look at the commits you threw away:
+
+     $ git log master..dirty
+
+7. If anything looks useful, pick it out:
+
+     $ git cherry-pick <commit-hash>
+#http://markhansen.co.nz/color-git/
+git config --global --add color.ui true
+#http://www.linuxquestions.org/questions/linux-software-2/setting-git-diff-color-words-as-git-diff-811723/
+$ git config --global color.diff auto
+or to force always using color:
+$ git config --global color.diff always
+#http://stackoverflow.com/questions/5637311/how-to-use-git-diff-color-words-outside-a-git-repository
+git diff --color-words --no-index
+#http://scie.nti.st/2007/5/2/colors-in-git
+[color]
+branch = auto
+diff = auto
+status = auto
+[color "branch"]
+current = yellow reverse
+local = yellow 
+remote = green
+[color "diff"]
+meta = yellow bold
+frag = magenta bold
+old = red bold
+new = green bold
+[color "status"]
+added = yellow
+changed = green
+untracked = cyan
+
+#http://coolshell.cn/articles/7755.html
+git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --"
+
+#https://devcenter.heroku.com/articles/git
+#http://www.mkoby.com/2010/03/14/managing-multiple-repositories-with-git/
+#http://eventuallyconsistent.net/2011/05/13/setting-up-git-with-multiple-remote-repositories/
+#http://markmcb.com/2008/09/21/multiple-remote-git-branches-with-different-local-names/
+
+#http://jeetworks.org/node/22
+git remote | xargs -L 1 git push
+
+#http://caiustheory.com/adding-a-remote-to-existing-git-repo
+You can use git remote add --track master origin git@github.com:caius/foo.git
+Also see git config --global branch.autosetupmerge true
+
+
 #http://svn.haxx.se/users/archive-2008-01/0313.shtml
 #show the last 3-4 revisions (like 4 digit number)
 svn log --quiet --limit(-l) 4 $FOO 
@@ -106,6 +187,8 @@ done
 #http://superuser.com/questions/53374/how-to-diff-directories-for-different-files-but-not-line-by-line
 diff -rq DIR1 DIR2 #-q is for brief, and will just tell you if the files are different (i.e., it won't show the line-by-line differences)
 diff -rqb DIR1 DIR2 # -b ignores whitespace changes
+#smth Orpherus arch的/居然27G了其中pkg有4G
+sudo du -h --max-depth=3 /var/ | sort -rh | head -n 20
 
 
 CPP:
@@ -119,3 +202,13 @@ gcc -lstdc++ man gcc -l
 
 #http://www.yolinux.com/TUTORIALS/LibraryArchives-StaticAndDynamic.html
 ar -t lib.a
+
+emacs:
+c-n(ext) c-p(revious) c-b(ack) c-B
+
+RUBY:
+#http://www.giantflyingsaucer.com/blog/?p=1883
+sudo gem install sqlite3-ruby --no-rdoc --no-ri
+
+#http://stackoverflow.com/questions/9434002/how-to-solve-ruby-installation-is-missing-psych-error
+ruby gem install problem

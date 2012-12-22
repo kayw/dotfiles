@@ -4,18 +4,20 @@ The BLOG:
 ?? circular import flask(blueprint);
    template, comment(disqus); 
    where for class view, import relationship;
-   organization:different db,
-markdown rst;jinja2 mako;sphinx; py timedate
+   organization:different db;py timedate
 css - bootstrap docs scroll flow fixed//margin padding layout height widths,new div id
 js canvas html5(http://static.youku.com/v1.0.0220/v/swf/loader.swf?VideoIDS=XMzUyOTIyNzg0&embedid=MTE1LjE5Ny4zMi4yMzgCODgyMzA2OTYCAg%3D%3D&wd=)
 - test case\share(douban fm mimic)
 sqlite3: db-api execute sequence or map//g.db.execute second parameter need to be list tuple, str except
 REQUIREMENT-privatenote;
 HYDE-blog: 
-- markdown etc static content generate\hyde why content html suffix\deploy
-- ;;time\;;prevnext\;;comment\;pygment\multicolumn\feeds,;analytic,typekit\;sidebar\;site-pro\\;tags below post\;en ch switch\;lf-link
-- 404\;project html\bottom pos\;link feed\borrow thanks hint
-- git manual\sqlite merge
+- markdown(pandoc):[^]refrence textile rst(sphinx) asciidoc docbook
+- hyde only html suffix(fs.py copy_to write)\deploy
+- template:jinja2 mako liquid
+- ;;time\;;prevnext\;;comment\;pygment\;feeds;analytic;typekit\;sidebar\;site-pro\\;tags below post\;en ch switch\;lf-link
+- ;404\;project html\;link feed\bottom pos\;jquery1.83\fontsize\multicolumn\borrow thanks hint
+- git manual\sqlite merge\browser history analyzer
+
 ;list vector queue time complex \ stm mvcc
 SEARCH:公钥认证、ssh 端口转发\deepcopy\version manager compatible\crt fd cd dd
 - opcode and machine code
@@ -30,6 +32,15 @@ ExprPar:
 - dragon book
 - vim for cide
 
+new:
+- RELATIONSHIP hadoop bigtable gfs htable hfs pig... 
+- mangodb redis
+- memcache DB Nouns: shard
+- protcolbuf json xml db storage
+- dotcloud openshift appfrog heroku
+- http://stackoverflow.com/questions/9542784/looking-for-paas-providers-recommendations
+- https://docs.google.com/spreadsheet/ccc?key=0AiIXCd1D_TmGdFluZEJQakV5M0QwWXNWaXREcWR0Q0E#gid=0
+
 sources: win wm_paint checkmenu(triangle) whole;  logging class tsingleton;
 - win2k(back\download\registry\operate system)
 - llvm
@@ -43,7 +54,9 @@ BUILD&DO IT YOURSELF: mozilla(reset debug process)/clang/;vim/ff(win gnote)
 READ: chromium\base\synchronization\condition_variable* atomicops* time*
 VIM: ;;multilang ver compile;listchar//refactor(once modified others modified)//cpp(c) syntax hl(func etc), py def tab auto//cscope// function class ahead// function parameter show
 
-CPP: ;for(int i //shared_ptr weak_ptr unique_ptr(c0x) strstr impl rbtree; ;string shallow;copy on write;对齐
+CPP:
+- ;for(int i //shared_ptr weak_ptr unique_ptr(c0x) strstr impl rbtree; ;string shallow;copy on write;对齐
+- http://www.boost.org/libs/type_traits/;http://accu.org/index.php/journals/442
 google-sparsehash/experiment/libchash.c  triplebuffering with bitwise
 INTERVIEW PREPARATION: euler,zoj,poj,foreign ojs(ipc acm),topcoder,street,右移一个字符串，比如：abcdefg-> fgabcde
 
@@ -52,7 +65,7 @@ PROBLEMS CIRCULATED LONG AGO/ ONE New Programming Per Year/ One Math\Physic\CS S
 llvm & the thing that has emerged long ago(erl,rb,skal,ja/eclipse/android,closure etc fp concept)
 code analysis tool
 
-longest palidrome(http://www.quora.com/What-is-the-most-efficient-algorithm-to-find-the-longest-palindrome-in-a-string#)\owner draw menu(win)
+longest palidrome(http://www.quora.com/What-is-the-most-efficient-algorithm-to-find-the-longest-palindrome-in-a-string#)\;owner draw menu(win)
 xp (named)pipe iocp /arch network/
 camel:poco,qt project;mozilla/chrome/0mq/ocean/et al: camel?
 
@@ -63,22 +76,20 @@ image(virtualbox)webserver; minisql; minicompiler;irc(cross-platform find or rei
 LOWLEVEL: x86 assembly;windbg release binary;reverse engineer(ida, ob); python,lua,rb,jvm(bytecode)
 TEX: resume(cv tex)
 mvc ancestor:smalltalk
-linker&loader  mikadomethod network oop designpattern algorithm sicp fascicle1a hacker'sdelight expertinc tcppl n** n** taocp
+linker&loader  mikadomethod network oop designpattern algorithm sicp ;fascicle1a hacker'sdelight expertinc tcppl n** n** taocp
 reader  gnote replacement ril bookmark tweet
-unicode(cpp py rb perl scal)
+unicode:
+- unicode(cpp py rb perl scal)
+- unicode string\byte string
 "i9023 fastboot boot recovery
 web browser to web server to web application
 code snippet in stock, beautiful design(pattern)
-dotfiles github devgnote longexp nohistory improve pls pendrc
+dotfiles github devgnote \longexp\nohistory(improve maybe) pendrc
 web page hash inverted py rb
 fenwick impl
 "static_property py
 删掉那些该删的，扔掉那些该扔的
 graphics script/program language demands: icons/vector graph(x-y matlab-like)
-protcolbuf json xml db storage
-RELATIONSHIP hadoop bigtable gfs htable hfs pig... 
-mangodb redis
-memcache DB Nouns: shard
 hosts ip every week? i9023 host transfer
 
 "test the ff sync bookmark other situation
@@ -105,7 +116,7 @@ d->f -- b->f -- b->g or d->g  js cpp py rb and so on
 map t -js str=util.domToString(buffer.focusedFrame.getSelection()); str!=""?dactyl.open(str, {where: dactyl.NEW_TAB}):CommandExMode().open("tabopen ")
 map o -js str=util.domToString(buffer.focusedFrame.getSelection()); str!=""?dactyl.open(str, {where: dactyl.CURRENT_TAB}):CommandExMode().open("open ")
 
-wifi router flash knowledge
+wifi router knowledge
 screen c-a unbind c-a c-a vim titlebar xterm dwm top color show//alt-shift-j xterm can't copy&paste
 bash command F1 F2 显示
 dwm conky/xterm open program in specified tag

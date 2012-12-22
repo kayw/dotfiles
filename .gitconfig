@@ -3,3 +3,8 @@
 	name = kayw
 [alias]
 	unstage = reset HEAD --
+	ac = !git add -A && git commit
+	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --
+[color]
+	ui = true
+	diff = always

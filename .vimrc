@@ -63,6 +63,10 @@ if has("autocmd")
  " None idea why seperate the "exe" to next with \| make the "l" operator not
  " working
  "au BufRead,BufNewFile *.c,*.cpp,*.js,*.py  autocmd CursorMoved * silent! exe printf('match IncSearch /\<%s\>/', expand('<cword>'))
+ "smth stephenjy 可不可以直接高亮某个词？Tue Nov  6 10:37:12 2012
+ "autocmd CursorMoved * silent! exe printf('match Underlined /\<%s\>/', expand('<cword>'))
+ "autocmd CursorHold * silent! exe printf('match Underlined /\<%s\>/', expand('<cword>'))
+
  " Enabled file type detection
  " Use the default filetype settings. If you also want to load indent files
  " to automatically do language-dependent indenting add 'indent' as well.
@@ -77,8 +81,49 @@ if has("autocmd")
 endif " has ("autocmd")
 
 
-map <F12> :tabe ~/.vimrc<CR>
-imap <F12> <ESC>:tabe ~/.vimrc<CR>
+noremap <F12> :e ~/.vimrc<CR>
+inoremap <F12> <ESC>:e ~/.vimrc<CR>
+nnoremap <C-H> <C-W>h
+nnoremap <C-J> <C-W>j
+nnoremap <C-K> <C-W>k
+nnoremap <C-L> <C-W>l 
+" // The switch of the Source Explorer
+nmap <F11> :SrcExplToggle<CR> 
+" // Set the height of Source Explorer window
+let g:SrcExpl_winHeight = 8
+
+" // Set 100 ms for refreshing the Source Explorer
+let g:SrcExpl_refreshTime = 100
+
+" // Set "Enter" key to jump into the exact definition context
+let g:SrcExpl_jumpKey = "<ENTER>"
+
+" // Set "Space" key for back from the definition context
+let g:SrcExpl_gobackKey = "<SPACE>"
+
+" // In order to Avoid conflicts, the Source Explorer should know what plugins
+" // are using buffers. And you need add their bufname into the list below
+" // according to the command ":buffers!"
+let g:SrcExpl_pluginList = [
+        \ "__Tag_List__",
+        \ "_NERD_tree_",
+        \ "Source_Explorer"
+    \ ]
+
+" // Enable/Disable the local definition searching, and note that this is not
+" // guaranteed to work, the Source Explorer doesn't check the syntax for now.
+" // It only searches for a match with the keyword according to command 'gd'
+let g:SrcExpl_searchLocalDef = 1
+
+" // Do not let the Source Explorer update the tags file when opening
+let g:SrcExpl_isUpdateTags = 0
+
+" // Use 'Exuberant Ctags' with '--sort=foldcase -R .' or '-L cscope.files' to
+" //  create/update a tags file
+let g:SrcExpl_updateTagsCmd = "ctags --sort=foldcase -R ."
+
+" // Set "<F10>" key for updating the tags file artificially
+let g:SrcExpl_updateTagsKey = "<F10>" 
 "imap <C-Tab> <ESC><C-6>i
 
 "nmap <C-_>s :cs find s <C-R>=expand("<cword>")<CR><CR>
@@ -94,6 +139,7 @@ imap <F12> <ESC>:tabe ~/.vimrc<CR>
 "map  <C-c> :!ctags --c++-kinds=+p --fields=+iaS --extra=+q .<CR>
 
 if has("cscope")
+	"
 	set csprg=/usr/bin/cscope
 	set cscopequickfix=s-,c-,d-,t-,e-,f-,i-,g-
 	set csto=0
@@ -140,14 +186,22 @@ if has("cscope")
 	" of the  cscope search types above (s,g,c,t,e,f,i,d).  The result of your cscope search
 	" will be displayed in the current window.  You can use CTRL-T to go back to where you were
 	" before the search.  
-	nmap <C-\>s :scs find s <C-R>=expand("<cword>")<CR><CR> 
-	nmap <C-\>g :scs find g <C-R>=expand("<cword>")<CR><CR>:copen<CR>
-	nmap <C-\>c :scs find c <C-R>=expand("<cword>")<CR><CR> 
-	nmap <C-\>t :scs find t <C-R>=expand("<cword>")<CR><CR>	
- 	nmap <C-\>e :scs find e <C-R>=expand("<cword>")<CR><CR>	
- 	nmap <C-\>f :scs find f <C-R>=expand("<cfile>")<CR><CR>	
- 	nmap <C-\>i :scs find i ^<C-R>=expand("<cfile>")<CR>$<CR>
-	nmap <C-\>d :scs find d <C-R>=expand("<cword>")<CR><CR>	
+	"nmap <C-\>s :scs find s <C-R>=expand("<cword>")<CR><CR> 
+	"nmap <C-\>g :scs find g <C-R>=expand("<cword>")<CR><CR>:copen<CR>
+	"nmap <C-\>c :scs find c <C-R>=expand("<cword>")<CR><CR> 
+	"nmap <C-\>t :scs find t <C-R>=expand("<cword>")<CR><CR>	
+ 	"nmap <C-\>e :scs find e <C-R>=expand("<cword>")<CR><CR>	
+ 	"nmap <C-\>f :scs find f <C-R>=expand("<cfile>")<CR><CR>	
+ 	"nmap <C-\>i :scs find i ^<C-R>=expand("<cfile>")<CR>$<CR>
+	"nmap <C-\>d :scs find d <C-R>=expand("<cword>")<CR><CR>	
+	nnoremap <F2> :scs find s <C-R>=expand("<cword>")<CR><CR> 
+	nnoremap <F3> :scs find g <C-R>=expand("<cword>")<CR><CR>:copen<CR>
+	nnoremap <F4> :scs find c <C-R>=expand("<cword>")<CR><CR> 
+	nnoremap <C-\>t :scs find t <C-R>=expand("<cword>")<CR><CR>	
+ 	nnoremap <C-\>e :scs find e <C-R>=expand("<cword>")<CR><CR>	
+ 	nnoremap <F7> :scs find f <C-R>=expand("<cfile>")<CR><CR>	
+ 	nnoremap <C-\>i :scs find i ^<C-R>=expand("<cfile>")<CR>$<CR>
+	nnoremap <C-\>d :scs find d <C-R>=expand("<cword>")<CR><CR>	
 	" Using 'CTRL-spacebar' (intepreted as CTRL-@ by vim) then a search type
 	" makes the vim window split horizontally, with search result displayed
 	" in the new window. (Note: earlier versions of vim may not have the :scs
@@ -209,3 +263,15 @@ endif
 "  map <S-Insert> <MiddleMouse>
 "  map! <S-Insert> <MiddleMouse>
 "endif
+
+set pastetoggle=<F8>
+
+"MRU
+let MRU_File = '/home/kayw/.vim/.vim_mru_files'
+let MRU_Exclude_Files = '^/tmp/.*\|^/var/tmp/.*'
+let MRU_Include_Files = '\.c$\|\.h$\|\.cpp$\|\.py$\|\.hpp$\|^[^\.][-[:alnum:]~/_]*[^\.]$'
+
+"MiniBufExplorer
+"TODO xterm not regconise c-tab
+let g:miniBufExplMapCTabSwitchBufs = 1
+let g:miniBufExplHideWhenDiff = 1

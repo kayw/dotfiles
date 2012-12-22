@@ -1,5 +1,10 @@
 snippet #!
-	#!/usr/bin/python
+	#!/usr/bin/env python
+	# -*- coding: utf-8 -*-
+	#filename: ${1:`Filename('$1.py', 'foo.py')`}
+	#date: `strftime("%Y %b %d %X")`
+snippet #
+	# -*- coding: utf-8 -*-
 
 snippet imp
 	import ${1:module}
