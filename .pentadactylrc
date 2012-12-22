@@ -1,0 +1,33 @@
+"hg6043 (created: 2011/03/13 00:00:07)
+
+loadplugins '\.(js|penta)$'
+group user
+map -modes=n,v h -builtin <C-p>
+map -modes=n,v k -builtin 5k
+map -modes=n,v l -builtin <C-n>
+map -modes=n,v j -builtin 5j
+imap -builtin <C-x> <C-v><C-x>
+cmap -builtin <C-x> <C-v><C-x>
+imap -builtin <C-c> <C-v><C-c>
+
+set passkeys+=www.google.com/reader:jkmat?<S-x>u12
+set passkeys+=mail.google.com/:co#npjk
+
+set go+=T
+set nextpattern+=\s*下一页|下一张|下页\s*,^次(の)?ページ,\b次.*,\s*次へ,→\b,Next,››
+set previouspattern+=\s*上一页|上一张|上页\s*,^前(の)?ページ,\b前.*,\s*前へ,\b←,Back,Previous,‹‹
+
+"colo lightgrey
+
+"au PageLoadPre '^http://.*twitter\.com/.*' exe "open"+url.replace(/^http/, "https")
+"au LocationChange '^http://.*twitter\.com/.*' -js dactyl.echo("LocationChange buffer url:"+ buffer.URL); bufurl = buffer.URL.replace(/^http/, "https"); dactyl.echo("LocationChange fucking dactyl after replace: " + bufurl); if(bufurl != buffer.URL) dactyl.open(bufurl, {where: dactyl.CURRENT_TAB})
+"au PageLoadPre '^http://.*twitter\.com/.*' -js dactyl.echo("PageLoadPre buffer url:"+ buffer.URL); bufurl = buffer.URL; bufurl = bufurl.replace(/^http/, "https");dactyl.echo("fucking dactyl after replace: " + bufurl); dactyl.open(bufurl, {where: dactyl.CURRENT_TAB})
+"au PageLoad '^http://.*twitter\.com/.*' -js dactyl.echo("PageLoad buffer url:"+ buffer.URL); bufurl = content.location.href; bufurl = bufurl.replace(/^http/, "https");dactyl.echo("fucking dactyl after replace: " + bufurl); dactyl.open(bufurl, {where: dactyl.CURRENT_TAB})
+
+"au LocationChange '^http://.*(twitter|twitpic)+\.com/.*' -js dactyl.echo("LocationChange buffer url:"+ buffer.URL); bufurl = "https://" + buffer.URL.host + buffer.URL.path; dactyl.echo("LocationChange fucking dactyl after replace: " + bufurl); if(bufurl != buffer.URL) dactyl.open(bufurl, {where: dactyl.CURRENT_TAB})
+
+" from http://pchu.blogbus.com/logs/148008347.html
+map t -js str=util.domToString(buffer.focusedFrame.getSelection()); str!=""?dactyl.open(str, {where: dactyl.NEW_TAB}):CommandExMode().open("tabopen ")
+map o -js str=util.domToString(buffer.focusedFrame.getSelection()); str!=""?dactyl.open(str, {where: dactyl.CURRENT_TAB}):CommandExMode().open("open ")
+
+" vim: set ft=pentadactyl:
