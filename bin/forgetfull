@@ -15,6 +15,9 @@ find . \
             -name '*.*awk' \) -print \
     | sort
 
+#newsmth fcfarseer
+find /usr/include/boost -type f | xargs wc -l | tail -n1
+
 find . -not -path "*/.svn*" -not -type d -exec grep -ni "myfunc" {} \; -print
 the only difference between the output is that "grep -Rni" will print the file name for each match, whereas "find -exec grep" will print the filename on one line and then one line for each match (with line number and line content). using "grep -Hni" forces the filename to be displayed on each line 
 #http://superuser.com/questions/66715/recursive-grep-exclude-specific-directories
@@ -23,7 +26,7 @@ find /dir \( -name node_modules -prune \) -o -name "*.sh" -exec grep --color -Hn
 find . \( -path ./layouts -prune \) -o  \( -path ./tests -prune \) -o -exec grep --color -Hni "walk(" {} \; -print
 #\( no must
 
-hg pull --update git pull
+hg pull --update(-u) git pull
 
 git remote -v #It will print all your remote fetch / push urls.
 git config --get remote.origin.url
@@ -33,41 +36,29 @@ git remote set-url origin <URL> #git remote set-url origin <URL>
 
 #http://blog.gautamkedia.com/discarding-local-changes-in-git
 Discarding local changes in Git
-
 If you want to discard all local unpushed modifications and reset everything, here is what needs to be done.
-
 1. If you have local uncommitted changes, commit them:
-
      $ git commit -a -m "Final commit before reset."
-
     Or discard uncommitted changes:
-
      $ git checkout -f
 
 2. To view the unpushed commits or diff between local & remote:
-
      $ git log origin/master..HEAD
 
 3. Move all the local commits to a new branch:
-
      $ git checkout -b dirty
 
 4. Switch back to the original branch:
-
      $ git checkout master
 
 5. Reset the master branch to look exactly like remote:
-
      $ git fetch origin
-
      $ git reset --hard origin/master
 
 6. Look at the commits you threw away:
-
      $ git log master..dirty
 
 7. If anything looks useful, pick it out:
-
      $ git cherry-pick <commit-hash>
 #http://markhansen.co.nz/color-git/
 git config --global --add color.ui true
@@ -111,6 +102,31 @@ git remote | xargs -L 1 git push
 You can use git remote add --track master origin git@github.com:caius/foo.git
 Also see git config --global branch.autosetupmerge true
 
+#http://stackoverflow.com/questions/7318918/fatal-does-not-appear-to-be-a-git-repository
+#http://stackoverflow.com/questions/1692892/warning-refname-head-is-ambiguous
+#https://openshift.redhat.com/community/kb/kb-e1006-sync-new-git-repo-with-your-own-existing-git-repo
+#http://stackoverflow.com/questions/642264/undo-change-in-git-not-rewriting-history
+#http://stackoverflow.com/questions/953481/restore-a-deleted-file-in-a-git-repo
+"git ls-files -d | xargs git checkout --"
+
+#http://stackoverflow.com/questions/2003505/how-do-i-delete-a-git-branch-both-locally-and-in-github.com
+#http://stackoverflow.com/questions/4434787/git-how-to-undo-a-merge
+#http://stackoverflow.com/questions/2389361/undo-a-git-merge
+git revert -m 2 commit_hash
+#https://help.github.com/articles/remove-sensitive-data
+git filter-branch --index-filter 'git rm --cached --ignore-unmatch Rakefile' \
+	--prune-empty --tag-name-filter cat -- (--all all branch)
+
+#http://stackoverflow.com/questions/11473150/git-push-failed-after-git-reset-hard-head1-of-local-repo
+git push -f
+#http://stackoverflow.com/questions/2401254/git-push-current-branch-to-a-remote-with-heroku
+git config remote.remoterepo.push localbranch:remotebranch
+#http://stackoverflow.com/questions/520650/how-do-you-make-an-existing-git-branch-track-a-remote-branch
+#http://stackoverflow.com/questions/1125968/force-git-to-overwrite-local-files-on-pull
+#http://stackoverflow.com/questions/3946538/git-clone-just-the-files-please?lq=1
+git clone --depth 1 url
+git clone --no-checkout #did the exact opposite of what I want (gave me just the .git directory)
+http://gitref.org/
 
 #http://svn.haxx.se/users/archive-2008-01/0313.shtml
 #show the last 3-4 revisions (like 4 digit number)
@@ -119,7 +135,10 @@ svn log --quiet --limit(-l) 4 $FOO
 svn diff --summarize -c 7400 
 #see all files (just the file name) that changed in revision 7400
 svn log --verbose -r 7400 
-
+#https://www.virtualbox.org/wiki/Downloads
+svn switch --relocate \
+	   http://virtualbox.org/svn/vbox/trunk \
+	      http://www.virtualbox.org/svn/vbox/trunk
 unzip all.zip
 bzip2 -d all.bz2
 bunzip2 all.bz2
@@ -132,8 +151,12 @@ tar -tf all.tar
 tar -xjf test.tbz -C /tmp/test 
 
 
-pacman -Syu #Totally
+pacman -Syu --ignore x,y #Totally
 pacman -Scc
+#https://www.archlinux.org/news/binaries-move-to-usrbin-requiring-update-intervention//
+pacman -Qqo /bin /sbin /usr/sbin | pacman -Qm -
+paclist <repo> | awk ' { print $1 } ' | pacman -Ql - | grep ' /s\?bin/\| /usr/sbin/'
+find /bin /sbin /usr/sbin -exec pacman -Qo -- {} + >/dev/null
 
 #https://bbs.archlinux.org/viewtopic.php?id=144616&p=1
 #https://bbs.archlinux.org/viewtopic.php?pid=1126667#p1126667
@@ -141,19 +164,13 @@ pacman -Scc
 
 #http://www.cyberciti.biz/faq/grub-boot-into-single-user-mode/
 Boot Linux Grub Boot Loader into single user mode
-
 (1) At grub boot screen (after restart)
-
 (2) Select the kernel
-
 (3) Press the e key to edit the entry
-
 (4) Select second line (the line starting with the word kernel)
 (5) Press the e key to edit kernel entry so that you can append single user mode
-
 (6) Append the letter S (or word Single) to the end of the (kernel) line
 (7) Press ENTER key
-
 (8) Now press the b key to boot the Linux kernel into single user mode
 
 #http://askubuntu.com/questions/9853/how-can-i-make-rc-local-run-on-startup
@@ -190,6 +207,23 @@ diff -rqb DIR1 DIR2 # -b ignores whitespace changes
 #smth Orpherus arch的/居然27G了其中pkg有4G
 sudo du -h --max-depth=3 /var/ | sort -rh | head -n 20
 
+#http://middlewaremagic.com/jboss/?p=1723
+rsync -avz localdir 5a5468a88aa74b8198b0bf1d12ea661f@blog-kayw.rhcloud.com:~/app-root/repo/diy
+ssh rhcloud.com not end with /
+
+#https://wiki.archlinux.org/index.php/Disable_clearing_of_boot_messages
+
+#http://www.linuxforums.org/forum/programming-scripting/135110-sed-e-expression-1-char-24-unknown-option-s.html
+sed s delimiter different with text content('echo' output)
+#http://superuser.com/questions/246837/how-do-i-add-text-to-the-beginning-of-a-file-in-bash
+echo 'task goes here' | cat - todo.txt > temp && mv temp todo.txt
+{{ Pipe (|) the message (echo '...') to cat which uses - (standard input) as the first file and todo.txt as the second. cat conCATenates multiple files. Send the output (>) to a file named temp. If there are no errors (&&) from cat then rename (mv) the temp file back to the original file (todo.txt) }}
+sed -i '1itask goes here' todo.txt
+
+#http://elearning.linnbenton.edu/mod/forum/discuss.php?d=60056
+* Summon XTerm with a hotkey >> ctrl-alt-T
+* On xterm, press and hold the Control key and at the same time left-click and hold. "MainOptions" menu will appear
+* On xterm, press and hold the Control key and at the same time right-click and hold. "UnicodeFonts" menu will appear
 
 CPP:
 #http://stackoverflow.com/questions/9678665/compiling-a-class-with-GCC
@@ -212,3 +246,15 @@ sudo gem install sqlite3-ruby --no-rdoc --no-ri
 
 #http://stackoverflow.com/questions/9434002/how-to-solve-ruby-installation-is-missing-psych-error
 ruby gem install problem
+
+
+##linux administrator commands
+grup>root (hd0,x)(with /dev) -> kernel (hd0,y)/vmlinuz* root=/dev/*(/dev/sda* or /dev/disk/by-uuid/*) -> initrd (hd0,y)/kernel* -> boot
+#https://wiki.archlinux.org/index.php/Network_Debugging
+ip a/ip link show dev eth0/ip addr /ip route/"/etc/resolv.conf"/host www.archlinux.org 8.8.4.4/dig /traceroute 8.8.4.4
+#https://wiki.archlinux.org/index.php/Network_Configuration
+lspci -v(Check the "Ethernet controller" entry)/dmesg | grep module_name(check that the driver was loaded)/ tee /etc/modules-load.d/tg3.conf <<< "tg3"/ln -s /dev/null /etc/udev/rules.d/80-net-name-slot.rules/ls /sys/class/net/ip addr add <IP address>/<subnet mask> dev <interface>/dhcpcd -k
+#https://bbs.archlinux.org/viewtopic.php?pid=1019742
+fdisk -l
+
+hostname /etc/hostname
