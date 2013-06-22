@@ -63,3 +63,9 @@ function man
 {
 	/usr/bin/man $* | col -b | /usr/local/bin/vim -c 'set ft=man nomod nolist' -
 }
+
+#https://bbs.archlinux.org/viewtopic.php?id=92286
+# start screen (wheee!!)
+#if [ $TERM != "screen-256color" ] ; then
+#	   screen -d -R
+#   fi

@@ -1,8 +1,8 @@
 setlocal makeprg=gcc\ -g\ -o\ %
 setl et
-setl sw=4
-setl ts=4
-setl sts=4
+setl sw=2
+setl ts=2
+setl sts=2
 
 "setlocal makeprg=cl\ -GX\ \"%:p\"
 map <F2> :w<CR>:make<CR>:cwindow<CR><CR>:!%:r.exe<CR> 

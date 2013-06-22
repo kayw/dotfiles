@@ -54,9 +54,9 @@ hardstatus string '%{= kG}%{g}[%{= kw}%-w%{= BW}%n_%h%{-}%+w %{g}]'
 #nethack on                      # print wackier status messages
 #password HJa4lhjDp4UIDlLA          # always of course
 #defobuflimit 4096
-#setenv LC_CTYPE en_US.UTF-8
-#defutf8 on
-#defencoding UTF-8
+setenv LC_CTYPE en_US.UTF-8
+defutf8 on
+defencoding UTF-8
 #
 #idle 360 eval "screen nice -n 19 /opt/s/cmatrix" "idle 360000 pow_detach"
 #
