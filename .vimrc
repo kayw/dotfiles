@@ -1,4 +1,4 @@
-set runtimepath=~/.vim,$VIMRUNTIME,~/.vim/after
+set runtimepath=~/.vim/,$VIMRUNTIME,~/.vim/bundle/ultisnips/,~/.vim/after/
 
 " Normally we use vim-extensions. If you want true vi-compatibility
 " remove change the following statements
@@ -74,7 +74,7 @@ if has("autocmd")
  " Uncomment the following to have Vim load indentation rules according to the
  " detected filetype.
  filetype indent on
- au FILETYPE c set omnifunc=ccomplete#CompleteC
+ "au FILETYPE c set omnifunc=ccomplete#CompleteC
  au FILETYPE c,cpp,js,py set nu
  "au BufRead reportbug.*		set ft=mail
  "au BufRead reportbug-*		set ft=mail
@@ -83,12 +83,12 @@ endif " has ("autocmd")
 
 noremap <F12> :e ~/.vimrc<CR>
 inoremap <F12> <ESC>:e ~/.vimrc<CR>
-nnoremap <C-H> <C-W>h
-nnoremap <C-J> <C-W>j
-nnoremap <C-K> <C-W>k
-nnoremap <C-L> <C-W>l 
+"nnoremap <C-H> <C-W>h
+"nnoremap <C-J> <C-W>j
+"nnoremap <C-K> <C-W>k
+"nnoremap <C-L> <C-W>l 
 " // The switch of the Source Explorer
-nmap <F11> :SrcExplToggle<CR> 
+"nmap <F11> :SrcExplToggle<CR> 
 " // Set the height of Source Explorer window
 let g:SrcExpl_winHeight = 8
 
@@ -275,3 +275,36 @@ let MRU_Include_Files = '\.c$\|\.h$\|\.cpp$\|\.py$\|\.hpp$\|^[^\.][-[:alnum:]~/_
 "TODO xterm not regconise c-tab
 let g:miniBufExplMapCTabSwitchBufs = 1
 let g:miniBufExplHideWhenDiff = 1
+
+"list search result
+map <M-F> <ESC>:vimgrep <C-R><C-W> %<Enter>:copen
+
+"UltiSnip
+let g:UltiSnipsExpandTrigger = "<C-e>"
+let g:UltiSnipsListSnippets = "<C-g>"
+let g:UltiSnipsJumpForwardTrigger="<C-e>"
+let g:UltiSnipsJumpBackwardTrigger="<c-f>"
+"let g:UltiSnipsSnippetDirectories=["UltiSnips", "snippets"]
+
+
+"Vundle
+set rtp +=~/.vim/bundle/vundle/
+call vundle#rc()
+
+"Vundle manage Vundle
+Bundle 'gmarik/vundle'
+Bundle 'Valloric/YouCompleteMe'
+Bundle "SirVer/ultisnips"
+Bundle "scrooloose/syntastic"
+
+
+"YouCompleteMe
+let g:ycm_autoclose_preview_window_after_completion = 1
+let g:ycm_global_ycm_extra_conf = '~/.vim/compiler/global.ycm_extra_conf.py'
+noremap <Leader>k :YcmCompleter GoToDefinitionElseDeclaration<CR>
+inoremap <Leader>k :YcmCompleter GoToDefinitionElseDeclaration<CR>
+
+
+"Syntastic
+"avoid terminal vim flick with ycm
+let syntastic_full_redraws = 0

@@ -2,3 +2,9 @@ set meta-flag on
 set convert-meta off 
 set output-meta on 
 set completion-ignore-case on
+#http://stackoverflow.com/questions/1030182/how-do-i-change-bash-history-completion-to-complete-whats-already-on-the-line
+#"\e[5~": history-search-backward
+#"\e[6~": history-search-forward
+#http://unix.stackexchange.com/questions/5366/command-line-completion-from-command-history
+"\e[A": history-search-backward
+"\e[B": history-search-forward

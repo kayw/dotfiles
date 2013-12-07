@@ -11,7 +11,7 @@
 *xterm*boldFont: DejaVu Sans Mono:style=Bold:pixelsize=15
 *xterm*faceNameDoublesize: wenquanyi Zen Hei:pixelsize=20:antialias=True
 *xterm*xftAntialias: true
-*xterm*cjkWidth:false
+*xterm*cjkWidth:true
 !XTerm*fontMenu*fontdefault*Label: Default
 !XTerm*font: -misc-fixed-medium-r-normal-*-18-120-100-100-c-90-iso10646-1
 !XTerm*wideFont: -misc-fixed-medium-r-normal-*-18-120-100-100-c-180-iso10646-1

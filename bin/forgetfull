@@ -15,7 +15,7 @@ find . \
             -name '*.*awk' \) -print \
     | sort
 
-#newsmth fcfarseer
+#newsmth fcfarseer  count code
 find /usr/include/boost -type f | xargs wc -l | tail -n1
 
 find . -not -path "*/.svn*" -not -type d -exec grep -ni "myfunc" {} \; -print
@@ -26,14 +26,34 @@ find /dir \( -name node_modules -prune \) -o -name "*.sh" -exec grep --color -Hn
 find . \( -path ./layouts -prune \) -o  \( -path ./tests -prune \) -o -exec grep --color -Hni "walk(" {} \; -print
 #\( no must
 
-hg pull --update(-u) git pull
+(time /bin/ls) &> /tmp/u  #http://www.linuxquestions.org/questions/linux-general-1/strace-redirecting-to-file-456212/
 
+<C-R> reverse search
+
+#https://github.com/Valloric/YouCompleteMe
+echo | clang -v -E -x c++ -
+
+hg pull --update(-u) git pull [--rebase origin master] #http://code.google.com/p/v8/wiki/UsingGit
+#http://superuser.com/questions/41480/getting-parent-repository-path
+hg paths :show the repository path
+hg root :current repository
+
+#https://github.com/bronson/dotfiles
+To use: git clone --bare git@github.com:bronson/dotfiles.git .dotfiles.git ; alias dotgit="git --work-tree='$HOME' --git-dir='$HOME'/.dotfiles.git" ; WARNING dotgit reset --hard HEAD https://github.com/gmarik/dotfiles
+
+#http://repo.or.cz/w/gdb/gnu.git
+#If you have that one already cloned locally, you can use 
+git clone --reference /path/to/your/gdb.git/incarnation mirror_URL
 git remote -v #It will print all your remote fetch / push urls.
 git config --get remote.origin.url
 #http://stackoverflow.com/questions/4089430/how-can-i-determine-the-url-that-a-local-git-repo-was-originally-pulled-from
 git remote set-url origin <URL> #git remote set-url origin <URL>
 #http://stackoverflow.com/questions/1800859/how-can-i-change-the-remote-target-repository-url-on-windows
 
+#http://stackoverflow.com/questions/278192/view-the-change-history-of-a-file-using-git-versioning
+git log [--follow] -p file*
+
+#http://stackoverflow.com/questions/4114095/revert-to-previous-git-commit
 #http://blog.gautamkedia.com/discarding-local-changes-in-git
 Discarding local changes in Git
 If you want to discard all local unpushed modifications and reset everything, here is what needs to be done.
@@ -54,6 +74,8 @@ If you want to discard all local unpushed modifications and reset everything, he
 5. Reset the master branch to look exactly like remote:
      $ git fetch origin
      $ git reset --hard origin/master
+     #http://stackoverflow.com/questions/1125968/force-git-to-overwrite-local-files-on-pull
+     git fetch --all
 
 6. Look at the commits you threw away:
      $ git log master..dirty
@@ -128,6 +150,8 @@ git clone --depth 1 url
 git clone --no-checkout #did the exact opposite of what I want (gave me just the .git directory)
 http://gitref.org/
 
+#http://www.webkit.org/building/checkout.html
+svn switch --relocate http://svn.webkit.org/repository/webkit/trunk 
 #http://svn.haxx.se/users/archive-2008-01/0313.shtml
 #show the last 3-4 revisions (like 4 digit number)
 svn log --quiet --limit(-l) 4 $FOO 
@@ -137,8 +161,13 @@ svn diff --summarize -c 7400
 svn log --verbose -r 7400 
 #https://www.virtualbox.org/wiki/Downloads
 svn switch --relocate \
-	   http://virtualbox.org/svn/vbox/trunk \
-	      http://www.virtualbox.org/svn/vbox/trunk
+	http://virtualbox.org/svn/vbox/trunk(origin) \
+	http://www.virtualbox.org/svn/vbox/trunk(new)
+
+svn info | grep 'Repository Root' | awk '{print $NF}' #http://serverfault.com/questions/310300/how-to-get-the-url-of-the-current-svn-repo
+svn info | findstr /C:"Repository Root: "  # windows
+http://superuser.com/questions/229983/how-to-change-subversion-working-copy-uuid
+
 unzip all.zip
 bzip2 -d all.bz2
 bunzip2 all.bz2
@@ -150,17 +179,23 @@ tar -xZf all.tar.z
 tar -tf all.tar
 tar -xjf test.tbz -C /tmp/test 
 
+$ tar -ztvf file.tar.gz
+$ tar -jtvf file.tar.bz2
 
-pacman -Syu --ignore x,y #Totally
+
+pacman -Syyu --ignore x,y #Totally
 pacman -Scc
 #https://www.archlinux.org/news/binaries-move-to-usrbin-requiring-update-intervention//
 pacman -Qqo /bin /sbin /usr/sbin | pacman -Qm -
 paclist <repo> | awk ' { print $1 } ' | pacman -Ql - | grep ' /s\?bin/\| /usr/sbin/'
 find /bin /sbin /usr/sbin -exec pacman -Qo -- {} + >/dev/null
+#https://wiki.archlinux.org/index.php/Pacman_Tips#Restore_pacman.27s_local_database
 
 #https://bbs.archlinux.org/viewtopic.php?id=144616&p=1
 #https://bbs.archlinux.org/viewtopic.php?pid=1126667#p1126667
 /bin/ls:not found ==> /lib/ld-2.14.so /bin/ls
+LDD -v  #https://bugs.archlinux.org/task/37511
+LD_DEBUG=libs path
 
 #http://www.cyberciti.biz/faq/grub-boot-into-single-user-mode/
 Boot Linux Grub Boot Loader into single user mode
@@ -208,7 +243,7 @@ diff -rqb DIR1 DIR2 # -b ignores whitespace changes
 sudo du -h --max-depth=3 /var/ | sort -rh | head -n 20
 
 #http://middlewaremagic.com/jboss/?p=1723
-rsync -avz localdir 5a5468a88aa74b8198b0bf1d12ea661f@blog-kayw.rhcloud.com:~/app-root/repo/diy
+rsync -avz localdir 5a5468a88aa74b8198b0bf1d12ea661f@blog-kayw.rhcloud.com:~/app-root/runtime/repo/diy
 ssh rhcloud.com not end with /
 
 #https://wiki.archlinux.org/index.php/Disable_clearing_of_boot_messages
@@ -258,3 +293,14 @@ lspci -v(Check the "Ethernet controller" entry)/dmesg | grep module_name(check t
 fdisk -l
 
 hostname /etc/hostname
+
+wc -l *.c *.h
+find . -name *.cpp | xargs wc -l
+
+#GDB:
+#http://blog.csdn.net/haoel/article/category/9197
+#http://fanqiang.chinaunix.net/program/other/2006-07-14/4834.shtml
+l(ist)
+p *ptr
+set print object on/off
+show print object
