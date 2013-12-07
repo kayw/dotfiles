@@ -8,3 +8,5 @@
 [color]
 	ui = true
 	diff = always
+[push]
+	default = simple

@@ -307,4 +307,5 @@ inoremap <Leader>k :YcmCompleter GoToDefinitionElseDeclaration<CR>
 
 "Syntastic
 "avoid terminal vim flick with ycm
+"https://github.com/scrooloose/syntastic/issues/668
 let syntastic_full_redraws = 0
