@@ -1,5 +1,11 @@
-#https://gist.github.com/skyscribe/3978082/raw/e8a0c8daec409e24b29f7c14cf74140a43a9278c/.gdbinit
-#                                                                                                        
+python
+import sys 
+sys.path.insert(0, '/home/kayw/share/codebase/stlPrettyPrinter/')
+from libstdcxx.v6.printers import register_libstdcxx_printers
+register_libstdcxx_printers (None)
+end
+
+#   https://gist.github.com/skyscribe/3978082/raw/e8a0c8daec409e24b29f7c14cf74140a43a9278c/.gdbinit                                                                                                     
 #   STL GDB evaluators/views/utilities - 1.03
 #
 #   The new GDB commands:                                                         
@@ -647,7 +653,7 @@ define pstring
 		help pstring
 	else
 		printf "String \t\t\t= \"%s\"\n", $arg0._M_data()
-		printf "String size/length \t= %u\n", $arg0._M_rep()._M_length
+		#printf "String size/length \t= %u\n", $arg0._M_rep()._M_length
 		printf "String capacity \t= %u\n", $arg0._M_rep()._M_capacity
 		printf "String ref-count \t= %d\n", $arg0._M_rep()._M_refcount
 	end
