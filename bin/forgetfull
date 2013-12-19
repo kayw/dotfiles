@@ -54,6 +54,8 @@ If you want to discard all local unpushed modifications and reset everything, he
 5. Reset the master branch to look exactly like remote:
      $ git fetch origin
      $ git reset --hard origin/master
+     #http://stackoverflow.com/questions/1125968/force-git-to-overwrite-local-files-on-pull
+     git fetch --all
 
 6. Look at the commits you threw away:
      $ git log master..dirty

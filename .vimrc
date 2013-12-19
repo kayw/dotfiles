@@ -275,3 +275,6 @@ let MRU_Include_Files = '\.c$\|\.h$\|\.cpp$\|\.py$\|\.hpp$\|^[^\.][-[:alnum:]~/_
 "TODO xterm not regconise c-tab
 let g:miniBufExplMapCTabSwitchBufs = 1
 let g:miniBufExplHideWhenDiff = 1
+
+"list result
+map <M-F> <ESC>:vimgrep <C-R><C-W> %<Enter>:copen

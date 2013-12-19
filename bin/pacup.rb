@@ -3,7 +3,7 @@ require 'rss'
 require 'time'
 
 DEFAULT_LOG_FILE = '/var/log/pacman.log'
-FEED_URL = 'http://www.archlinux.org/feeds/news/'
+FEED_URL = 'https://www.archlinux.org/feeds/news/'
 BUFFER_MINS = 60*24
 @log = nil
 
@@ -25,7 +25,7 @@ unless File.exists? log_file and File.readable? log_file
   raise "Unable to locate or read log file #{log_file}"
 end
 
-last_update = File.open(log_file, 'r') do |f|
+last_update = File.open(log_file, 'rb') do |f|
   Time.parse f.readlines.select { |i| i =~ /starting full/ }.last
 end
 

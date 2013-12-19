@@ -59,10 +59,10 @@ fi
 #complete -o bashdefault -o default -o nospace -F _gitk co
 #http://benmabey.com/2008/05/07/git-bash-completion-git-aliases.html
 # man:
-function man
-{
-	/usr/bin/man $* | col -b | /usr/local/bin/vim -c 'set ft=man nomod nolist' -
-}
+#function man
+#{
+#	/usr/bin/man $* | col -b | /usr/local/bin/vim -c 'set ft=man nomod nolist' -
+#}
 
 #https://bbs.archlinux.org/viewtopic.php?id=92286
 # start screen (wheee!!)
