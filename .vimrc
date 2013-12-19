@@ -75,7 +75,7 @@ if has("autocmd")
  " detected filetype.
  filetype indent on
  "au FILETYPE c set omnifunc=ccomplete#CompleteC
- au FILETYPE c,cpp,js,py set nu
+ au FILETYPE c,cpp,js,python set nu
  "au BufRead reportbug.*		set ft=mail
  "au BufRead reportbug-*		set ft=mail
 endif " has ("autocmd")
@@ -280,6 +280,7 @@ let g:miniBufExplHideWhenDiff = 1
 map <M-F> <ESC>:vimgrep <C-R><C-W> %<Enter>:copen
 
 "UltiSnip
+"later improvement https://github.com/Valloric/YouCompleteMe/issues/36
 let g:UltiSnipsExpandTrigger = "<C-e>"
 let g:UltiSnipsListSnippets = "<C-g>"
 let g:UltiSnipsJumpForwardTrigger="<C-e>"

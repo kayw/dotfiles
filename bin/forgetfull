@@ -45,8 +45,8 @@ To use: git clone --bare git@github.com:bronson/dotfiles.git .dotfiles.git ; ali
 #If you have that one already cloned locally, you can use 
 git clone --reference /path/to/your/gdb.git/incarnation mirror_URL
 git remote -v #It will print all your remote fetch / push urls.
-git config --get remote.origin.url
-#http://stackoverflow.com/questions/4089430/how-can-i-determine-the-url-that-a-local-git-repo-was-originally-pulled-from
+git config --get remote.origin.url #http://stackoverflow.com/questions/4089430/how-can-i-determine-the-url-that-a-local-git-repo-was-originally-pulled-from
+
 git remote set-url origin <URL> #git remote set-url origin <URL>
 #http://stackoverflow.com/questions/1800859/how-can-i-change-the-remote-target-repository-url-on-windows
 
@@ -304,3 +304,16 @@ l(ist)
 p *ptr
 set print object on/off
 show print object
+
+
+#TexLive
+#http://bbs.ctex.org/forum.php?mod=viewthread&tid=39624
+update package: copy file & mktexlsr
+texhash
+kpsewhich
+tlmgr
+
+#Fonts
+#https://wiki.archlinux.org/index.php/Font_Configuration_%28%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87%29
+fc-list
+fontconfig path: /usr/share/fonts/ & ~/.fonts
