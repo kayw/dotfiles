@@ -9,4 +9,4 @@
 	ui = true
 	diff = always
 [push]
-	default = nothing
+	default = matching
