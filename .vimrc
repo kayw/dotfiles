@@ -276,10 +276,6 @@ let MRU_Include_Files = '\.c$\|\.h$\|\.cpp$\|\.py$\|\.hpp$\|^[^\.][-[:alnum:]~/_
 let g:miniBufExplMapCTabSwitchBufs = 1
 let g:miniBufExplHideWhenDiff = 1
 
-<<<<<<< HEAD
-"list result
-map <M-F> <ESC>:vimgrep <C-R><C-W> %<Enter>:copen
-=======
 "list search result
 map <M-F> <ESC>:vimgrep <C-R><C-W> %<Enter>:copen
 
@@ -313,4 +309,3 @@ inoremap <Leader>k :YcmCompleter GoToDefinitionElseDeclaration<CR>
 "avoid terminal vim flick with ycm
 "https://github.com/scrooloose/syntastic/issues/668
 let syntastic_full_redraws = 0
->>>>>>> a5422f2b1315a97cd696b5fe83d5023d73b64181
