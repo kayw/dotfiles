@@ -9,6 +9,7 @@ export HISTCONTROL=ignoreboth
 
 export PATH={$PATH}:/usr/local/bin/:/home/kayw/bin/:/usr/local/texlive/2010/bin/i386-linux/:/usr/local/bin/depot_tools/
 export LD_LIBRARY_PATH={LD_LIBRARY_PATH}:/usr/local/lib/
+export PYTHONPATH=$PYTHONPATH:/home/kayw/share/codebase/hyde/kayw.github.com/extensions/
 
 # append to the history file, don't overwrite it
 shopt -s histappend

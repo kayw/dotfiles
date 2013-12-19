@@ -1,0 +1,16 @@
+snippet #ifndef "include guard with uuid suffix"
+#ifndef ${1:`!p
+if not snip.c:
+        import uuid
+        name = re.sub(r'[^A-Za-z0-9]+','_', snip.fn).upper()
+        guard = re.sub(r'-','_',str(uuid.uuid4())).upper()
+        snip.rv = ('%s_%s' % (name, guard)).upper()
+else:
+    snip.rv = snip.c`}
+#define $1
+
+${0}
+
+#endif /* $1 */
+
+endsnippet

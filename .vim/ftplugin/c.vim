@@ -1,4 +1,5 @@
-setlocal makeprg=gcc\ -g\ -o\ %
+"setlocal makeprg=gcc\ -g\ -o\ %
+setlocal makeprg=make\ debug
 setl et
 setl sw=2
 setl ts=2
