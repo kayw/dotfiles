@@ -1,5 +1,3 @@
-#!/bin/bash
-
 find . \
     -type d \( \
             -wholename './lib' -o \
@@ -183,8 +181,13 @@ $ tar -ztvf file.tar.gz
 $ tar -jtvf file.tar.bz2
 
 
+#https://wiki.archlinux.org/index.php/pacman_Tips
+#https://wiki.archlinux.org/index.php/Pacman
+?? #https://bbs.archlinux.org/viewtopic.php?pid=909497
+#https://bbs.archlinux.org/viewtopic.php?id=57431
 pacman -Syyu --ignore x,y #Totally
 pacman -Scc
+pacman -Qe  #https://bbs.archlinux.org/viewtopic.php?id=38477
 #https://www.archlinux.org/news/binaries-move-to-usrbin-requiring-update-intervention//
 pacman -Qqo /bin /sbin /usr/sbin | pacman -Qm -
 paclist <repo> | awk ' { print $1 } ' | pacman -Ql - | grep ' /s\?bin/\| /usr/sbin/'
