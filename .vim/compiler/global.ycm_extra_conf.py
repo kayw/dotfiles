@@ -73,6 +73,7 @@ flags = [
 '-isystem',
 './tests/gmock/include'
 '-isystem',
+'~/share/codebase/mnb/',
 # This path will only work on OS X, but extra paths that don't exist are not
 # harmful
 '/System/Library/Frameworks/Python.framework/Headers',

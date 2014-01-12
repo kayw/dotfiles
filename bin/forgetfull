@@ -182,9 +182,17 @@ $ tar -jtvf file.tar.bz2
 
 
 #https://wiki.archlinux.org/index.php/pacman_Tips
+alias pacins='sudo pacman -U'          # Install specific package not from the repositories but from a file 
+alias pacrem='sudo pacman -Rnsu'       # Remove the specified package(s), its configuration(s) and unneeded dependencies
+pacman -Qm
+#List explicitly installed packages not in base or base-devel with size and description: 
+expac(need install) -HM "%011m\t%-20n\t%10d" $( comm -23 <(pacman -Qqen|sort) <(pacman -Qqg base base-devel|sort) ) | sort -n
+
+pacman -Rns $(pacman -Qtdq)
+
 #https://wiki.archlinux.org/index.php/Pacman
+pacman -S(Q)g #group info
 ?? #https://bbs.archlinux.org/viewtopic.php?pid=909497
-#https://bbs.archlinux.org/viewtopic.php?id=57431
 pacman -Syyu --ignore x,y #Totally
 pacman -Scc
 pacman -Qe  #https://bbs.archlinux.org/viewtopic.php?id=38477
