@@ -64,6 +64,8 @@ flags = [
 '/usr/lib/gcc/i686-pc-linux-gnu/4.8.2/../../../../include/c++/4.8.2/backward',
 '-I',
 '.',
+'-I',
+'/home/kayw/share/codebase/mnb',
 '-isystem',
 './tests/gmock/gtest',
 '-isystem',
@@ -72,10 +74,9 @@ flags = [
 './tests/gmock',
 '-isystem',
 './tests/gmock/include'
-'-isystem',
-'~/share/codebase/mnb/',
 # This path will only work on OS X, but extra paths that don't exist are not
 # harmful
+'-isystem',
 '/System/Library/Frameworks/Python.framework/Headers',
 ]
 
