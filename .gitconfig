@@ -10,3 +10,5 @@
 	diff = always
 [push]
 	default = matching
+[branch]
+	autosetupmerge = true

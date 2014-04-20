@@ -13,6 +13,11 @@ find . \
             -name '*.*awk' \) -print \
     | sort
 
+#http://talk.linuxtoy.org/using-cli/
+history | awk '{CMD[$2]++;count++;}END { for (a in CMD)\
+print CMD[a] " " CMD[a]/count*100 "% " a;}' | grep -v "./" \
+| column -c3 -s " " -t | sort -nr | nl | head -n10
+
 #newsmth fcfarseer  count code
 find /usr/include/boost -type f | xargs wc -l | tail -n1
 
@@ -129,6 +134,10 @@ Also see git config --global branch.autosetupmerge true
 #http://stackoverflow.com/questions/953481/restore-a-deleted-file-in-a-git-repo
 "git ls-files -d | xargs git checkout --"
 
+http://superuser.com/questions/429693/git-list-all-files-currently-under-source-control
+git ls-tree -r master --name-only
+git log --pretty=format: --name-status | cut -f2- | sort -u
+
 #http://stackoverflow.com/questions/2003505/how-do-i-delete-a-git-branch-both-locally-and-in-github.com
 #http://stackoverflow.com/questions/4434787/git-how-to-undo-a-merge
 #http://stackoverflow.com/questions/2389361/undo-a-git-merge
@@ -180,6 +189,10 @@ tar -xjf test.tbz -C /tmp/test
 $ tar -ztvf file.tar.gz
 $ tar -jtvf file.tar.bz2
 
+#https://www.centos.org/docs/2/rhl-gsg-en-7.2/s1-zip-tar.html
+#http://www.mkyong.com/linux/how-to-zip-unzip-tar-in-unix-linux/
+#http://www.simplehelp.net/2008/12/15/how-to-create-and-extract-zip-tar-targz-and-tarbz2-files-in-linux/
+tar -czvf /path/f.tar x.y x1.y1 
 
 #https://wiki.archlinux.org/index.php/pacman_Tips
 alias pacins='sudo pacman -U'          # Install specific package not from the repositories but from a file 
@@ -313,9 +326,17 @@ find . -name *.cpp | xargs wc -l
 #http://fanqiang.chinaunix.net/program/other/2006-07-14/4834.shtml
 l(ist)
 p *ptr
+p &obj
 set print object on/off
 show print object
 
+http://mylinuxbook.com/debugging-linux-memory-corruption/
+https://blogs.oracle.com/ksplice/entry/8_gdb_tricks_you_should
+#http://stackoverflow.com/questions/2902064/how-to-track-down-a-double-free-or-corruption-error-in-c-with-gdb
+valgrind --tool=memcheck --leak-check=full 
+#http://blog.vucica.net/2011/05/finding-memory-corruption-of-a-c-class-member-variable-using-gdb.html
+watch -location mTextFormatted
+p *pArr@N
 
 #TexLive
 #http://bbs.ctex.org/forum.php?mod=viewthread&tid=39624
@@ -328,3 +349,7 @@ tlmgr
 #https://wiki.archlinux.org/index.php/Font_Configuration_%28%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87%29
 fc-list
 fontconfig path: /usr/share/fonts/ & ~/.fonts
+
+#ViM
+"http://stackoverflow.com/questions/4687009/opening-help-in-a-full-window
+:h | only

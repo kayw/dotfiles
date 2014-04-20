@@ -17,8 +17,7 @@ endsnippet
 
 
 snippet mainn "main() (main)"
-int main(int /*argc*/, char */*argv*/[])
-{
+int main(int /*argc*/, char */*argv*/[]) {
 	${VISUAL}${0:${VISUAL/(.*)/(?1::\/* code *\/)/}}
 	return 0;
 }
@@ -28,4 +27,14 @@ snippet forii "for int loop (fori)"
 for (${4:int} ${2:i} = 0; $2 < ${1:count}; ${3:++$2}) {
 	${VISUAL}${0:${VISUAL/(.*)/(?1::\/* code *\/)/}}
 }
+endsnippet
+
+snippet _fh "function header annotation"
+/**
+ * ${VISUAL}${0:${VISUAL/(.*)/(?1:: description )/}}
+ *
+ * @param ${2}
+ *   	${VISUAL}${0:${VISUAL/(.*)/(?1:: description )/}}     
+ * @return 
+ */
 endsnippet

@@ -66,6 +66,8 @@ flags = [
 '.',
 '-I',
 '/home/kayw/share/codebase/mnb',
+'-I',
+'/home/kayw/share/codebase/igloo',
 '-isystem',
 './tests/gmock/gtest',
 '-isystem',
