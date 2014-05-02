@@ -5,6 +5,12 @@ from libstdcxx.v6.printers import register_libstdcxx_printers
 register_libstdcxx_printers (None)
 end
 
+add-auto-load-safe-path /usr/lib/libstdc++.so.6.0.19-gdb.py
+
+# gdb history http://stackoverflow.com/questions/3176800/how-can-i-make-gdb-save-the-command-history
+set history filename /tmp/.gdb_history
+set history save
+
 #   https://gist.github.com/skyscribe/3978082/raw/e8a0c8daec409e24b29f7c14cf74140a43a9278c/.gdbinit                                                                                                     
 #   STL GDB evaluators/views/utilities - 1.03
 #

@@ -271,11 +271,6 @@ let MRU_File = '/home/kayw/.vim/.vim_mru_files'
 let MRU_Exclude_Files = '^/tmp/.*\|^/var/tmp/.*'
 let MRU_Include_Files = '\.c$\|\.h$\|\.cpp$\|\.py$\|\.hpp$\|^[^\.][-[:alnum:]~/_]*[^\.]$'
 
-"MiniBufExplorer
-"TODO xterm not regconise c-tab
-let g:miniBufExplMapCTabSwitchBufs = 1
-let g:miniBufExplHideWhenDiff = 1
-
 "list search result
 map <M-F> <ESC>:vimgrep <C-R><C-W> %<Enter>:copen
 
@@ -297,7 +292,15 @@ Bundle 'gmarik/vundle'
 Bundle 'Valloric/YouCompleteMe'
 Bundle "SirVer/ultisnips"
 Bundle "scrooloose/syntastic"
+Bundle 'bling/vim-airline'
+Bundle 'bling/vim-bufferline'
 
+"airline
+set laststatus=2 "http://superuser.com/questions/634570/vim-how-to-install-airline
+let g:airline#extensions#disable_rtp_load = 1
+let g:airline#extensions#bufferline#enabled = 1  "http://stackoverflow.com/questions/4865132/an-alternative-to-minibufexplorer-vim
+let g:airline#extensions#tabline#show_buffers = 1
+let g:airline#extensions#tabline#buffer_nr_show = 1
 
 "YouCompleteMe
 let g:ycm_autoclose_preview_window_after_completion = 1

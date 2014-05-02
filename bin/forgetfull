@@ -1,3 +1,4 @@
+#find is already recusive & (single|double) quotation is must
 find . \
     -type d \( \
             -wholename './lib' -o \
@@ -337,6 +338,9 @@ valgrind --tool=memcheck --leak-check=full
 #http://blog.vucica.net/2011/05/finding-memory-corruption-of-a-c-class-member-variable-using-gdb.html
 watch -location mTextFormatted
 p *pArr@N
+info line # http://stackoverflow.com/questions/14581837/gdb-how-do-i-find-the-current-line-of-execution
+list *$pc # http://sourceware-org.1504.n7.nabble.com/How-to-print-the-current-source-line-number-td110444.html
+d 3 clear a.cc:5  d *start_breakpoint_num*-*end_breakpoint_num* # http://stackoverflow.com/questions/4340718/remove-a-single-breakpoint-with-gdb
 
 #TexLive
 #http://bbs.ctex.org/forum.php?mod=viewthread&tid=39624
@@ -353,3 +357,6 @@ fontconfig path: /usr/share/fonts/ & ~/.fonts
 #ViM
 "http://stackoverflow.com/questions/4687009/opening-help-in-a-full-window
 :h | only
+
+#wget
+#http://techpatterns.com/forums/about894.html
