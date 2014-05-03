@@ -9,7 +9,8 @@ fi
 
 VBoxClient-all
 #exec uxterm -e screen -dR &
-exec xterm -u8 -e screen -dR &
+#exec xterm -u8 -e screen -dR &
+exec xterm -e screen -dR &
 #exec wmii
 while true; do
 #	xsetroot -name "$( date +"%a %F %T" )"
