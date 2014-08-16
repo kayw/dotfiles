@@ -19,12 +19,6 @@ set previouspattern+=\s*上一页|上一张|上页\s*,^前(の)?ページ,\b前.
 
 "colo lightgrey
 
-"au PageLoadPre '^http://.*twitter\.com/.*' exe "open"+url.replace(/^http/, "https")
-"au LocationChange '^http://.*twitter\.com/.*' -js dactyl.echo("LocationChange buffer url:"+ buffer.URL); bufurl = buffer.URL.replace(/^http/, "https"); dactyl.echo("LocationChange fucking dactyl after replace: " + bufurl); if(bufurl != buffer.URL) dactyl.open(bufurl, {where: dactyl.CURRENT_TAB})
-"au PageLoadPre '^http://.*twitter\.com/.*' -js dactyl.echo("PageLoadPre buffer url:"+ buffer.URL); bufurl = buffer.URL; bufurl = bufurl.replace(/^http/, "https");dactyl.echo("fucking dactyl after replace: " + bufurl); dactyl.open(bufurl, {where: dactyl.CURRENT_TAB})
-"au PageLoad '^http://.*twitter\.com/.*' -js dactyl.echo("PageLoad buffer url:"+ buffer.URL); bufurl = content.location.href; bufurl = bufurl.replace(/^http/, "https");dactyl.echo("fucking dactyl after replace: " + bufurl); dactyl.open(bufurl, {where: dactyl.CURRENT_TAB})
-
-"au LocationChange '^http://.*(twitter|twitpic)+\.com/.*' -js dactyl.echo("LocationChange buffer url:"+ buffer.URL); bufurl = "https://" + buffer.URL.host + buffer.URL.path; dactyl.echo("LocationChange fucking dactyl after replace: " + bufurl); if(bufurl != buffer.URL) dactyl.open(bufurl, {where: dactyl.CURRENT_TAB})
 
 " from http://pchu.blogbus.com/logs/148008347.html
 map t -js str=util.domToString(buffer.focusedFrame.getSelection()); str!=""?dactyl.open(str, {where: dactyl.NEW_TAB}):CommandExMode().open("tabopen ")

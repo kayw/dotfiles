@@ -41,6 +41,9 @@ hg pull --update(-u) git pull [--rebase origin master] #http://code.google.com/p
 #http://superuser.com/questions/41480/getting-parent-repository-path
 hg paths :show the repository path
 hg root :current repository
+#http://stackoverflow.com/questions/860761/changing-mercurial-default-parent-url
+
+hg diff -p --color=always config.mk
 
 #https://github.com/bronson/dotfiles
 To use: git clone --bare git@github.com:bronson/dotfiles.git .dotfiles.git ; alias dotgit="git --work-tree='$HOME' --git-dir='$HOME'/.dotfiles.git" ; WARNING dotgit reset --hard HEAD https://github.com/gmarik/dotfiles
@@ -54,6 +57,8 @@ git config --get remote.origin.url #http://stackoverflow.com/questions/4089430/h
 git remote set-url origin <URL> #git remote set-url origin <URL>
 #http://stackoverflow.com/questions/1800859/how-can-i-change-the-remote-target-repository-url-on-windows
 
+#http://stackoverflow.com/questions/2003505/how-to-delete-a-git-branch-both-locally-and-remotely
+#
 #http://stackoverflow.com/questions/278192/view-the-change-history-of-a-file-using-git-versioning
 git log [--follow] -p file*
 
@@ -151,6 +156,14 @@ git filter-branch --index-filter 'git rm --cached --ignore-unmatch Rakefile' \
 git push -f
 #http://stackoverflow.com/questions/2401254/git-push-current-branch-to-a-remote-with-heroku
 git config remote.remoterepo.push localbranch:remotebranch
+
+git push <remote-name> <local-branch>:<remote-branch> [defualt: master]
+git push <remote-name>:<remote-branch>  delete remote branch
+#https://help.github.com/articles/pushing-to-a-remote#pushing-a-branch
+
+#https://help.github.com/articles/syncing-a-fork
+#http://stackoverflow.com/questions/3903817/pull-new-updates-from-original-github-repository-into-forked-github-repository
+
 #http://stackoverflow.com/questions/520650/how-do-you-make-an-existing-git-branch-track-a-remote-branch
 #http://stackoverflow.com/questions/1125968/force-git-to-overwrite-local-files-on-pull
 #http://stackoverflow.com/questions/3946538/git-clone-just-the-files-please?lq=1
@@ -190,10 +203,17 @@ tar -xjf test.tbz -C /tmp/test
 $ tar -ztvf file.tar.gz
 $ tar -jtvf file.tar.bz2
 
+
 #https://www.centos.org/docs/2/rhl-gsg-en-7.2/s1-zip-tar.html
 #http://www.mkyong.com/linux/how-to-zip-unzip-tar-in-unix-linux/
 #http://www.simplehelp.net/2008/12/15/how-to-create-and-extract-zip-tar-targz-and-tarbz2-files-in-linux/
 tar -czvf /path/f.tar x.y x1.y1 
+
+#http://askubuntu.com/questions/28476/how-do-i-zip-up-a-folder-but-exclude-the-git-subfolder
+tar --exclude=.git -czvf vim.tar bundle/vundle/
+#http://superuser.com/questions/312301/unix-zip-directory-but-excluded-specific-subdirectories-and-everything-within-t
+zip -x '*.git*' -r vim.zip bundle/syntastic/ bundle/LeaderF/ bundle/vim-airline/ bundle/vim-javascript/ 
+#http://stackoverflow.com/questions/984204/shell-command-to-tar-directory-excluding-certain-files-folders
 
 #https://wiki.archlinux.org/index.php/pacman_Tips
 alias pacins='sudo pacman -U'          # Install specific package not from the repositories but from a file 
@@ -280,10 +300,51 @@ echo 'task goes here' | cat - todo.txt > temp && mv temp todo.txt
 {{ Pipe (|) the message (echo '...') to cat which uses - (standard input) as the first file and todo.txt as the second. cat conCATenates multiple files. Send the output (>) to a file named temp. If there are no errors (&&) from cat then rename (mv) the temp file back to the original file (todo.txt) }}
 sed -i '1itask goes here' todo.txt
 
+#http://unix.stackexchange.com/questions/32460/excluding-some-of-the-commands-from-being-getting-stored-in-bash-history
+#http://jorge.fbarr.net/2011/03/24/making-your-bash-history-more-efficient/
+#
+#http://stackoverflow.com/questions/4585929/how-to-use-cp-command-to-exclude-a-specific-directory
+find . -type f -not -path '*/not-from-here/*' -exec cp '{}' '/dest/{}' \;
+cp $(ls -laR !(subdir/file1|file2|subdir2/file3)) destination
+rsync -av --progress sourcefolder /destinationfolder --exclude thefoldertoexclude
+
 #http://elearning.linnbenton.edu/mod/forum/discuss.php?d=60056
 * Summon XTerm with a hotkey >> ctrl-alt-T
 * On xterm, press and hold the Control key and at the same time left-click and hold. "MainOptions" menu will appear
 * On xterm, press and hold the Control key and at the same time right-click and hold. "UnicodeFonts" menu will appear
+
+Android:
+repo init -u https://android.googlesource.com/platform/manifest
+http://www.bobbychanblog.com/2011/07/faster-android-emulator-alternative-using-virtualbox/
+http://stackoverflow.com/questions/6751911/android-emulation-on-virtual-box-in-eclipse   (port forward: VBoxManage modifyvm <name_of_your_android_vm> --natpf1 adb,tcp,*,5555: VBoxManage modifyvm <name_of_your_android_vm> --natpf1 adb,tcp,*,5555,*,55555)
+http://stackoverflow.com/questions/12477987/android-usb-debugging-in-virtualbox
+
+https://dl-ssl.* ==> http://
+http://code.google.com/p/android/issues/detail?id=6424
+http://stackoverflow.com/questions/9499563/no-repository-found-error-in-installing-adt-in-eclipse-indigo
+-x86:
+ shutdown host-key H(https://groups.google.com/forum/#!topic/android-x86/pEI7xAnOpNY)
+http://forum.xda-developers.com/showthread.php?t=2556047
+http://artemave.github.io/2013/05/01/faster-android-emulator-with-android-x86-on-virtualbox/
+
+#http://redkrieg.com/2010/10/11/adb-over-ssh-fun-with-port-forwards/
+iptables -A INPUT -p tcp --dport 5555 -s 127.0.0.1 -j ACCEPT
+iptables -A INPUT -p tcp --dport 5555 -j DROP
+
+IOS:
+http://stackoverflow.com/questions/8542614/download-xcode-4-2-documentation-for-offline-install
+
+
+http://stackoverflow.com/questions/22357693/how-to-download-chromium-source-code
+git clone https://chromium.googlesource.com/chromium/src
+
+SrcMind:
+export CC=/home/kayw/llvm/build/Debug+Asserts/bin/clang
+export CXX=/home/kayw/llvm/build/Debug+Asserts/bin/clang++ 
+cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DLLVM_CONFIG_EXECUTABLE=/home/kayw/llvm/build/Debug+Asserts/bin/llvm-config
+make
+
+gdb --args ./generator/codebrowser_generator -b . -p woboq:`git describe` -o ../../../public_html/woboq `git ls-files .. | egrep '*\.cpp$'`
 
 CPP:
 #http://stackoverflow.com/questions/9678665/compiling-a-class-with-GCC
@@ -342,6 +403,10 @@ info line # http://stackoverflow.com/questions/14581837/gdb-how-do-i-find-the-cu
 list *$pc # http://sourceware-org.1504.n7.nabble.com/How-to-print-the-current-source-line-number-td110444.html
 d 3 clear a.cc:5  d *start_breakpoint_num*-*end_breakpoint_num* # http://stackoverflow.com/questions/4340718/remove-a-single-breakpoint-with-gdb
 
+r(un) arguments | --args path/to/executables -arguments you want to pass to the executables 
+#http://stackoverflow.com/questions/4521015/passing-arguments-to-program-run-through-gdb
+#http://www.redhat.com/archives/redhat-install-list/2002-April/msg00077.html
+
 #TexLive
 #http://bbs.ctex.org/forum.php?mod=viewthread&tid=39624
 update package: copy file & mktexlsr
@@ -355,8 +420,37 @@ fc-list
 fontconfig path: /usr/share/fonts/ & ~/.fonts
 
 #ViM
-"http://stackoverflow.com/questions/4687009/opening-help-in-a-full-window
+#http://stackoverflow.com/questions/4687009/opening-help-in-a-full-window
 :h | only
+#http://stackoverflow.com/questions/811193/how-to-convert-the-m-linebreak-to-normal-linebreak-in-a-file-opened-in-vim
+^M <C-V><C-M>  \r\n => \r
+
+#ycm install step
+mkdir ycm_build
+cd ycm_build/
+cmake -G "Unix Makefiles" -DUSE_SYSTEM_LIBCLANG=ON . ../third_party/ycmd/cpp/
+make ycm_support_libs
+
+#Java Installation
+http://www.cnblogs.com/heart-runner/archive/2011/11/30/2269640.html
+https://bbs.archlinux.org/viewtopic.php?id=157160
+http://ghaffarian.net/downloads/Java/JDK/
+http://www.cnblogs.com/tech-cabin/archive/2013/02/05/2892934.html
+
+http://www.mularien.com/blog/category/eclipse/
+http://www.jetbrains.com/idea/webhelp/running-and-debugging.html
+
+http://stackoverflow.com/questions/9323288/how-do-i-build-a-java-project-in-eclipse-to-create-an-external-jar
+http://stackoverflow.com/questions/3013506/creating-exe-for-my-java-application-in-eclipse
 
 #wget
 #http://techpatterns.com/forums/about894.html
+#
+#
+#Virtualbox
+#https://www.virtualbox.org/ticket/10085
+# https://github.com/mitchellh/vagrant/issues/713
+VBoxManage setextradata VM_NAME VBoxInternal2/SharedFoldersEnableSymlinksCreate/SHARE_NAME 1
+sudo mount -t vboxsf desktopD mobileShare/ -o defaults,uid=1000,gid=1000,dmode=755,auto
+#http://www.cyberciti.biz/faq/understanding-etcpasswd-file-format/
+#/etc/passwd /etc/group

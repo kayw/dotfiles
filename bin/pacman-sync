@@ -1,9 +1,0 @@
-#!/bin/bash
-# mytbk LinuxApp
-#[irudog ~]%cat /etc/cron.hourly/pacman-sync
-TEMP=$RANDOM
-let "TEMP %= 5"
-if [[ TEMP -ge 2 ]]; then
-        /usr/bin/pacman -Syu --noconfirm --noprogressbar > /dev/null 2>
-/dev/null
-fi

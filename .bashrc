@@ -3,9 +3,9 @@
 
 # don't put duplicate lines in the history. See bash(1) for more options
 # don't overwrite GNU Midnight Commander's setting of `ignorespace'.
-export HISTCONTROL=$HISTCONTROL${HISTCONTROL+,}ignoredups
+export HISTCONTROL=$HISTCONTROL${HISTCONTROL+,}erasedups:ignoreboth
 # ... or force ignoredups and ignorespace
-export HISTCONTROL=ignoreboth
+#export HISTCONTROL=ignoreboth
 
 export PATH={$PATH}:/home/kayw/bin/:/usr/local/texlive/2010/bin/i386-linux/:/usr/local/bin/depot_tools/
 export LD_LIBRARY_PATH={LD_LIBRARY_PATH}:/usr/local/lib/
@@ -60,10 +60,10 @@ fi
 #complete -o bashdefault -o default -o nospace -F _gitk co
 #http://benmabey.com/2008/05/07/git-bash-completion-git-aliases.html
 # man:
-#function man
-#{
-#	/usr/bin/man $* | col -b | /usr/local/bin/vim -c 'set ft=man nomod nolist' -
-#}
+function man
+{
+	/usr/bin/man $* | col -b | /usr/local/bin/vim -c 'set ft=man nomod nolist' -
+}
 
 #https://bbs.archlinux.org/viewtopic.php?id=92286
 # start screen (wheee!!)

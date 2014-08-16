@@ -5,6 +5,8 @@
 let s:ignoreFileList = ["makefile"]
 let s:VIMHOME = expand("<sfile>:p:h:h")
 " usage call LoadTemplate("interview-cc", "file1")
+" TODO templateName => ""
+" mkdir if not exist
 func! LoadTemplate(templateName, dirName)
   let curDir = escape(expand("%:p:h"), '\')
   let newDirPath = curDir .'/'. a:dirName

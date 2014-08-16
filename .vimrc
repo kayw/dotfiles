@@ -50,6 +50,20 @@ set title
 colo molokai
 "set autochdir
 
+"https://groups.google.com/forum/#!msg/vim_use/SR12FCxkQYg/aZIGO33waN0J
+set diffexpr=MyDiff()
+function MyDiff()
+   let opt = ""
+   if &diffopt =~ "icase"
+     let opt = opt . "-i "
+   endif
+   if &diffopt =~ "iwhite"
+     let opt = opt . "-b "
+   endif
+   silent execute "!diff -a --binary " . opt . v:fname_in . " " . v:fname_new .
+	\  " > " . v:fname_out
+endfunction
+
 runtime! ftplugin/man.vim
 
 if has("autocmd")
@@ -67,15 +81,8 @@ if has("autocmd")
  "autocmd CursorMoved * silent! exe printf('match Underlined /\<%s\>/', expand('<cword>'))
  "autocmd CursorHold * silent! exe printf('match Underlined /\<%s\>/', expand('<cword>'))
 
- " Enabled file type detection
- " Use the default filetype settings. If you also want to load indent files
- " to automatically do language-dependent indenting add 'indent' as well.
- filetype plugin on
- " Uncomment the following to have Vim load indentation rules according to the
- " detected filetype.
- filetype indent on
  "au FILETYPE c set omnifunc=ccomplete#CompleteC
- au FILETYPE c,cpp,js,python set nu
+ au FILETYPE c,cpp,javascript,python,rust set nu
  "au BufRead reportbug.*		set ft=mail
  "au BufRead reportbug-*		set ft=mail
 endif " has ("autocmd")
@@ -87,53 +94,7 @@ inoremap <F12> <ESC>:e ~/.vimrc<CR>
 "nnoremap <C-J> <C-W>j
 "nnoremap <C-K> <C-W>k
 "nnoremap <C-L> <C-W>l 
-" // The switch of the Source Explorer
-"nmap <F11> :SrcExplToggle<CR> 
-" // Set the height of Source Explorer window
-let g:SrcExpl_winHeight = 8
-
-" // Set 100 ms for refreshing the Source Explorer
-let g:SrcExpl_refreshTime = 100
-
-" // Set "Enter" key to jump into the exact definition context
-let g:SrcExpl_jumpKey = "<ENTER>"
-
-" // Set "Space" key for back from the definition context
-let g:SrcExpl_gobackKey = "<SPACE>"
-
-" // In order to Avoid conflicts, the Source Explorer should know what plugins
-" // are using buffers. And you need add their bufname into the list below
-" // according to the command ":buffers!"
-let g:SrcExpl_pluginList = [
-        \ "__Tag_List__",
-        \ "_NERD_tree_",
-        \ "Source_Explorer"
-    \ ]
-
-" // Enable/Disable the local definition searching, and note that this is not
-" // guaranteed to work, the Source Explorer doesn't check the syntax for now.
-" // It only searches for a match with the keyword according to command 'gd'
-let g:SrcExpl_searchLocalDef = 1
-
-" // Do not let the Source Explorer update the tags file when opening
-let g:SrcExpl_isUpdateTags = 0
-
-" // Use 'Exuberant Ctags' with '--sort=foldcase -R .' or '-L cscope.files' to
-" //  create/update a tags file
-let g:SrcExpl_updateTagsCmd = "ctags --sort=foldcase -R ."
-
-" // Set "<F10>" key for updating the tags file artificially
-let g:SrcExpl_updateTagsKey = "<F10>" 
 "imap <C-Tab> <ESC><C-6>i
-
-"nmap <C-_>s :cs find s <C-R>=expand("<cword>")<CR><CR>
-"nmap <C-_>g :cs find g <C-R>=expand("<cword>")<CR><CR>
-"nmap <C-_>c :cs find c <C-R>=expand("<cword>")<CR><CR>
-"nmap <C-_>t :cs find t <C-R>=expand("<cword>")<CR><CR>
-"nmap <C-_>e :cs find e <C-R>=expand("<cword>")<CR><CR>
-"nmap <C-_>f :cs find f <C-R>=expand("<cfile>")<CR><CR>
-"nmap <C-_>i :cs find i ^<C-R>=expand("<cfile>")<CR>$<CR>
-"nmap <C-_>d :cs find d <C-R>=expand("<cword>")<CR><CR>
 
 "*** Command-line-invocation-of-ctags ***
 "map  <C-c> :!ctags --c++-kinds=+p --fields=+iaS --extra=+q .<CR>
@@ -266,13 +227,38 @@ endif
 
 set pastetoggle=<F8>
 
-"MRU
-let MRU_File = '/home/kayw/.vim/.vim_mru_files'
-let MRU_Exclude_Files = '^/tmp/.*\|^/var/tmp/.*'
-let MRU_Include_Files = '\.c$\|\.h$\|\.cpp$\|\.py$\|\.hpp$\|^[^\.][-[:alnum:]~/_]*[^\.]$'
 
 "list search result
 map <M-F> <ESC>:vimgrep <C-R><C-W> %<Enter>:copen
+
+"https://github.com/gmarik/Vundle.vim#quick-start
+filetype off
+
+"Vundle
+set rtp +=~/.vim/bundle/vundle/
+call vundle#begin()
+
+"Vundle bundles
+Plugin 'gmarik/vundle'
+Plugin 'Valloric/YouCompleteMe'
+Plugin 'SirVer/ultisnips'
+Plugin 'scrooloose/syntastic'
+Plugin 'bling/vim-airline'
+Plugin 'bling/vim-bufferline'
+"http://stackoverflow.com/questions/4108073/is-there-a-vim-plug-in-similar-to-fuzzyfinder-textmate-and-command-t-which-does
+Plugin 'Yggdroot/LeaderF'
+Plugin 'python_match.vim'
+Plugin 'pangloss/vim-javascript'
+Plugin 'wting/rust.vim'
+call vundle#end()
+
+" Enabled file type detection
+" Use the default filetype settings. If you also want to load indent files
+" to automatically do language-dependent indenting add 'indent' as well.
+filetype plugin on
+" Uncomment the following to have Vim load indentation rules according to the
+" detected filetype.
+filetype indent on
 
 "UltiSnip
 "later improvement https://github.com/Valloric/YouCompleteMe/issues/36
@@ -281,19 +267,6 @@ let g:UltiSnipsListSnippets = "<C-g>"
 let g:UltiSnipsJumpForwardTrigger="<C-e>"
 let g:UltiSnipsJumpBackwardTrigger="<c-f>"
 "let g:UltiSnipsSnippetDirectories=["UltiSnips", "snippets"]
-
-
-"Vundle
-set rtp +=~/.vim/bundle/vundle/
-call vundle#rc()
-
-"Vundle manage Vundle
-Bundle 'gmarik/vundle'
-Bundle 'Valloric/YouCompleteMe'
-Bundle "SirVer/ultisnips"
-Bundle "scrooloose/syntastic"
-Bundle 'bling/vim-airline'
-Bundle 'bling/vim-bufferline'
 
 "airline
 set laststatus=2 "http://superuser.com/questions/634570/vim-how-to-install-airline
@@ -313,3 +286,9 @@ inoremap <Leader>k :YcmCompleter GoToDefinitionElseDeclaration<CR>
 "avoid terminal vim flick with ycm
 "https://github.com/scrooloose/syntastic/issues/668
 let syntastic_full_redraws = 0
+
+"leadf
+let g:Lf_CacheDiretory = '/tmp'
+
+"javascript-vim
+let javascript_enable_domhtmlcss=1
