@@ -18,6 +18,7 @@ exec fcitx &
 VBoxClient-all
 #exec uxterm -e screen -dR &
 exec xterm -u8 -e screen -dR &
+exec godoc -http=localhost:6060 &
 while true; do
 #	xsetroot -name "$( date +"%a %F %T" )"
 #	http://stackoverflow.com/questions/5051040/dwm-xsetroot-cpu-usage-display-with-awk

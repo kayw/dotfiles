@@ -6,6 +6,7 @@ register_libstdcxx_printers (None)
 end
 
 add-auto-load-safe-path /usr/lib/libstdc++.so.6.0.19-gdb.py
+add-auto-load-safe-path /home/kayw/share/codebase/vm/go/src/pkg/runtime/runtime-gdb.py
 
 # gdb history http://stackoverflow.com/questions/3176800/how-can-i-make-gdb-save-the-command-history
 set history filename /tmp/.gdb_history

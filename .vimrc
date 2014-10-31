@@ -225,7 +225,7 @@ endif
 "  map! <S-Insert> <MiddleMouse>
 "endif
 
-set pastetoggle=<F8>
+set pastetoggle=<F9>
 
 
 "list search result
@@ -250,6 +250,10 @@ Plugin 'Yggdroot/LeaderF'
 Plugin 'python_match.vim'
 Plugin 'pangloss/vim-javascript'
 Plugin 'wting/rust.vim'
+Plugin 'fatih/go.vim'
+"http://vimcasts.org/episodes/fugitive-vim-working-with-the-git-index/
+Plugin 'tpope/vim-fugitive' 
+Plugin 'dahu/LearnVim'
 call vundle#end()
 
 " Enabled file type detection
@@ -286,6 +290,9 @@ inoremap <Leader>k :YcmCompleter GoToDefinitionElseDeclaration<CR>
 "avoid terminal vim flick with ycm
 "https://github.com/scrooloose/syntastic/issues/668
 let syntastic_full_redraws = 0
+let g:syntastic_mode_map = { "mode": "active",
+                           \ "active_filetypes": [],
+                           \ "passive_filetypes": ["go"] }
 
 "leadf
 let g:Lf_CacheDiretory = '/tmp'

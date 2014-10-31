@@ -19,6 +19,9 @@ history | awk '{CMD[$2]++;count++;}END { for (a in CMD)\
 print CMD[a] " " CMD[a]/count*100 "% " a;}' | grep -v "./" \
 | column -c3 -s " " -t | sort -nr | nl | head -n10
 
+#http://www.linuxquestions.org/questions/linux-general-1/how-to-change-owner-and-group-in-a-directory-to-include-subdir-and-all-files-205358/
+you have to use the -R or --recursive option for chown.
+e.g.: chown -R someuser:somegroup home/
 #newsmth fcfarseer  count code
 find /usr/include/boost -type f | xargs wc -l | tail -n1
 
@@ -36,6 +39,8 @@ find . \( -path ./layouts -prune \) -o  \( -path ./tests -prune \) -o -exec grep
 
 #https://github.com/Valloric/YouCompleteMe
 echo | clang -v -E -x c++ -
+gcc -Wp,-v -E -
+#http://stackoverflow.com/questions/22178946/whats-going-on-with-clangs-include-priorities
 
 hg pull --update(-u) git pull [--rebase origin master] #http://code.google.com/p/v8/wiki/UsingGit
 #http://superuser.com/questions/41480/getting-parent-repository-path
@@ -48,12 +53,45 @@ hg diff -p --color=always config.mk
 #https://github.com/bronson/dotfiles
 To use: git clone --bare git@github.com:bronson/dotfiles.git .dotfiles.git ; alias dotgit="git --work-tree='$HOME' --git-dir='$HOME'/.dotfiles.git" ; WARNING dotgit reset --hard HEAD https://github.com/gmarik/dotfiles
 
+#http://stackoverflow.com/questions/12641469/list-submodules-in-a-git-repository
+git config --list|egrep ^submodule
+#http://blogs.atlassian.com/2013/03/git-submodules-workflows-tips/
+#http://stackoverflow.com/questions/1030169/easy-way-pull-latest-of-all-submodules
+git pull --recurse-submodules
+git submodule update --recursive
+git submodule foreach git pull origin master
+
+#Checkout the latest Atom release:
+git fetch
+git checkout $(git describe --tags `git rev-list --tags --max-count=1`)
+
+
+#google git resolve conflict
+#http://stackoverflow.com/questions/161813/fix-merge-conflicts-in-git
+# Common base version of the file.
+git show :1:some_file.cpp
+# 'Ours' version of the file.
+git show :2:some_file.cpp
+# 'Theirs' version of the file.
+git show :3:some_file.cpp
+#shows all files which require conflict resolution.
+git diff --name-status --diff-filter=U
+git mergetool -y
+git checkout --ours filename.c
+git checkout --theirs filename.c
+#"ours" and "theirs" is relative to whether or not you are merging or rebasing
+
 #http://repo.or.cz/w/gdb/gnu.git
 #If you have that one already cloned locally, you can use 
 git clone --reference /path/to/your/gdb.git/incarnation mirror_URL
 git remote -v #It will print all your remote fetch / push urls.
 git config --get remote.origin.url #http://stackoverflow.com/questions/4089430/how-can-i-determine-the-url-that-a-local-git-repo-was-originally-pulled-from
 
+#http://stackoverflow.com/questions/2514270/how-to-check-for-changes-on-remote-origin-git-repository
+git fetch origin && git diff origin/master
+git remote show origin
+#http://stackoverflow.com/questions/1138990/git-equivalent-of-svn-status-u
+ask for references (heads aka. branches and tags) with "git ls-remote" (and "git update show"), you can pull (get) or push (publish) data with "git fetch" (or "git remote update") / "git push", and if server is configured to allow it you can get snapshot of state of remote repository with "git archive --remote
 git remote set-url origin <URL> #git remote set-url origin <URL>
 #http://stackoverflow.com/questions/1800859/how-can-i-change-the-remote-target-repository-url-on-windows
 
@@ -62,6 +100,13 @@ git remote set-url origin <URL> #git remote set-url origin <URL>
 #http://stackoverflow.com/questions/278192/view-the-change-history-of-a-file-using-git-versioning
 git log [--follow] -p file*
 
+#http://stackoverflow.com/questions/13226281/how-can-i-get-git-log-from-head
+git log -5 (-n 1) #Shows the latest 5 commits.
+git fetch origin && git log HEAD..origin/master
+
+git submodule update --recursive  (boost.git)
+#https://svn.boost.org/trac/boost/wiki/TryModBoost
+#
 #http://stackoverflow.com/questions/4114095/revert-to-previous-git-commit
 #http://blog.gautamkedia.com/discarding-local-changes-in-git
 Discarding local changes in Git
@@ -91,6 +136,11 @@ If you want to discard all local unpushed modifications and reset everything, he
 
 7. If anything looks useful, pick it out:
      $ git cherry-pick <commit-hash>
+
+#http://stackoverflow.com/questions/10906554/how-do-i-revert-my-changes-to-a-git-submodule
+git submodule foreach git reset --hard
+{{You can also use the recursive flag to apply to all submodules:}}
+git submodule foreach --recursive git reset --hard
 #http://markhansen.co.nz/color-git/
 git config --global --add color.ui true
 #http://www.linuxquestions.org/questions/linux-software-2/setting-git-diff-color-words-as-git-diff-811723/
@@ -241,6 +291,11 @@ find /bin /sbin /usr/sbin -exec pacman -Qo -- {} + >/dev/null
 /bin/ls:not found ==> /lib/ld-2.14.so /bin/ls
 LDD -v  #https://bugs.archlinux.org/task/37511
 LD_DEBUG=libs path
+#http://stackoverflow.com/questions/10052041/how-to-list-library-dependencies-of-a-non-native-binary
+objdump -x /bin/ls
+readelf -d a.out | grep NEEDED
+ldd /bin/ls
+gdb info shared
 
 #http://www.cyberciti.biz/faq/grub-boot-into-single-user-mode/
 Boot Linux Grub Boot Loader into single user mode
@@ -272,6 +327,13 @@ yaourt installed because of chrome need of some version of libpng or some else l
 /usr/lib/initcpio/busybox #https://bbs.archlinux.org/viewtopic.php?id=144620&p=1
 
 curl http://betterthangrep.com/ack-standalone > ~/bin/ack && chmod 0755 !#:3 
+
+
+#http://stackoverflow.com/questions/16787916/difference-between-2-directories-in-linux
+diff -r dir1 dir2 | grep dir1 | awk '{print $4}' > difference1.txt  {{
+        diff -r dir1 dir2 shows which files are only in dir1 and those only in dir2
+        diff -r dir1 dir2 | grep dir1 shows which files are only in dir1
+        Finally use awk to print only filename.  }}
 
 #http://stackoverflow.com/questions/6710878/diff-a-directory-recursively-ignoring-all-binary-files
 #Maybe use grep -I (which is equivalent to grep --binary-files=without-match) as a filter to sort out binary files.
@@ -315,9 +377,14 @@ rsync -av --progress sourcefolder /destinationfolder --exclude thefoldertoexclud
 
 Android:
 repo init -u https://android.googlesource.com/platform/manifest
+netcfg  == ip a (http://www.apkbus.com/android-43835-1-1.html)
 http://www.bobbychanblog.com/2011/07/faster-android-emulator-alternative-using-virtualbox/
 http://stackoverflow.com/questions/6751911/android-emulation-on-virtual-box-in-eclipse   (port forward: VBoxManage modifyvm <name_of_your_android_vm> --natpf1 adb,tcp,*,5555: VBoxManage modifyvm <name_of_your_android_vm> --natpf1 adb,tcp,*,5555,*,55555)
 http://stackoverflow.com/questions/12477987/android-usb-debugging-in-virtualbox
+
+http://stackoverflow.com/questions/9210152/set-up-device-for-development-no-permissions
+https://wiki.archlinux.org/index.php/android#Connecting_to_a_real_device_-_Android_Debug_Bridge_.28ADB.29
+https://bbs.archlinux.org/viewtopic.php?id=137616
 
 https://dl-ssl.* ==> http://
 http://code.google.com/p/android/issues/detail?id=6424
@@ -326,6 +393,7 @@ http://stackoverflow.com/questions/9499563/no-repository-found-error-in-installi
  shutdown host-key H(https://groups.google.com/forum/#!topic/android-x86/pEI7xAnOpNY)
 http://forum.xda-developers.com/showthread.php?t=2556047
 http://artemave.github.io/2013/05/01/faster-android-emulator-with-android-x86-on-virtualbox/
+http://stackoverflow.com/questions/6751911/android-emulation-on-virtual-box-in-eclipse
 
 #http://redkrieg.com/2010/10/11/adb-over-ssh-fun-with-port-forwards/
 iptables -A INPUT -p tcp --dport 5555 -s 127.0.0.1 -j ACCEPT
@@ -339,6 +407,10 @@ http://stackoverflow.com/questions/22357693/how-to-download-chromium-source-code
 git clone https://chromium.googlesource.com/chromium/src
 
 SrcMind:
+debug+asserts/clang:
+mkdir build && cd build
+../configure --disable-optimized --enable-debug-symbols
+
 export CC=/home/kayw/llvm/build/Debug+Asserts/bin/clang
 export CXX=/home/kayw/llvm/build/Debug+Asserts/bin/clang++ 
 cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DLLVM_CONFIG_EXECUTABLE=/home/kayw/llvm/build/Debug+Asserts/bin/llvm-config
@@ -425,12 +497,16 @@ fontconfig path: /usr/share/fonts/ & ~/.fonts
 #http://stackoverflow.com/questions/811193/how-to-convert-the-m-linebreak-to-normal-linebreak-in-a-file-opened-in-vim
 ^M <C-V><C-M>  \r\n => \r
 
+#build system
+#http://stackoverflow.com/questions/16661167/fatal-error-when-compiling-llvm-clang-cstddef-file-not-found
+cmake .. -DCMAKE_BUILD_TYPE=Release -DLLVM_TARGETS_TO_BUILD="X86_64;JSBackend" \
+-DLLVM_INCLUDE_EXAMPLES=OFF
 #ycm install step
 mkdir ycm_build
 cd ycm_build/
 cmake -G "Unix Makefiles" -DUSE_SYSTEM_LIBCLANG=ON . ../third_party/ycmd/cpp/
 make ycm_support_libs
-
+cmake -G "Unix Makefiles" . -DEXTERNAL_LIBCLANG_PATH=/home/kayw/share/codebase/srcmind/llvm/build/Debug+Asserts/lib/libclang.so ../third_party/ycmd/cpp/
 #Java Installation
 http://www.cnblogs.com/heart-runner/archive/2011/11/30/2269640.html
 https://bbs.archlinux.org/viewtopic.php?id=157160
@@ -446,11 +522,23 @@ http://stackoverflow.com/questions/3013506/creating-exe-for-my-java-application-
 #wget
 #http://techpatterns.com/forums/about894.html
 #
-#
+
 #Virtualbox
 #https://www.virtualbox.org/ticket/10085
 # https://github.com/mitchellh/vagrant/issues/713
 VBoxManage setextradata VM_NAME VBoxInternal2/SharedFoldersEnableSymlinksCreate/SHARE_NAME 1
 sudo mount -t vboxsf desktopD mobileShare/ -o defaults,uid=1000,gid=1000,dmode=755,auto
+
+#User_Group
+#http://unix.stackexchange.com/questions/88562/cant-do-chown-chgrp-chmod-on-shared-dir-in-virtualbox-ubuntu-10-04
+#https://wiki.archlinux.org/index.php/users_and_groups
+id username
+stat -c %A(G)(U) directory
+gpasswd -a [user] [group]
 #http://www.cyberciti.biz/faq/understanding-etcpasswd-file-format/
 #/etc/passwd /etc/group
+#
+#
+#
+#Network
+nslookup -q=TXT _netblocks.google.com 8.8.8.8
