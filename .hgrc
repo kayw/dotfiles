@@ -1,3 +1,5 @@
+[ui]
+username = kayw<kayw@outlook.com>
 [extensions]
 hgext.mq=
 color=

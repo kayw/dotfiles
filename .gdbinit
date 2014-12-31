@@ -1,8 +1,9 @@
+# http://sourceware.org/gdb/wiki/STLSupport
 python
 import sys 
-sys.path.insert(0, '/home/kayw/share/codebase/stlPrettyPrinter/')
+sys.path.insert(0, '/home/kayw/share/codebase/vm/gcc/libstdc++-v3/python')
 from libstdcxx.v6.printers import register_libstdcxx_printers
-register_libstdcxx_printers (None)
+#register_libstdcxx_printers (None)
 end
 
 add-auto-load-safe-path /usr/lib/libstdc++.so.6.0.19-gdb.py

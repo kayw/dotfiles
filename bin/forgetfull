@@ -42,203 +42,6 @@ echo | clang -v -E -x c++ -
 gcc -Wp,-v -E -
 #http://stackoverflow.com/questions/22178946/whats-going-on-with-clangs-include-priorities
 
-hg pull --update(-u) git pull [--rebase origin master] #http://code.google.com/p/v8/wiki/UsingGit
-#http://superuser.com/questions/41480/getting-parent-repository-path
-hg paths :show the repository path
-hg root :current repository
-#http://stackoverflow.com/questions/860761/changing-mercurial-default-parent-url
-
-hg diff -p --color=always config.mk
-
-#https://github.com/bronson/dotfiles
-To use: git clone --bare git@github.com:bronson/dotfiles.git .dotfiles.git ; alias dotgit="git --work-tree='$HOME' --git-dir='$HOME'/.dotfiles.git" ; WARNING dotgit reset --hard HEAD https://github.com/gmarik/dotfiles
-
-#http://stackoverflow.com/questions/12641469/list-submodules-in-a-git-repository
-git config --list|egrep ^submodule
-#http://blogs.atlassian.com/2013/03/git-submodules-workflows-tips/
-#http://stackoverflow.com/questions/1030169/easy-way-pull-latest-of-all-submodules
-git pull --recurse-submodules
-git submodule update --recursive
-git submodule foreach git pull origin master
-
-#Checkout the latest Atom release:
-git fetch
-git checkout $(git describe --tags `git rev-list --tags --max-count=1`)
-
-
-#google git resolve conflict
-#http://stackoverflow.com/questions/161813/fix-merge-conflicts-in-git
-# Common base version of the file.
-git show :1:some_file.cpp
-# 'Ours' version of the file.
-git show :2:some_file.cpp
-# 'Theirs' version of the file.
-git show :3:some_file.cpp
-#shows all files which require conflict resolution.
-git diff --name-status --diff-filter=U
-git mergetool -y
-git checkout --ours filename.c
-git checkout --theirs filename.c
-#"ours" and "theirs" is relative to whether or not you are merging or rebasing
-
-#http://repo.or.cz/w/gdb/gnu.git
-#If you have that one already cloned locally, you can use 
-git clone --reference /path/to/your/gdb.git/incarnation mirror_URL
-git remote -v #It will print all your remote fetch / push urls.
-git config --get remote.origin.url #http://stackoverflow.com/questions/4089430/how-can-i-determine-the-url-that-a-local-git-repo-was-originally-pulled-from
-
-#http://stackoverflow.com/questions/2514270/how-to-check-for-changes-on-remote-origin-git-repository
-git fetch origin && git diff origin/master
-git remote show origin
-#http://stackoverflow.com/questions/1138990/git-equivalent-of-svn-status-u
-ask for references (heads aka. branches and tags) with "git ls-remote" (and "git update show"), you can pull (get) or push (publish) data with "git fetch" (or "git remote update") / "git push", and if server is configured to allow it you can get snapshot of state of remote repository with "git archive --remote
-git remote set-url origin <URL> #git remote set-url origin <URL>
-#http://stackoverflow.com/questions/1800859/how-can-i-change-the-remote-target-repository-url-on-windows
-
-#http://stackoverflow.com/questions/2003505/how-to-delete-a-git-branch-both-locally-and-remotely
-#
-#http://stackoverflow.com/questions/278192/view-the-change-history-of-a-file-using-git-versioning
-git log [--follow] -p file*
-
-#http://stackoverflow.com/questions/13226281/how-can-i-get-git-log-from-head
-git log -5 (-n 1) #Shows the latest 5 commits.
-git fetch origin && git log HEAD..origin/master
-
-git submodule update --recursive  (boost.git)
-#https://svn.boost.org/trac/boost/wiki/TryModBoost
-#
-#http://stackoverflow.com/questions/4114095/revert-to-previous-git-commit
-#http://blog.gautamkedia.com/discarding-local-changes-in-git
-Discarding local changes in Git
-If you want to discard all local unpushed modifications and reset everything, here is what needs to be done.
-1. If you have local uncommitted changes, commit them:
-     $ git commit -a -m "Final commit before reset."
-    Or discard uncommitted changes:
-     $ git checkout -f
-
-2. To view the unpushed commits or diff between local & remote:
-     $ git log origin/master..HEAD
-
-3. Move all the local commits to a new branch:
-     $ git checkout -b dirty
-
-4. Switch back to the original branch:
-     $ git checkout master
-
-5. Reset the master branch to look exactly like remote:
-     $ git fetch origin
-     $ git reset --hard origin/master
-     #http://stackoverflow.com/questions/1125968/force-git-to-overwrite-local-files-on-pull
-     git fetch --all
-
-6. Look at the commits you threw away:
-     $ git log master..dirty
-
-7. If anything looks useful, pick it out:
-     $ git cherry-pick <commit-hash>
-
-#http://stackoverflow.com/questions/10906554/how-do-i-revert-my-changes-to-a-git-submodule
-git submodule foreach git reset --hard
-{{You can also use the recursive flag to apply to all submodules:}}
-git submodule foreach --recursive git reset --hard
-#http://markhansen.co.nz/color-git/
-git config --global --add color.ui true
-#http://www.linuxquestions.org/questions/linux-software-2/setting-git-diff-color-words-as-git-diff-811723/
-$ git config --global color.diff auto
-or to force always using color:
-$ git config --global color.diff always
-#http://stackoverflow.com/questions/5637311/how-to-use-git-diff-color-words-outside-a-git-repository
-git diff --color-words --no-index
-#http://scie.nti.st/2007/5/2/colors-in-git
-[color]
-branch = auto
-diff = auto
-status = auto
-[color "branch"]
-current = yellow reverse
-local = yellow 
-remote = green
-[color "diff"]
-meta = yellow bold
-frag = magenta bold
-old = red bold
-new = green bold
-[color "status"]
-added = yellow
-changed = green
-untracked = cyan
-
-#http://coolshell.cn/articles/7755.html
-git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --"
-
-#https://devcenter.heroku.com/articles/git
-#http://www.mkoby.com/2010/03/14/managing-multiple-repositories-with-git/
-#http://eventuallyconsistent.net/2011/05/13/setting-up-git-with-multiple-remote-repositories/
-#http://markmcb.com/2008/09/21/multiple-remote-git-branches-with-different-local-names/
-
-#http://jeetworks.org/node/22
-git remote | xargs -L 1 git push
-
-#http://caiustheory.com/adding-a-remote-to-existing-git-repo
-You can use git remote add --track master origin git@github.com:caius/foo.git
-Also see git config --global branch.autosetupmerge true
-
-#http://stackoverflow.com/questions/7318918/fatal-does-not-appear-to-be-a-git-repository
-#http://stackoverflow.com/questions/1692892/warning-refname-head-is-ambiguous
-#https://openshift.redhat.com/community/kb/kb-e1006-sync-new-git-repo-with-your-own-existing-git-repo
-#http://stackoverflow.com/questions/642264/undo-change-in-git-not-rewriting-history
-#http://stackoverflow.com/questions/953481/restore-a-deleted-file-in-a-git-repo
-"git ls-files -d | xargs git checkout --"
-
-http://superuser.com/questions/429693/git-list-all-files-currently-under-source-control
-git ls-tree -r master --name-only
-git log --pretty=format: --name-status | cut -f2- | sort -u
-
-#http://stackoverflow.com/questions/2003505/how-do-i-delete-a-git-branch-both-locally-and-in-github.com
-#http://stackoverflow.com/questions/4434787/git-how-to-undo-a-merge
-#http://stackoverflow.com/questions/2389361/undo-a-git-merge
-git revert -m 2 commit_hash
-#https://help.github.com/articles/remove-sensitive-data
-git filter-branch --index-filter 'git rm --cached --ignore-unmatch Rakefile' \
-	--prune-empty --tag-name-filter cat -- (--all all branch)
-
-#http://stackoverflow.com/questions/11473150/git-push-failed-after-git-reset-hard-head1-of-local-repo
-git push -f
-#http://stackoverflow.com/questions/2401254/git-push-current-branch-to-a-remote-with-heroku
-git config remote.remoterepo.push localbranch:remotebranch
-
-git push <remote-name> <local-branch>:<remote-branch> [defualt: master]
-git push <remote-name>:<remote-branch>  delete remote branch
-#https://help.github.com/articles/pushing-to-a-remote#pushing-a-branch
-
-#https://help.github.com/articles/syncing-a-fork
-#http://stackoverflow.com/questions/3903817/pull-new-updates-from-original-github-repository-into-forked-github-repository
-
-#http://stackoverflow.com/questions/520650/how-do-you-make-an-existing-git-branch-track-a-remote-branch
-#http://stackoverflow.com/questions/1125968/force-git-to-overwrite-local-files-on-pull
-#http://stackoverflow.com/questions/3946538/git-clone-just-the-files-please?lq=1
-git clone --depth 1 url
-git clone --no-checkout #did the exact opposite of what I want (gave me just the .git directory)
-http://gitref.org/
-
-#http://www.webkit.org/building/checkout.html
-svn switch --relocate http://svn.webkit.org/repository/webkit/trunk 
-#http://svn.haxx.se/users/archive-2008-01/0313.shtml
-#show the last 3-4 revisions (like 4 digit number)
-svn log --quiet --limit(-l) 4 $FOO 
-#show all the changed files in a revision number
-svn diff --summarize -c 7400 
-#see all files (just the file name) that changed in revision 7400
-svn log --verbose -r 7400 
-#https://www.virtualbox.org/wiki/Downloads
-svn switch --relocate \
-	http://virtualbox.org/svn/vbox/trunk(origin) \
-	http://www.virtualbox.org/svn/vbox/trunk(new)
-
-svn info | grep 'Repository Root' | awk '{print $NF}' #http://serverfault.com/questions/310300/how-to-get-the-url-of-the-current-svn-repo
-svn info | findstr /C:"Repository Root: "  # windows
-http://superuser.com/questions/229983/how-to-change-subversion-working-copy-uuid
-
 unzip all.zip
 bzip2 -d all.bz2
 bunzip2 all.bz2
@@ -252,6 +55,7 @@ tar -xjf test.tbz -C /tmp/test
 
 $ tar -ztvf file.tar.gz
 $ tar -jtvf file.tar.bz2
+xz -d path/to/.xz #http://superuser.com/questions/145846/howto-unzip-xz-file-with-7z-and-lzma
 
 
 #https://www.centos.org/docs/2/rhl-gsg-en-7.2/s1-zip-tar.html
@@ -314,6 +118,8 @@ head -n1 /etc/rc.local
 #https://forums.virtualbox.org/viewtopic.php?f=2&t=22264
 XTerm*selectToClipboard:true &together with http://linux.seindal.dk/2005/06/16/xterm-and-the-clipboard/
 
+reset
+
 #https://bbs.archlinux.org/viewtopic.php?id=128249
 pacman -Qo and rename before flat-out deleting stuff.
 
@@ -348,6 +154,7 @@ diff -rq DIR1 DIR2 #-q is for brief, and will just tell you if the files are dif
 diff -rqb DIR1 DIR2 # -b ignores whitespace changes
 #smth Orpherus arch的/居然27G了其中pkg有4G
 sudo du -h --max-depth=3 /var/ | sort -rh | head -n 20
+
 
 #http://middlewaremagic.com/jboss/?p=1723
 rsync -avz localdir 5a5468a88aa74b8198b0bf1d12ea661f@blog-kayw.rhcloud.com:~/app-root/runtime/repo/diy
@@ -418,18 +225,6 @@ make
 
 gdb --args ./generator/codebrowser_generator -b . -p woboq:`git describe` -o ../../../public_html/woboq `git ls-files .. | egrep '*\.cpp$'`
 
-CPP:
-#http://stackoverflow.com/questions/9678665/compiling-a-class-with-GCC
-Just compile source files and include the headers as necessary.
-gcc defaults to compiling your program as C. Since it's a C++ program, that's not going to work. Use the -x c++ flag, or rename your file to have a .C (case is important) or .cpp extension.
-gcc -lstdc++ man gcc -l
--g #for gdb 
-#http://stackoverflow.com/questions/9245685/gdb-no-symbol-table-is-loaded
-#exec-file\file\
-
-#http://www.yolinux.com/TUTORIALS/LibraryArchives-StaticAndDynamic.html
-ar -t lib.a
-
 emacs:
 c-n(ext) c-p(revious) c-b(ack) c-B
 
@@ -454,30 +249,6 @@ hostname /etc/hostname
 
 wc -l *.c *.h
 find . -name *.cpp | xargs wc -l
-
-#GDB:
-#http://blog.csdn.net/haoel/article/category/9197
-#http://fanqiang.chinaunix.net/program/other/2006-07-14/4834.shtml
-l(ist)
-p *ptr
-p &obj
-set print object on/off
-show print object
-
-http://mylinuxbook.com/debugging-linux-memory-corruption/
-https://blogs.oracle.com/ksplice/entry/8_gdb_tricks_you_should
-#http://stackoverflow.com/questions/2902064/how-to-track-down-a-double-free-or-corruption-error-in-c-with-gdb
-valgrind --tool=memcheck --leak-check=full 
-#http://blog.vucica.net/2011/05/finding-memory-corruption-of-a-c-class-member-variable-using-gdb.html
-watch -location mTextFormatted
-p *pArr@N
-info line # http://stackoverflow.com/questions/14581837/gdb-how-do-i-find-the-current-line-of-execution
-list *$pc # http://sourceware-org.1504.n7.nabble.com/How-to-print-the-current-source-line-number-td110444.html
-d 3 clear a.cc:5  d *start_breakpoint_num*-*end_breakpoint_num* # http://stackoverflow.com/questions/4340718/remove-a-single-breakpoint-with-gdb
-
-r(un) arguments | --args path/to/executables -arguments you want to pass to the executables 
-#http://stackoverflow.com/questions/4521015/passing-arguments-to-program-run-through-gdb
-#http://www.redhat.com/archives/redhat-install-list/2002-April/msg00077.html
 
 #TexLive
 #http://bbs.ctex.org/forum.php?mod=viewthread&tid=39624
@@ -523,17 +294,13 @@ http://stackoverflow.com/questions/3013506/creating-exe-for-my-java-application-
 #http://techpatterns.com/forums/about894.html
 #
 
-#Virtualbox
-#https://www.virtualbox.org/ticket/10085
-# https://github.com/mitchellh/vagrant/issues/713
-VBoxManage setextradata VM_NAME VBoxInternal2/SharedFoldersEnableSymlinksCreate/SHARE_NAME 1
-sudo mount -t vboxsf desktopD mobileShare/ -o defaults,uid=1000,gid=1000,dmode=755,auto
-
 #User_Group
 #http://unix.stackexchange.com/questions/88562/cant-do-chown-chgrp-chmod-on-shared-dir-in-virtualbox-ubuntu-10-04
 #https://wiki.archlinux.org/index.php/users_and_groups
 id username
 stat -c %A(G)(U) directory
+useradd -m -G users,wheel -s /bin/bash xxx
+#gentoo handbook part=1&chap=11
 gpasswd -a [user] [group]
 #http://www.cyberciti.biz/faq/understanding-etcpasswd-file-format/
 #/etc/passwd /etc/group
@@ -542,3 +309,64 @@ gpasswd -a [user] [group]
 #
 #Network
 nslookup -q=TXT _netblocks.google.com 8.8.8.8
+tracepath btspread.com
+
+/sys/class/net/   dhcpcd@ethx.service
+#https://wiki.archlinux.org/index.php/Network_Configuration
+
+#Installation
+#http://superuser.com/questions/668743/format-dev-sda-as-unallocated
+dd if=/dev/zero of=/dev/sda bs=512 count=1 (remove partition table)
+#http://www.linuxquestions.org/questions/linux-software-2/how-to-format-dev-sda-in-linux-637333/
+mkfs.vfat(ext4) /dev/sda (just format)
+#https://forums.gentoo.org/viewtopic-t-578345-highlight-inodes+device.html
+df -h
+
+su - 
+#http://forums.gentoo.org/viewtopic-t-969200-start-0-postdays-0-postorder-asc-highlight-.html?sid=4c99312edf0f333a9ec380bbc2726059
+
+#http://askubuntu.com/questions/186808/every-command-fails-with-command-not-found-after-changing-bash-profile
+#utility
+screen window num > 9 switch with ctrl-a-'
+#http://superuser.com/questions/342938/how-to-go-past-window-9-in-gnu-screen-without-going-to-window-list
+#
+#Time
+#https://wiki.archlinux.org/index.php/Time
+
+#
+#http://unix.stackexchange.com/questions/158489/systemd-timesyncd-service-inactive-on-arch-on-vmware
+#http://myunixlinuxarchive.blogspot.com/2014/10/systemd-timesyncdservice-inactive-on.html
+comment out the ConditionVirtualization=no in /usr/lib/systemd/system/systemd-timesyncd.service
+sudo systemctl daemon-reload
+sudo systemctl restart systemd-timesyncd
+
+systemctl --user  # http://www.linux.org.ru/forum/admin/10900964   https://wiki.archlinux.org/index.php/Systemd/User
+
+or 
+mkdir -p /etc/systemd/system/systemd-timesyncd.service.d
+echo -e "[Unit]\nConditionVirtualization=" > /etc/systemd/system/systemd-timesyncd.service.d/allow_virt.conf
+#http://askubuntu.com/questions/103643/cannot-echo-hello-x-txt-even-with-sudo
+#http://unix.stackexchange.com/questions/109496/echo-3-proc-sys-vm-drop-caches-permission-denied-as-root (not achievable on remote machine)
+#http://serverfault.com/questions/540492/sudo-echo-bla-etc-sysctl-conf-permission-denied
+sudo bash -c 'echo "xx" > *.*'
+echo -e "[Unit]\nConditionVirtualization=" | sudo tee /etc/systemd/system/systemd-timesyncd.service.d/allow_virt.conf
+#https://wiki.archlinux.org/index.php/systemd-timesyncd
+sudo timedatectl set-ntp true 
+#https://bbs.archlinux.org/viewtopic.php?id=182172&p=2
+sudo systemctl status systemd-timesyncd.service
+sudo journalctl -u systemd-timesyncd.service -b
+
+don't add {} for PATH
+#http://askubuntu.com/questions/186808/every-command-fails-with-command-not-found-after-changing-bash-profile
+cat /dev/null > /file
+#http://serverfault.com/questions/146913/nginx-error-log-was-huge-so-i-deleted-and-created-a-new-one-now-nginx-wont-st
+#empty files in directory
+find . -type f -exec sh -c '>{}' \;
+#http://stackoverflow.com/questions/14564850/linux-command-to-empty-all-files-of-a-directory
+#http://www.unix.com/unix-for-dummies-questions-and-answers/163081-dev-null-file-using-xargs.html
+# time sync server urls: http://www.pool.ntp.org/zone/cn
+#
+#
+# Gentoo
+emerge -pv package
+#http://forums.gentoo.org/viewtopic-t-714214-start-0.html
