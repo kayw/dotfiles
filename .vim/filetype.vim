@@ -17,6 +17,11 @@ au filetypedetect BufNewFile,BufRead,StdinReadPost *
 	\   setf cpp |
 	\ endif
 
+au filetypedetect BufNewFile,BufRead,StdinReadPost *
+	\ if !did_filetype() && expand("<amatch>") !~ g:ft_ignore_pat
+	\    && (getline(2) =~ '========') |
+	\   setf markdown |
+	\ endif
 " Restore 'cpoptions'
 let &cpo = s:cpo_save
 unlet s:cpo_save

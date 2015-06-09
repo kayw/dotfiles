@@ -14,6 +14,10 @@ find . \
             -name '*.*awk' \) -print \
     | sort
 
+#http://stackoverflow.com/questions/14304731/finding-only-numbers-at-the-beginning-of-a-filename-with-regex
+find . -type f -regex '.*/[0-9]+.log$'  ^ \d not recongized
+
+find . -exec rm {} \;  -delete  #http://unix.stackexchange.com/questions/167823/find-exec-rm-vs-delete
 #http://talk.linuxtoy.org/using-cli/
 history | awk '{CMD[$2]++;count++;}END { for (a in CMD)\
 print CMD[a] " " CMD[a]/count*100 "% " a;}' | grep -v "./" \
@@ -24,6 +28,7 @@ you have to use the -R or --recursive option for chown.
 e.g.: chown -R someuser:somegroup home/
 #newsmth fcfarseer  count code
 find /usr/include/boost -type f | xargs wc -l | tail -n1
+#http://stackoverflow.com/questions/9157138/how-to-recursively-count-files-in-a-linux-directory
 
 find . -not -path "*/.svn*" -not -type d -exec grep -ni "myfunc" {} \; -print
 the only difference between the output is that "grep -Rni" will print the file name for each match, whereas "find -exec grep" will print the filename on one line and then one line for each match (with line number and line content). using "grep -Hni" forces the filename to be displayed on each line 
@@ -36,6 +41,16 @@ find . \( -path ./layouts -prune \) -o  \( -path ./tests -prune \) -o -exec grep
 (time /bin/ls) &> /tmp/u  #http://www.linuxquestions.org/questions/linux-general-1/strace-redirecting-to-file-456212/
 
 <C-R> reverse search
+
+http://stackoverflow.com/questions/3510673/find-and-kill-a-process-in-one-line-using-bash-and-regex
+google kill ps aux grep
+kill $(ps aux | grep '[p]ython csp_build.py' | awk '{print $2}')
+ps aux | awk '/..\/[p]ython csp.py/ {print $2}'
+
+http://unix.stackexchange.com/questions/91561/ps-full-command-is-too-long
+ps auxww
+
+ps ­e ­o comm= ­o %mem= | sort ­nrk2 | head ­n10 #from newsmth
 
 #https://github.com/Valloric/YouCompleteMe
 echo | clang -v -E -x c++ -
@@ -54,9 +69,13 @@ tar -tf all.tar
 tar -xjf test.tbz -C /tmp/test 
 
 $ tar -ztvf file.tar.gz
+tar -tf file.tar.gz #list files
+tar -xzvf file.tar.gz #extract
 $ tar -jtvf file.tar.bz2
 xz -d path/to/.xz #http://superuser.com/questions/145846/howto-unzip-xz-file-with-7z-and-lzma
 
+gzip -d *.gz
+gunzip *.gz
 
 #https://www.centos.org/docs/2/rhl-gsg-en-7.2/s1-zip-tar.html
 #http://www.mkyong.com/linux/how-to-zip-unzip-tar-in-unix-linux/
@@ -182,6 +201,10 @@ rsync -av --progress sourcefolder /destinationfolder --exclude thefoldertoexclud
 * On xterm, press and hold the Control key and at the same time left-click and hold. "MainOptions" menu will appear
 * On xterm, press and hold the Control key and at the same time right-click and hold. "UnicodeFonts" menu will appear
 
+#http://stackoverflow.com/questions/3455625/linux-command-to-print-directory-structure-in-the-form-of-a-tree
+alias lst='ls -R | grep ":$" | sed -e '"'"'s/:$//'"'"' -e 
+          '"'"'s/[^-][^\/]*\//--/g'"'"' -e '"'"'s/^/   /'"'"' -e '"'"'s/-/|/'"'"
+
 Android:
 repo init -u https://android.googlesource.com/platform/manifest
 netcfg  == ip a (http://www.apkbus.com/android-43835-1-1.html)
@@ -227,13 +250,6 @@ gdb --args ./generator/codebrowser_generator -b . -p woboq:`git describe` -o ../
 
 emacs:
 c-n(ext) c-p(revious) c-b(ack) c-B
-
-RUBY:
-#http://www.giantflyingsaucer.com/blog/?p=1883
-sudo gem install sqlite3-ruby --no-rdoc --no-ri
-
-#http://stackoverflow.com/questions/9434002/how-to-solve-ruby-installation-is-missing-psych-error
-ruby gem install problem
 
 
 ##linux administrator commands
@@ -292,7 +308,9 @@ http://stackoverflow.com/questions/3013506/creating-exe-for-my-java-application-
 
 #wget
 #http://techpatterns.com/forums/about894.html
-#
+
+#https://bugzilla.mozilla.org/show_bug.cgi?id=757461
+wget -q -m -p -k -E -T 5 -t 3 -R 'gz,bz2,zip,exe,download,flag*,login*,*\$history,*\$json' -D developer.mozilla.org -X '*/profiles' -np https://developer.mozilla.org/en-US/
 
 #User_Group
 #http://unix.stackexchange.com/questions/88562/cant-do-chown-chgrp-chmod-on-shared-dir-in-virtualbox-ubuntu-10-04
@@ -303,13 +321,19 @@ useradd -m -G users,wheel -s /bin/bash xxx
 #gentoo handbook part=1&chap=11
 gpasswd -a [user] [group]
 #http://www.cyberciti.biz/faq/understanding-etcpasswd-file-format/
-#/etc/passwd /etc/group
+#/etc/passwd /etc/group   /etc/gshadow
+
+#https://bbs.archlinux.org/viewtopic.php?id=194318
+grpck
+
 #
 #
 #
 #Network
 nslookup -q=TXT _netblocks.google.com 8.8.8.8
-tracepath btspread.com
+tracepath 163.com
+dig
+time sh -c 'echo "GET /" | nc www.google.com 80 > /dev/null'  #https://github.com/rubygems/rubygems/issues/513
 
 /sys/class/net/   dhcpcd@ethx.service
 #https://wiki.archlinux.org/index.php/Network_Configuration
@@ -325,7 +349,6 @@ df -h
 su - 
 #http://forums.gentoo.org/viewtopic-t-969200-start-0-postdays-0-postorder-asc-highlight-.html?sid=4c99312edf0f333a9ec380bbc2726059
 
-#http://askubuntu.com/questions/186808/every-command-fails-with-command-not-found-after-changing-bash-profile
 #utility
 screen window num > 9 switch with ctrl-a-'
 #http://superuser.com/questions/342938/how-to-go-past-window-9-in-gnu-screen-without-going-to-window-list
@@ -355,15 +378,45 @@ sudo timedatectl set-ntp true
 #https://bbs.archlinux.org/viewtopic.php?id=182172&p=2
 sudo systemctl status systemd-timesyncd.service
 sudo journalctl -u systemd-timesyncd.service -b
+journalctl -p 0..3 -xn #high priority error https://wiki.archlinux.org/index.php/System_maintenance
 
+
+http://unix.stackexchange.com/questions/40749/remove-duplicate-path-entries-with-awk-command
+PATH=`echo -n $PATH | awk -v RS=: '{ if (!arr[$0]++) {printf("%s%s",!ln++?"":":",$0)}}'`
 don't add {} for PATH
 #http://askubuntu.com/questions/186808/every-command-fails-with-command-not-found-after-changing-bash-profile
+#LOG FILE Cleanup
 cat /dev/null > /file
 #http://serverfault.com/questions/146913/nginx-error-log-was-huge-so-i-deleted-and-created-a-new-one-now-nginx-wont-st
 #empty files in directory
 find . -type f -exec sh -c '>{}' \;
 #http://stackoverflow.com/questions/14564850/linux-command-to-empty-all-files-of-a-directory
 #http://www.unix.com/unix-for-dummies-questions-and-answers/163081-dev-null-file-using-xargs.html
+#see also http://serverfault.com/questions/155288/is-it-safe-to-remove-all-files-in-the-var-log-when-cleaning-a-servers-history   kill -HUP
+find -ctime +30
+#Delete all files:
+find /var/log -type f -delete
+#Delete all .gz and rotated file
+find /var/log -type f -regex ".*\.gz$"
+find /var/log -type f -regex ".*\.[0-9]$"
+Try run command without "-delete", to test it.
+#http://serverfault.com/questions/185253/delete-all-of-var-log
+#
+#http://stackoverflow.com/questions/11392478/how-to-replace-a-string-in-multiple-files-in-linux-command-line
+find ./ -type f -exec sed -i 's/string1/string2/g' {} \;
+
+
+/etc/tmpfiles.d/remove-private-tmp.conf  r /var/tmp/systemd-private-* - - - - -
+journalctl --disk-usage
+SystemMaxUse + SystemMaxUse/8 #https://bbs.archlinux.org/viewtopic.php?id=155451
+journalctl -b --no-pager _SYSTEMD_UNIT=systemd-journald.service
+#https://bbs.archlinux.org/viewtopic.php?pid=1173031
+
+Edit /etc/systemd/journald.conf to set SystemMaxUse=1M
+Restarting journal: sudo systemctl restart systemd-journald
+Resetting SystemMaxUse=200M
+Re-Restarting the journal #http://unix.stackexchange.com/questions/139513/how-to-clear-journalctl
+
 # time sync server urls: http://www.pool.ntp.org/zone/cn
 #
 #

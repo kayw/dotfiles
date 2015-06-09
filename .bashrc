@@ -5,18 +5,19 @@
 # don't overwrite GNU Midnight Commander's setting of `ignorespace'.
 export HISTCONTROL=$HISTCONTROL${HISTCONTROL+,}erasedups:ignoreboth
 # http://mewbies.com/how_to_disable_bash_history_or_limit_tutorial.html
-export HISTIGNORE='&:[ ]*:ls*:cd*:ps*:du*:rm*:make*:cat*'
+export HISTIGNORE='&:[ ]*:ls*:cd*:ps*:du*:rm*:cat*'
 # ... or force ignoredups and ignorespace
 #export HISTCONTROL=ignoreboth
 
-export PATH=$PATH:/home/kayw/bin/:/usr/local/texlive/2010/bin/i386-linux/:/usr/local/bin/depot_tools/
 export LD_LIBRARY_PATH=LD_LIBRARY_PATH:/usr/local/lib/
-export PYTHONPATH=$PYTHONPATH:/home/kayw/share/codebase/hyde/kayw.github.com/extensions/
+#export PYTHONPATH=$PYTHONPATH:/home/kayw/share/codebase/hyde/kayw.github.com/extensions/
 
 #http://stackoverflow.com/questions/25433505/go-all-bash-compilation-testing-fails-with-permission-denied
 export GOROOT=/home/kayw/share/codebase/vm/go
 export GOPATH=$GOROOT/gows
-export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
+export PATH=$PATH:/home/kayw/bin/:/usr/local/texlive/2010/bin/i386-linux/:$GOROOT/bin:$GOPATH/bin
+#http://stackoverflow.com/questions/13830594/when-i-execute-bash-the-path-keeps-repeating-itself
+#export PATH=$(echo "$PATH" | awk -v RS=: -v ORS=: '!(a[$0]++)' | sed 's/:$//')
 
 # append to the history file, don't overwrite it
 shopt -s histappend
@@ -61,7 +62,7 @@ if [ -f /etc/bash_completion ]; then
     . /etc/bash_completion
 fi
 #git alias
-if [ -f /home/kayw/bin/git-completion.bash ]; then
+if [ -f $HOME/bin/git-completion.bash ]; then
     . $HOME/bin/git-completion.bash
 fi
 #complete -o bashdefault -o default -o nospace -F _gitk co

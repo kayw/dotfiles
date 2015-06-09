@@ -254,6 +254,7 @@ Plugin 'fatih/go.vim'
 "http://vimcasts.org/episodes/fugitive-vim-working-with-the-git-index/
 Plugin 'tpope/vim-fugitive' 
 Plugin 'dahu/LearnVim'
+Plugin 'cakebaker/scss-syntax.vim'
 call vundle#end()
 
 " Enabled file type detection
