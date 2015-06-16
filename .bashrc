@@ -55,12 +55,6 @@ esac
 
 # PS1='[\u@\h \W]\$ '
 
-# enable programmable completion features (you don't need to enable
-# this, if it's already enabled in /etc/bash.bashrc and /etc/profile
-# sources /etc/bash.bashrc).
-if [ -f /etc/bash_completion ]; then
-    . /etc/bash_completion
-fi
 #git alias
 if [ -f $HOME/bin/git-completion.bash ]; then
     . $HOME/bin/git-completion.bash
@@ -72,9 +66,3 @@ function man
 {
 	/usr/bin/man $* | col -b | /usr/local/bin/vim -c 'set ft=man nomod nolist' -
 }
-
-#https://bbs.archlinux.org/viewtopic.php?id=92286
-# start screen (wheee!!)
-#if [ $TERM != "screen-256color" ] ; then
-#	   screen -d -R
-#   fi

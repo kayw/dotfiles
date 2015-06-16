@@ -178,6 +178,9 @@ sudo du -h --max-depth=3 /var/ | sort -rh | head -n 20
 #http://middlewaremagic.com/jboss/?p=1723
 rsync -avz localdir 5a5468a88aa74b8198b0bf1d12ea661f@blog-kayw.rhcloud.com:~/app-root/runtime/repo/diy
 ssh rhcloud.com not end with /
+http://superuser.com/questions/105837/rsync-over-ssh-or-something-else
+http://ubuntuforums.org/showthread.php?t=2041722  rsync on both side
+http://stackoverflow.com/questions/732039/rsyncing-files-between-two-remote-servers-get-errors-stating-rsync-command-not --rsync-path
 
 #https://wiki.archlinux.org/index.php/Disable_clearing_of_boot_messages
 
@@ -187,6 +190,10 @@ sed s delimiter different with text content('echo' output)
 echo 'task goes here' | cat - todo.txt > temp && mv temp todo.txt
 {{ Pipe (|) the message (echo '...') to cat which uses - (standard input) as the first file and todo.txt as the second. cat conCATenates multiple files. Send the output (>) to a file named temp. If there are no errors (&&) from cat then rename (mv) the temp file back to the original file (todo.txt) }}
 sed -i '1itask goes here' todo.txt
+
+http://superuser.com/questions/62141/how-to-move-all-files-from-current-directory-to-upper-directory
+http://superuser.com/questions/468255/how-to-mv-dot-files-without-including-the-parent-directory-on-linux-mac
+mv .[^.]* somewhere/
 
 #http://unix.stackexchange.com/questions/32460/excluding-some-of-the-commands-from-being-getting-stored-in-bash-history
 #http://jorge.fbarr.net/2011/03/24/making-your-bash-history-more-efficient/
@@ -204,6 +211,9 @@ rsync -av --progress sourcefolder /destinationfolder --exclude thefoldertoexclud
 #http://stackoverflow.com/questions/3455625/linux-command-to-print-directory-structure-in-the-form-of-a-tree
 alias lst='ls -R | grep ":$" | sed -e '"'"'s/:$//'"'"' -e 
           '"'"'s/[^-][^\/]*\//--/g'"'"' -e '"'"'s/^/   /'"'"' -e '"'"'s/-/|/'"'"
+
+#http://askubuntu.com/questions/120928/what-is-the-mod4d-shortcut-key
+xmodkey  Mod4key Super_L  ==> Win
 
 Android:
 repo init -u https://android.googlesource.com/platform/manifest
@@ -380,6 +390,13 @@ sudo systemctl status systemd-timesyncd.service
 sudo journalctl -u systemd-timesyncd.service -b
 journalctl -p 0..3 -xn #high priority error https://wiki.archlinux.org/index.php/System_maintenance
 
+
+##sudo
+http://superuser.com/questions/39530/how-can-i-add-a-regular-user-to-the-sudoers-file
+https://wiki.archlinux.org/index.php/Sudo  visudo kayw ALL=(ALL) ALL
+
+http://unix.stackexchange.com/questions/151149/is-there-a-way-to-tell-sudo-to-set-my-username-as-owner-for-the-files-created-in
+sudo install -o belmin /etc/foo.txt ~/foo.txt
 
 http://unix.stackexchange.com/questions/40749/remove-duplicate-path-entries-with-awk-command
 PATH=`echo -n $PATH | awk -v RS=: '{ if (!arr[$0]++) {printf("%s%s",!ln++?"":":",$0)}}'`

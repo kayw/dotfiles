@@ -19,7 +19,7 @@ au filetypedetect BufNewFile,BufRead,StdinReadPost *
 
 au filetypedetect BufNewFile,BufRead,StdinReadPost *
 	\ if !did_filetype() && expand("<amatch>") !~ g:ft_ignore_pat
-	\    && (getline(2) =~ '========') |
+	\    && (getline(2) =~ '^========') |
 	\   setf markdown |
 	\ endif
 " Restore 'cpoptions'
