@@ -1,4 +1,6 @@
 ! update this file,use 'sudo xrdb -merge ~/.Xresources'
+! vim:fenc=utf-8:nu:ai:si:et:ts=4:sw=4:ft=xdefaults:
+
 !XTerm config
 
 *XTerm*locale: true
@@ -93,3 +95,61 @@
 !XTerm*background: black
 !XTerm*foreground: gray90
 !XTerm*scrollbar: no
+
+! Urxvt config
+! ---------------------------------------------------
+! Modified by : kayw
+! Sourced from : frank shin - http://frankshin.com/ && jason ryan - http://jasonwryan.com/
+! ---------------------------------------------------
+URxvt.intensityStyles: false
+URxvt.buffered: true
+URxvt.cursorColor: #395573
+URxvt.cursorUnderline: false
+URxvt.cursorBlink: true
+URxvt.geometry: 80x36
+URxvt.transparent: 0
+URxvt*urgentOnBell: true
+URxvt.lineSpace: 0
+URxvt.letterSpace: -2
+URxvt*scrollBar_right: false
+URxvt*scrollBar: false
+URxvt*borderLess: false
+
+! Font settings
+Xft.autohint: 0
+Xft.lcdfilter:  lcddefault
+Xft.hintstyle:  hintfull
+Xft.hinting: 1
+Xft.antialias: 1
+Xft.rgba: rgb
+
+
+!https://bbs.archlinux.org/viewtopic.php?id=123045
+!https://github.com/proycon/dotfiles/blob/master/Xresources
+! -- Fonts -- !
+URxvt.font:xft:dejavu sans mono:size=12,xft:WenQuanYi Micro Hei Mono:size=12
+URxvt.boldFont:xft:dejavu sans mono:size=12:style=Bold,xft:WenQuanYi Micro Hei Mono:style=Regular:size=12
+!URxvt*font:xft:luxi mono:regular:pixelsize=16
+!URxvt*boldFont:xft:luxi mono:regular:pixelsize=16
+
+! -- Colours -- !
+#include "/home/kayw/.config/solarized"
+
+! --  Extensions -- !
+URxvt.perl-ext-common: matcher,keyboard-select,url-select,clipboard
+!https://bbs.archlinux.org/viewtopic.php?id=102972
+!https://github.com/muennich/urxvt-perls/issues/58   alt-c hjkl v y q
+URxvt.keysym.M-c: perl:keyboard-select:activate
+URxvt.keysym.M-u:      perl:url-select:select_next
+URxvt.keysym.M-s:      perl:keyboard-select:search
+!URxvt.keysym.M-c:      perl:clipboard:copy
+URxvt.keysym.M-v:      perl:clipboard:paste
+URxvt.keysym.M-C-v:    perl:clipboard:paste_escaped
+URxvt.url-select.launcher: firefox
+URxvt.matcher.rend.0:  -Uline fg16
+URxvt.matcher.button:  1
+URxvt.clipboard.autocopy: true
+!URxvt.url-select.autocopy:  If true, selected URLs are copied to PRIMARY
+!URvxt.url-select.button:    Mouse button to click-open URLs (default: 2)
+!URxvt.url-select.launcher:  Browser/command to open selected URL with
+URxvt.url-select.underline: true

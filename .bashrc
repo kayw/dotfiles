@@ -64,7 +64,7 @@ fi
 # man:
 function man
 {
-	/usr/bin/man $* | col -b | /usr/local/bin/vim -c 'set ft=man nomod nolist' -
+	/usr/bin/man $* | col -b | vim -c 'set ft=man nomod nolist' -
 }
 
 ### quinn dotfiles
