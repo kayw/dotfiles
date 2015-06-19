@@ -70,6 +70,14 @@ endfunction
 
 runtime! ftplugin/man.vim
 
+if !empty($TMUX)"http://stackoverflow.com/questions/9496769/how-to-correctly-use-undefined-environment-variables-in-vimrc
+  if &term =~ "screen"
+    set t_ts=k
+    set t_fs=\
+  endif
+
+endif
+
 if has("autocmd")
  " Uncomment the following to have Vim jump to the last position when
  " reopening a file
@@ -85,6 +93,14 @@ if has("autocmd")
  "autocmd CursorMoved * silent! exe printf('match Underlined /\<%s\>/', expand('<cword>'))
  "autocmd CursorHold * silent! exe printf('match Underlined /\<%s\>/', expand('<cword>'))
 
+ "http://superuser.com/questions/251019/customizing-tmux-status-to-represent-current-working-directory-and-files
+ "http://stackoverflow.com/questions/15123477/tmux-tabs-with-name-of-file-open-in-vim
+ "http://vim.wikia.com/wiki/Automatically_set_screen_title
+ if !empty($TMUX)
+  autocmd BufEnter * let &titlestring = ' ' . expand('%:.') . ' - VIM'  "TODO man 
+  auto VimLeave * :set t_ts=k\
+  "autocmd BufReadPost,FileReadPost,BufNewFile * call system("tmux rename-window ". expand("%:t"))
+ endif
  "au FILETYPE c set omnifunc=ccomplete#CompleteC
  au FILETYPE c,cpp,javascript,python,rust set nu
  "au BufRead reportbug.*        set ft=mail
@@ -215,14 +231,6 @@ if has("cscope")
  "set ttimeoutlen=100
 endif
 
-" We know xterm-debian is a color terminal
-"if &term =~ "xterm-debian" || &term =~ "xterm-xfree86"
-"  set t_Co=16
-"  set t_Sf=[3%dm
-"  set t_Sb=[4%dm
-"endif
-
-
 if has('gui_running')
   " Make shift-insert work like in Xterm
   map <S-Insert> <MiddleMouse>
@@ -287,7 +295,7 @@ filetype plugin on
 filetype indent on
 
 "list search result  use ag.vim todo
-map <M-F> <ESC>:Ags<Enter>
+map <M-C-F> <ESC>:Ags<Enter>
 
 "UltiSnip
 "need improvement https://github.com/Valloric/YouCompleteMe/issues/36
@@ -304,12 +312,12 @@ inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 
 "airline
 set laststatus=2 "http://superuser.com/questions/634570/vim-how-to-install-airline
+let g:airline_theme='powerlineish'
 let g:airline#extensions#disable_rtp_load = 1
 let g:airline#extensions#bufferline#enabled = 1  "http://stackoverflow.com/questions/4865132/an-alternative-to-minibufexplorer-vim
 let g:airline#extensions#tabline#show_buffers = 1
 let g:airline#extensions#tabline#buffer_nr_show = 1
 "let g:airline#extensions#syntastic#enabled = 1
-let g:airline_theme='solarized'
 
 " Nerd tree
 nmap <Leader>. :let NERDTreeQuitOnOpen = 1<bar>NERDTreeToggle<CR>
@@ -323,8 +331,7 @@ inoremap <Leader>k :YcmCompleter GoToDefinitionElseDeclaration<CR>
 
 "Syntastic
 "avoid terminal vim flick with ycm
-"https://github.com/scrooloose/syntastic/issues/668
-let syntastic_full_redraws = 0
+let syntastic_full_redraws = 0 "https://github.com/scrooloose/syntastic/issues/668
 let g:syntastic_mode_map = { "mode": "active",
                            \ "active_filetypes": [],
                            \ "passive_filetypes": ["go"] }

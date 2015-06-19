@@ -136,3 +136,9 @@ gdb --args ./build/srcmind -b=examinee/build/ -p=examinee:examinee/ -a
 sudo gem install bundler --no-rdoc --no-ri -V
 bundle exec jekyll serve -w
 time sh -c 'echo "GET /" | nc www.google.com 80 > /dev/null'
+sudo locale-gen en_US.UTF-8
+urxvt -fn -*-ohsnap.icons-medium-r-*-*-16-*-*-*-*-*-*-*
+urxvtc -fn -*-ohsnap.icons-medium-r-*-*-20-*-*-*-*-*-*-*
+xfd -fn -*-ohsnap.icons-medium-r-*-*-24-*-*-*-*-*-*-*
+printf "\\$(printf '%03o' 0xeb)\n"
+sudo mount -t vboxsf H_DRIVE hshare/ -o defaults,uid=1000,gid=1000,dmode=755,auto

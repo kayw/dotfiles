@@ -1,0 +1,13 @@
+#!/bin/sh
+#https://bbs.archlinux.org/viewtopic.php?id=165825
+# at first urxvtc -fn -*-ohsnap.icons-medium-r-*-*-24-*-*-*-*-*-*-*
+for i in {50..255}; do  printf "\\$(printf '%03o' $i)\n" ; done
+#  xfd -fn -*-ohsnap.icons-medium-r-*-*-24-*-*-*-*-*-*-*
+mkdir aur
+curl -L -O https://aur.archlinux.org/packages/oh/ohsnap/ohsnap.tar.gz
+tar -xvf ohsnap.tar.gz
+cd ohsnap
+makepkg -s
+# pacman -U ohsnap-1.8.0-1-any.pkg.tar.xz
+# https://wiki.archlinux.org/index.php/Arch_User_Repository
+# https://bbs.archlinux.org/viewtopic.php?id=130562

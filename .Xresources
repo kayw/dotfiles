@@ -1,49 +1,107 @@
 ! update this file,use 'sudo xrdb -merge ~/.Xresources'
+! Urxvt config
+! ---------------------------------------------------
+! Modified by : kayw
+! Sourced from : frank shin - http://frankshin.com/ && jason ryan - http://jasonwryan.com/
+! ---------------------------------------------------
+URxvt.intensityStyles: false
+URxvt.buffered: true
+URxvt.cursorColor: #395573
+URxvt.cursorUnderline: false
+URxvt.cursorBlink: true
+URxvt.geometry: 80x36
+URxvt.transparent: 0
+URxvt*urgentOnBell: true
+URxvt.lineSpace: 0
+URxvt.letterSpace: -2
+URxvt*scrollBar_right: false
+URxvt*scrollBar: false
+URxvt*borderLess: false
+
+! Font settings
+Xft.autohint: 0
+Xft.lcdfilter:  lcddefault
+Xft.hintstyle:  hintfull
+Xft.hinting: 1
+Xft.antialias: 1
+Xft.rgba: rgb
+
+
+!https://bbs.archlinux.org/viewtopic.php?id=123045
+!https://github.com/proycon/dotfiles/blob/master/Xresources
+! -- Fonts -- !
+URxvt.font:xft:dejavu sans mono:size=12,xft:WenQuanYi Micro Hei Mono:size=12
+URxvt.boldFont:xft:dejavu sans mono:size=12:style=Bold,xft:WenQuanYi Micro Hei Mono:style=Regular:size=12
+!URxvt*font:xft:luxi mono:regular:pixelsize=16
+!URxvt*boldFont:xft:luxi mono:regular:pixelsize=16
+
+! -- Colours -- !
+#include "/home/kayw/.config/solarized"
+
+! --  Extensions -- !
+URxvt.perl-ext-common: matcher,keyboard-select,url-select,clipboard
+!https://bbs.archlinux.org/viewtopic.php?id=102972
+!https://github.com/muennich/urxvt-perls/issues/58   alt-c hjkl v y q
+URxvt.keysym.M-c: perl:keyboard-select:activate
+URxvt.keysym.M-u:      perl:url-select:select_next
+URxvt.keysym.M-s:      perl:keyboard-select:search
+!URxvt.keysym.M-c:      perl:clipboard:copy
+URxvt.keysym.M-v:      perl:clipboard:paste
+URxvt.keysym.M-C-v:    perl:clipboard:paste_escaped
+URxvt.url-select.launcher: firefox
+URxvt.matcher.rend.0:  -Uline fg16
+URxvt.matcher.button:  1
+URxvt.clipboard.autocopy: true
+!URxvt.url-select.autocopy:  If true, selected URLs are copied to PRIMARY
+!URvxt.url-select.button:    Mouse button to click-open URLs (default: 2)
+!URxvt.url-select.launcher:  Browser/command to open selected URL with
+URxvt.url-select.underline: true
+
 !XTerm config
 
-*XTerm*locale: true
-*xterm*utf8:     true
-*xterm*utf8Title: true
-*xterm*fontMenu*fontdefault*Label: Default
-!xterm*faceName: Monaco:antialias=True:pixelsize=15
-!xterm*faceName: monofur:antialias=True:pixelsize=20
-*xterm*faceName: DejaVu Sans Mono:antialias=True:pixelsize=20
-*xterm*boldFont: DejaVu Sans Mono:style=Bold:pixelsize=15
-*xterm*faceNameDoublesize: wenquanyi Zen Hei:pixelsize=20:antialias=True
-*xterm*xftAntialias: true
-*xterm*cjkWidth:false
-!XTerm*fontMenu*fontdefault*Label: Default
-!XTerm*font: -misc-fixed-medium-r-normal-*-18-120-100-100-c-90-iso10646-1
-!XTerm*wideFont: -misc-fixed-medium-r-normal-*-18-120-100-100-c-180-iso10646-1
-
-!XTerm.vt100.faceName: DejaVu Sans Mono:antialias=True:pixelsize=12
-!XTerm.vt100.faceNameDoublesize: Droid Sans Fallback:antialias=True:pixelsize=14
-!look and feel
-*xterm.termName: xterm-256color
-*xterm.geometry: 80x36
-*xterm*scrollBar: false
-*xterm*rightScrollBar: true
-*xterm*loginshell: true
-*xterm*cursorBlink: true
-*xterm.borderLess: true
-*xterm.cursorBlink: true
-*xterm*colorUL: yellow
-*xterm*colorBD: white
-!fix alt key input
-*xterm*metaSendsEscape: true
-*xterm*eightBitInput: false
-*XTerm*ttyModes: erase ^?
-*XTerm*backarrowKey: false
-!mouse selecting to copy, ctrl-v to paste
-!Ctrl p to print screen content to file
-!Ctrl <KeyPress> V: insert-selection(CLIPBOARD,PRIMARY,CUT_BUFFER0) \n\
-*XTerm*VT100.Translations: #override \
-    <BtnUp>: select-end(CLIPBOARD,PRIMARY,CUT_BUFFER0) \n\
-    Ctrl <KeyPress> P: print() \n\
-    <Key>BackSpace: string(0x7f) \n\
-    <Key>Delete:    string("\033[3~")
-
-*XTerm*selectToClipboard:true
+!*XTerm*locale: true
+!*xterm*utf8:     true
+!*xterm*utf8Title: true
+!*xterm*fontMenu*fontdefault*Label: Default
+!!xterm*faceName: Monaco:antialias=True:pixelsize=15
+!!xterm*faceName: monofur:antialias=True:pixelsize=20
+!*xterm*faceName: DejaVu Sans Mono:antialias=True:pixelsize=20
+!*xterm*boldFont: DejaVu Sans Mono:style=Bold:pixelsize=15
+!*xterm*faceNameDoublesize: wenquanyi Zen Hei:pixelsize=20:antialias=True
+!*xterm*xftAntialias: true
+!*xterm*cjkWidth:false
+!!XTerm*fontMenu*fontdefault*Label: Default
+!!XTerm*font: -misc-fixed-medium-r-normal-*-18-120-100-100-c-90-iso10646-1
+!!XTerm*wideFont: -misc-fixed-medium-r-normal-*-18-120-100-100-c-180-iso10646-1
+!
+!!XTerm.vt100.faceName: DejaVu Sans Mono:antialias=True:pixelsize=12
+!!XTerm.vt100.faceNameDoublesize: Droid Sans Fallback:antialias=True:pixelsize=14
+!!look and feel
+!*xterm.termName: xterm-256color
+!*xterm.geometry: 80x36
+!*xterm*scrollBar: false
+!*xterm*rightScrollBar: true
+!*xterm*loginshell: true
+!*xterm*cursorBlink: true
+!*xterm.borderLess: true
+!*xterm.cursorBlink: true
+!*xterm*colorUL: yellow
+!*xterm*colorBD: white
+!!fix alt key input
+!*xterm*metaSendsEscape: true
+!*xterm*eightBitInput: false
+!*XTerm*ttyModes: erase ^?
+!*XTerm*backarrowKey: false
+!!mouse selecting to copy, ctrl-v to paste
+!!Ctrl p to print screen content to file
+!!Ctrl <KeyPress> V: insert-selection(CLIPBOARD,PRIMARY,CUT_BUFFER0) \n\
+!*XTerm*VT100.Translations: #override \
+!    <BtnUp>: select-end(CLIPBOARD,PRIMARY,CUT_BUFFER0) \n\
+!    Ctrl <KeyPress> P: print() \n\
+!    <Key>BackSpace: string(0x7f) \n\
+!    <Key>Delete:    string("\033[3~")
+!
+!*XTerm*selectToClipboard:true
 !<Key>End:       string("\033[4~")
 !<Key>Home:      string("\033[1~")\n\
 !<Key>Delete:    string(0x1b) string("[3~")\n\
@@ -93,3 +151,5 @@
 !XTerm*background: black
 !XTerm*foreground: gray90
 !XTerm*scrollbar: no
+
+! vim:fenc=utf-8:nu:ai:si:et:ts=4:sw=4:ft=xdefaults:

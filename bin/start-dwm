@@ -1,0 +1,20 @@
+#!/bin/sh
+
+#from https://github.com/l3pp4rd/dotfiles/blob/master/usr/local/bin/dwm-personalized
+
+#BG_IMG="$HOME/.dotfiles/wallpapers/blue-1920x1080.png"
+#feh >/dev/null 2>&1 && feh --bg-scale $BG_IMG & # set the background wallpaper
+#xsetroot -name "" & # we status bar, set main WM window title to none
+#devmon >/dev/null 2>&1 && devmon & # automount removable devices
+while true; do
+	(sleep 1 && $HOME/bin/dwm-statusbar) > /dev/null 2>&1 & # run status bar, need to make sure wm loads first
+	# start dwm
+	dwm >/dev/null 2>&1 # never had any errors anyway
+	# if dwm exists with any error code, restart it
+	if [ $? -eq 0 ]; then
+		exit 0 # means exit clean => quit
+	fi
+	# dwm should be recompiled if changes were done
+	# kill status bar so it can be restarted
+	#killall dwm-statusbar
+done
