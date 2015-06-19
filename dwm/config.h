@@ -1,11 +1,11 @@
-    
+
 /* appearance */
 static const char font[]              = "-*-ohsnap.icons-medium-r-*-*-14-*-*-*-*-*-*-*"
                                         ","
                                         "-*-DejaVu Sans-medium-r-*-*-12-*-*-*-*-*-*-*";
-static const char dmenufont[]         = "-*-terminus-medium-r-*-*-16-*-*-*-*-*-*-*";
+static const char dmenufont[]         = "-*-ohsanp.icons-medium-r-*-*-16-*-*-*-*-*-*-*";
 static const unsigned int tagspacing  = 3;      /* space between tags */
-static const unsigned int tagpadding  = 25;     /* inner padding of tags */
+static const unsigned int tagpadding  = 20;     /* inner padding of tags */
 static const unsigned int taglinepx   = 2;      /* height of tag underline */
 static const unsigned int gappx       = 8;      /* gaps between windows */
 static const unsigned int borderpx    = 1;      /* border pixel of windows */
@@ -59,8 +59,8 @@ static const Layout layouts[] = {
 /* tagging */
 static const Tag tags[] = {
     /* name     layout          mfact   nmaster */
-    { "main",   &layouts[0],    -1,     -1 },
-    { "fterm",   &layouts[2],    -1,     -1 },
+    { "main",   &layouts[2],    -1,     -1 },
+    { "fterm",   &layouts[1],    -1,     -1 },
     { "doc",    &layouts[0],    -1,     -1 },
     { "dev",   &layouts[0],    -1,     -1 },
     { "chat",   &layouts[0],    -1,     -1 },
@@ -85,7 +85,7 @@ static const Rule rules[] = {
     { "Chrome",      NULL,       NULL,       1 << 6,         False,          False,          -1 },
     { "Feh",      NULL,       NULL,       1 << 6,         False,          False,          -1 },
     { "Pcmanfm",            NULL,       NULL,       1 << 7,         False,          False,          -1 },
-	  { "Firefox",  NULL,       NULL,       1 << 8,       False, True,      -1 },
+    { "Firefox",  NULL,       NULL,       1 << 8,       False, True,      -1 },
 };
 
 /* commands */
@@ -153,7 +153,7 @@ static Key keys[] = {
     { MODKEY,                       XK_Right,  cycle,          {.i = +1 } },
     { MODKEY|ControlMask,           XK_Left,   tagcycle,       {.i = -1 } },
     { MODKEY|ControlMask,           XK_Right,  tagcycle,       {.i = +1 } },
-    { MODKEY|ControlMask,           XK_j,      pushdown,       {0} },                                                                                      
+    { MODKEY|ControlMask,           XK_j,      pushdown,       {0} },
     { MODKEY|ControlMask,           XK_k,      pushup,         {0} },
     { MODKEY|ShiftMask, XK_q,       quit,           {0} },
     TAGKEYS(            XK_1,       0)

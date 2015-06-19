@@ -35,11 +35,12 @@ alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
 alias dotfiles='git --git-dir=/home/kayw/.git --work-tree=/home/kayw'
 
-#export PS1="\[\e[36;1m\]\u\[\e[34;1m\]@\[\e[32;1m\]\H\[\e[30;1m\](\j)\[\e[33;1m\]\W\[\033k\033\134\] \$ \[\e[0m\]"
-export PS1="\[\e[33;1m\]\u\[\e[34;1m\]@\[\e[32;1m\]\H\[\e[30;1m\]\[\e[36;1m\] \W\[\033k\033\134\] \$ \[\e[0m\]\[\e[1;32m\]"
-# export PS1='\[\e[0;32m\]\u\[\e[m\] \[\e[1;34m\]\w\[\e[m\] \[\e[1;32m\]\$\[\e[m\] \[\e[1;37m\]'
-#$ export PS1='\[\033[01;32m\]\u@\h\[\033[01;34m\] \w \[\033[1;$((31+3*!$?))m\]\$\[\033[00m\] '
-
+# PS1='[\u@\h \W]\$ '
+# export PS1="\[\e[36;1m\]\u\[\e[34;1m\]@\[\e[32;1m\]\H\[\e[30;1m\](\j)\[\e[33;1m\]\W\[\033k\033\134\] \$ \[\e[0m\]" \134 is \
+# export PS1='\[\e[0;32m\]\u\[\e[m\] \[\e[1;34m\]\w\[\e[m\] \[\e[1;32m\]\$\[\e[m\] \[\e[1;37m\]' \[\e[m\] ending color
+# export PS1='\[\033[01;32m\]\u@\h\[\033[01;34m\] \w \[\033[1;$((31+3*!$?))m\]\$\[\033[00m\] '
+# export PS1="\[\e[33;1m\]\u\[\e[34;1m\]@\[\e[32;1m\]\H\[\e[30;1m\]\[\e[36;1m\] \W\[\033k\033\134\] \$ \[\e[0m\]\[\e[1;32m\]"
+export PS1="\[\e[33;1m\]\u\[\e[34;1m\]@\[\e[32;1m\]\H\[\e[30;1m\]\[\e[36;1m\] \W \$\[\e[0m\]\[\e[1;32m\]"
 # root
 if [[ $UID == 0 ]]; then
 PS1='\[\e[0;31m\]\u \[\e[1;34m\]\w \[\e[0;31m\]\$ \[\e[0;32m\]'
@@ -51,9 +52,11 @@ xterm*|rxvt)
 ;;
 #screen*)
 #PROMPT_COMMAND='echo -ne "\033k\033\134\033k${HOSTNAME}[`basename ${PWD}`]\033\134"'
+screen*)
+PROMPT_COMMAND='echo -ne "\033]2;`perl -pl0 -e "s|^${HOME}|~|;s|([^/])[^/]*/|$""1/|g" <<<${PWD}`\033\\"'
+#http://unix.stackexchange.com/questions/26844/abbreviated-current-directory-in-shell-prompt
 esac
 
-# PS1='[\u@\h \W]\$ '
 
 #git alias
 if [ -f $HOME/bin/git-completion.bash ]; then
@@ -64,7 +67,7 @@ fi
 # man:
 function man
 {
-	/usr/bin/man $* | col -b | vim -c 'set ft=man nomod nolist' -
+	/usr/bin/man $* | col -b | vim -c 'set ft=man nomod nolist &titlestring=man'.$* -
 }
 
 ### quinn dotfiles

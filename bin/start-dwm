@@ -7,7 +7,7 @@
 #xsetroot -name "" & # we status bar, set main WM window title to none
 #devmon >/dev/null 2>&1 && devmon & # automount removable devices
 while true; do
-	#(sleep 0.5 && dwm-statusbar) & # run status bar, need to make sure wm loads first
+	(sleep 1 && $HOME/bin/dwm-statusbar) > /dev/null 2>&1 & # run status bar, need to make sure wm loads first
 	# start dwm
 	dwm >/dev/null 2>&1 # never had any errors anyway
 	# if dwm exists with any error code, restart it
