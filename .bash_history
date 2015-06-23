@@ -149,3 +149,6 @@ l
 sudo mount /dev/sdc1 mobshare -o defaults,uid=1000,gid=1000,dmode=755,auto
 sudo mount /dev/sdc1 mobshare -o defaults,uid=1000,gid=1000,fmask=133,dmask=022,auto
 fc-list | grep micro
+work
+firefox --help
+firefox -P "dev"&

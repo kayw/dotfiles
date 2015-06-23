@@ -97,7 +97,7 @@ if has("autocmd")
  "http://stackoverflow.com/questions/15123477/tmux-tabs-with-name-of-file-open-in-vim
  "http://vim.wikia.com/wiki/Automatically_set_screen_title
  if !empty($TMUX)
-  autocmd BufEnter * let &titlestring = ' ' . expand('%:.') . ' - VIM'  "TODO man 
+  autocmd BufEnter * let &titlestring = expand('%:.') . ' - VIM'  "TODO man 
   auto VimLeave * :set t_ts=k\
   "autocmd BufReadPost,FileReadPost,BufNewFile * call system("tmux rename-window ". expand("%:t"))
  endif
@@ -265,7 +265,7 @@ call plug#begin('~/.vim/bundle/')
 "Plug 'evanmiller/nginx-vim-syntax'
 "Plug 'mxw/vim-jsx', { 'for': 'jsx' }
 
-Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
+Plug 'SirVer/ultisnips' | Plug 'kayw/vim-snippets'
 Plug 'scrooloose/syntastic'
 Plug 'Yggdroot/LeaderF' "http://stackoverflow.com/questions/4108073/is-there-a-vim-plug-in-similar-to-fuzzyfinder-textmate-and-command-t-which-does
 Plug 'tpope/vim-fugitive' "http://vimcasts.org/episodes/fugitive-vim-working-with-the-git-index/
@@ -345,7 +345,7 @@ let g:Lf_CacheDiretory = '/tmp'
 let javascript_enable_domhtmlcss=1
 
 "colorscheme
-set background=dark "light
+set background=light "dark 
 let g:solarized_contrast="low"
 let g:solarized_visibility="high"
 if $TERM =~ "-256color"

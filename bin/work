@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# ssh key passphrases must enter once
+# refer this(http://stackoverflow.com/questions/21095054/ssh-key-still-asking-for-password-and-passphrase)
+
+# basics(https://help.github.com/articles/generating-ssh-keys/)
+
+# This script run a ssh-agent on a sub-shell and automatically ssh-add all keyfiles at once.
+# This agent ends when you type `exit` to close the sub-shell.
+# http://unix.stackexchange.com/questions/90853/how-can-i-run-ssh-add-automatically-without-password-prompt
+exec ssh-agent bash -c "ssh-add ~/.ssh/id_rsa &> /dev/null; exec bash"
+
+# also can be put in bashrc profile
+# see here http://stackoverflow.com/questions/18880024/start-ssh-agent-on-login
+#eval "$(ssh-agent -s)" && ssh-add ~/.ssh/id_rsa

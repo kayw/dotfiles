@@ -14,7 +14,7 @@ export LD_LIBRARY_PATH=LD_LIBRARY_PATH:/usr/local/lib/
 
 #http://stackoverflow.com/questions/25433505/go-all-bash-compilation-testing-fails-with-permission-denied
 export GOROOT=/usr/local/go
-export GOPATH=$HOME/workspace/go
+export GOPATH=$HOME/kspace/go
 export PATH=$PATH:/home/kayw/bin/:/usr/local/texlive/2010/bin/i386-linux/:$GOROOT/bin:$GOPATH/bin:/usr/local/android-studio/bin:/opt/webstorm/bin
 #http://stackoverflow.com/questions/13830594/when-i-execute-bash-the-path-keeps-repeating-itself
 #export PATH=$(echo "$PATH" | awk -v RS=: -v ORS=: '!(a[$0]++)' | sed 's/:$//')
@@ -103,3 +103,11 @@ ex ()
     echo "'$1' is not a valid file"
   fi
 }
+
+# necessary work settings per terminal session(!!!must put .profile or .bashrc, can't use in a separate script)
+export NVM_DIR="$HOME/.nvm"
+
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion" # load nvm completion
+command -v nvm &> /dev/null && nvm use iojs
+#. "$HOME/.nvm/nvm.sh" && . "$HOME/.nvm/bash_completion" && nvm use iojs;
