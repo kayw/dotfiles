@@ -12,6 +12,7 @@ if [ -d /etc/X11/xinit/xinitrc.d ]; then
   unset f
 fi
 
+export _JAVA_AWT_WM_NONREPARENTING=1
 export LANG=en_US.utf8
 export LC_ALL=en_US.utf8
 export GTK_IM_MODULE=fcitx
@@ -23,10 +24,12 @@ exec fcitx &
 xset +fp /usr/share/fonts/local/
 xset fp rehash
 
-VBoxClient-all
+command -v VBoxClient-all >/dev/null && VBoxClient-all
 urxvtd -q -o -f
-#if [[ -z "$TMUX" ]]; then
-#  tmux att
-#fi
-urxvtc -e tmux
+if [[ -z "$TMUX" ]]; then
+  urxvtc -e tmux
+else
+  urxvtc -e tmux att
+fi
+  #urxvtc -e tmux
 exec $HOME/bin/start-dwm

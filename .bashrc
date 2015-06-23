@@ -13,9 +13,9 @@ export LD_LIBRARY_PATH=LD_LIBRARY_PATH:/usr/local/lib/
 #export PYTHONPATH=$PYTHONPATH:/home/kayw/share/codebase/hyde/kayw.github.com/extensions/
 
 #http://stackoverflow.com/questions/25433505/go-all-bash-compilation-testing-fails-with-permission-denied
-export GOROOT=/home/kayw/share/codebase/vm/go
-export GOPATH=$GOROOT/gows
-export PATH=$PATH:/home/kayw/bin/:/usr/local/texlive/2010/bin/i386-linux/:$GOROOT/bin:$GOPATH/bin
+export GOROOT=/usr/local/go
+export GOPATH=$HOME/workspace/go
+export PATH=$PATH:/home/kayw/bin/:/usr/local/texlive/2010/bin/i386-linux/:$GOROOT/bin:$GOPATH/bin:/usr/local/android-studio/bin:/opt/webstorm/bin
 #http://stackoverflow.com/questions/13830594/when-i-execute-bash-the-path-keeps-repeating-itself
 #export PATH=$(echo "$PATH" | awk -v RS=: -v ORS=: '!(a[$0]++)' | sed 's/:$//')
 
@@ -67,7 +67,7 @@ fi
 # man:
 function man
 {
-	/usr/bin/man $* | col -b | vim -c 'set ft=man nomod nolist &titlestring=man'.$* -
+	/usr/bin/man $* | col -b | vim -c 'set ft=man nomod nolist set &titlestring=man'.$* -
 }
 
 ### quinn dotfiles

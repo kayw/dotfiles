@@ -247,6 +247,7 @@ filetype off
 
 "Vim-Plug
 "https://github.com/junegunn/vim-plug
+let g:plug_timeout=600000 "ycm https://github.com/junegunn/vim-plug/issues/75
 call plug#begin('~/.vim/bundle/')
 
 "bundles

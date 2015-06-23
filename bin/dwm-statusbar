@@ -250,7 +250,7 @@ class Status
   end
 
   def update_wifi
-    output = `iw dev link wlp3s0`
+    output = `iw dev wlp3s0 link`
     str = 'not connected'
     clr = $colors[:grey]
     
