@@ -142,13 +142,7 @@ urxvtc -fn -*-ohsnap.icons-medium-r-*-*-20-*-*-*-*-*-*-*
 xfd -fn -*-ohsnap.icons-medium-r-*-*-24-*-*-*-*-*-*-*
 printf "\\$(printf '%03o' 0xeb)\n"
 sudo mount /dev/sdc1 mobshare/ -o defaults,uid=1000,gid=1000,umask=0022,auto
-firefox -P "dev"&
-firefox -P "dev"&
-1 ls
-l
 sudo mount /dev/sdc1 mobshare -o defaults,uid=1000,gid=1000,dmode=755,auto
 sudo mount /dev/sdc1 mobshare -o defaults,uid=1000,gid=1000,fmask=133,dmask=022,auto
 fc-list | grep micro
-work
-firefox --help
 firefox -P "dev"&

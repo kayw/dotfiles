@@ -273,8 +273,8 @@ Plug 'python_match.vim'
 Plug 'gabesoft/vim-ags'
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 
-Plug 'Valloric/YouCompleteMe', { 'for': ['cpp', 'c', 'python'] } "'do': 'build', todo
-Plug 'pangloss/vim-javascript', {'for': 'js'}
+Plug 'Valloric/YouCompleteMe', { 'for': ['cpp', 'c', 'python', 'javascript', 'markdown'] } "'do': 'build', todo
+Plug 'pangloss/vim-javascript', {'for': 'javascript'}
 Plug 'wting/rust.vim', {'for': 'rust'}
 Plug 'fatih/go.vim', {'for': 'go'}
 Plug 'cakebaker/scss-syntax.vim', {'for': 'scss'}
@@ -308,6 +308,7 @@ let g:UltiSnipsJumpBackwardTrigger="<c-f>"
 " " and close the selection list, same as other IDEs.
 " " CONFLICT with some plugins like tpope/Endwise
 inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+let g:snips_author="kayw"
 
 "let g:UltiSnipsSnippetDirectories=["UltiSnips", "snippets"]
 
