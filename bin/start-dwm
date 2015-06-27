@@ -4,17 +4,22 @@
 
 #BG_IMG="$HOME/.dotfiles/wallpapers/blue-1920x1080.png"
 #feh >/dev/null 2>&1 && feh --bg-scale $BG_IMG & # set the background wallpaper
-#xsetroot -name "" & # we status bar, set main WM window title to none
+xsetroot -name "" & # we status bar, set main WM window title to none
+DWM_STARTLOG="$HOME/.local/dwm-start.log"
+$HOME/kspace/go/bin/ss-local -c "$HOME/.config/shadowsocks/config.json"&
 #devmon >/dev/null 2>&1 && devmon & # automount removable devices
 while true; do
 	(sleep 1 && $HOME/bin/dwm-statusbar) > /dev/null 2>&1 & # run status bar, need to make sure wm loads first
 	# start dwm
-	dwm >/dev/null 2>&1 # never had any errors anyway
+	dwm >/dev/null 2>$DWM_STARTLOG # never had any errors anyway
 	# if dwm exists with any error code, restart it
 	if [ $? -eq 0 ]; then
 		exit 0 # means exit clean => quit
 	fi
 	# dwm should be recompiled if changes were done
 	# kill status bar so it can be restarted
-	#killall dwm-statusbar
+	# http://askubuntu.com/questions/239923/shell-script-to-9-kill-based-on-name
+	# kill $(pidof ruby $HOME/bin/dwm-statusbar)
+	# http://stackoverflow.com/questions/21224813/how-can-i-make-this-script-to-kill-rails-processes-work-better
+	ps aux | grep -ie [d]wm-statusbar | awk '{print $2}' | xargs kill
 done

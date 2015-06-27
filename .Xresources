@@ -26,8 +26,12 @@ Xft.hinting: 1
 Xft.antialias: 1
 Xft.rgba: rgb
 
+! Disable *Keycap Picture insert mode*(input of ☺ unicodes etc) associated with the ctrl+shift keys
+! https://github.com/ivoarch/.dot-org-files/blob/master/Xresources.org
+URxvt.iso14755: false
+URxvt.iso14755_52: false
 
-!https://bbs.archlinux.org/viewtopic.php?id=123045
+!https://bbs.archlinux.org/viewtopic.php?id=123045 chinese font
 !https://github.com/proycon/dotfiles/blob/master/Xresources
 ! -- Fonts -- !
 URxvt.font:xft:dejavu sans mono:size=12,xft:WenQuanYi Micro Hei Mono:size=12
