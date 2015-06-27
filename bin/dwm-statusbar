@@ -10,7 +10,7 @@ require 'net/http'
 require 'json'
 
 # default geo location
-# Hangzhou latitude/longtitude
+# latitude/longtitude
 $geo = {
   :lat => 30.25,
   :lng => 120.1667
@@ -188,7 +188,7 @@ class Status
       end
     end
 
-    @volume = sprintf("%s%s%d%%", prefix, $colors[:white], volume)
+    @volume = sprintf("%s%s%d%%", prefix,$colors[:white], volume)
   end
 
   def update_cpu_temp
@@ -213,15 +213,18 @@ class Status
   end
 
   def update_battery
-    output = `acpi -b`
-    acpi = output.lines.first
- 
-    return @battery = sprintf("%s%s not present", $colors[:red], $glyphs[:bat_empty]) if acpi == nil
+    status = File.open("/sys/class/power_supply/BAT0/status").first.chomp
+    energy_now = File.open("/sys/class/power_supply/BAT0/energy_now").first.to_i
+    energy_full = File.open("/sys/class/power_supply/BAT0/energy_full").first.to_i
+    perc = energy_now*1.0/energy_full*100
+    if status == "Charging"
+      charge_icon = $glyphs[:charging]
+    elsif status == "Discharging"
+      charge_icon = $glyphs[:arrow_down]
+    else
+      charge_icon = nil
+    end
 
-    state = File.open("/sys/devices/platform/smapi/BAT0/state").first.chomp
-    perc = File.open("/sys/devices/platform/smapi/BAT0/remaining_percent").first.to_i
-    return @battery = nil if state == "idle" || perc == 100
-  
     if perc <= 10
       prefix = $colors[:red] + $glyphs[:bat_empty] + " "
     elsif perc <= 15
@@ -232,17 +235,7 @@ class Status
       prefix = $colors[:blue] + $glyphs[:bat_high] + $colors[:white]
     end
 
-    if state == "charging"
-      charge_icon = $glyphs[:charging]
-    elsif state == "discharging"
-      charge_icon = $glyphs[:arrow_down]
-    else
-      charge_icon = nil
-    end
-
     battery = sprintf("%d%%%s", perc, charge_icon)
-    acpi.match(/(\d{2}:\d{2}):\d{2}/)
-    battery += " #{$1}" if $1 != nil
 
     @battery = sprintf("%s%s", prefix, battery)
   rescue
@@ -258,10 +251,10 @@ class Status
       if output =~ /Tx-Power=off/
         str = 'disabled'
       else
-        output = `ifconfig enp0s25`
+        output = `ifconfig enp4s0`
 
         if output =~ /inet/
-          str = 'enp0s25'
+          str = 'enp4s0'
           clr = $colors[:white]
         end
       end
