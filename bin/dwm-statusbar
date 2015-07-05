@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 #
 # dwm-status
-# 
+#
 # author: Martin Ohmann <martin@mohmann.de>
 # from https://github.com/martinohmann/dwm/blob/master/dwm-status.rb
 # set et:ts=2:sts=2
@@ -30,6 +30,8 @@ $colors = {
 
 # icons glyphs from ohsnap.icons.pcf
 $glyphs = {
+  :disconn    => "×",
+  :ether      => "¡",
   :wifi       => "¤",#"\u20AD",
   :weather    => "±",#"\u20B1",
   :clock      => "É",#"\u20B8",
@@ -46,58 +48,12 @@ $glyphs = {
   :bat_low    => "ï",#"\u20EF",
   :bat_high   => "ð",#"\u20F0",
   :play       => "æ",#"\uE620",
-  :pause      => "ç"#"\uE720"
+  :pause      => "ç",#"\uE720"
+  :load       => "³"
 }
-#TODO 
+#TODO
 # song_info from mpbd
 
-#https://github.com/l3pp4rd/dotfiles/blob/aa2f22ca3fbf067b2a68488a7017a92dd5a65195/usr/local/bin/status_bar
-# LOAD AVERAGE
-# fload() {
-# load=$(awk '{print $1}' /proc/loadavg)
-# icon="^i($DZEN_ICONPATH/load.xbm)"
-# printf "%s%.01f %s^fg()" "^fg(#6c71c4)" "$load" "$icon"
-# }
-# fmem() {
-# # MEMORY
-# memory=$(free | grep 'Mem:' | awk '{printf "%.0f", 100 * $3 / $2}')
-# if [ "$memory" -gt 90 ]; then modifier="^bg(#dc322f)^fg(white)"
-# elif [ "$memory" -gt 80 ]; then modifier="^bg(#cb4b16)^fg(white)"
-# elif [ "$memory" -gt 70 ]; then modifier="^fg(#b58900)"
-# else modifier="^fg(#859900)"
-# fi
-# icon="^i($DZEN_ICONPATH/mem.xbm)"
-# printf "%s%s%% %s^fg()^bg()" "$modifier" "$memory" "$icon"
-# }
-
-#https://bbs.archlinux.org/viewtopic.php?id=74599&p=32 #793
-#char *
-#cpu_usage(void)
-#{
-#        FILE *f;
-#        int i = 0, stats[10], delta[10];
-#        f = fopen("/proc/stat", "r");
-#        if(f == NULL)
-#            return smprintf("ERROR");
-#        
-#        /* Get current stats*/
-#        fscanf(f, "%*s");
-#        for(i = 0; i < 10; ++i)
-#        {   
-#            char str[10];
-#            fscanf(f, "%s", str);
-#            stats[i] = atoi(str);
-#            
-#            /* Compare it with old_stats to create delta */
-#            delta[i] = stats[i] - old_stats[i];
-#            /* Create new old_stats */
-#            old_stats[i] = stats[i];
-#        }
-#        int total_used = delta[0] + delta[1] + delta[2] + delta[4] + delta[5] + delta[6] + delta[7] + delta[8] + delta[9];
-#        int total = total_used + delta[3];
-#        fclose(f);
-#        return smprintf("%2.0f%%", (float)total_used*100/total);
-#}
 class Status
   def initialize(geo = nil)
     @mutex = Mutex.new
@@ -198,19 +154,33 @@ class Status
     temp /=1000
 
     if temp >= 90
-      prefix = $colors[:red] + $glyphs[:cpu] + " "
+      prefix = $colors[:red] + $glyphs[:cpu]
     elsif temp >= 80
-      prefix = $colors[:orange] + $glyphs[:cpu] + " "
+      prefix = $colors[:pink] + $glyphs[:cpu]
     elsif temp >= 70
-      prefix = $colors[:pink] + $glyphs[:cpu] + " "
+      prefix = $colors[:orange] + $glyphs[:cpu]
     else
-      prefix = $colors[:blue] + $glyphs[:cpu] + $colors[:white]
+      prefix = $colors[:blue] + $glyphs[:cpu]
     end
- 
-    @cpu_temp = sprintf("%s%d°C", prefix, temp)
+
+    @cpu_temp = sprintf("%s%s%d°C", prefix, $colors[:white], temp)
   rescue
-	  @cpu_temp = nil
+    @cpu_temp = nil
   end
+
+  def update_cpu_mem_usage
+    loadavg = `awk '{print $1}' /proc/loadavg`.chomp.to_f*100
+    memlines = File.open("/proc/meminfo").readlines()
+    totalmem = memlines[0].match("MemTotal:\s+(.*)\skB")[1].to_i/1024
+    freemem = memlines[1].match("MemFree:\s+(.*)\skB")[1].to_i/1024
+    buffermem = memlines[3].match("Buffers:\s+(.*)\skB")[1].to_i/1024
+    cachemem = memlines[4].match("Cached:\s+(.*)\skB")[1].to_i/1024
+    usagemem = totalmem - buffermem - freemem - cachemem
+    @sys_load = sprintf("%s%s%s%.2f%% %dM/%dM", $colors[:blue], $glyphs[:load], $colors[:white], loadavg, usagemem, totalmem)
+  rescue
+    @sys_load = nil
+  end
+
 
   def update_battery
     status = File.open("/sys/class/power_supply/BAT0/status").first.chomp
@@ -229,7 +199,7 @@ class Status
       prefix = $colors[:red] + $glyphs[:bat_empty] + " "
     elsif perc <= 15
       prefix = $colors[:orange] + $glyphs[:bat_low] + " "
-    elsif perc <= 20
+    elsif perc <= 25
       prefix = $colors[:pink] + $glyphs[:bat_low] + " "
     else
       prefix = $colors[:blue] + $glyphs[:bat_high] + $colors[:white]
@@ -243,49 +213,46 @@ class Status
   end
 
   def update_wifi
-    output = `iw dev wlp3s0 link`
-    str = 'not connected'
-    clr = $colors[:grey]
-    
-    if output =~ /ESSID:off\/any/
-      if output =~ /Tx-Power=off/
-        str = 'disabled'
-      else
-        output = `ifconfig enp4s0`
-
-        if output =~ /inet/
-          str = 'enp4s0'
-          clr = $colors[:white]
-        end
+    network_devices = `ls /sys/class/net | grep -v 'lo'`.split("\n")
+    eth_state = nil
+    wlan_state = nil
+    network_devices.each do |dev|
+      if dev =~ %r"enp" and eth_state != "up"
+        eth_state = File.open("/sys/class/net/"+dev+"/operstate").first.chomp
+      elsif dev =~ %r"wlp" and wlan_state != "up"
+        wlan_state = File.open("/sys/class/net/"+dev+"/operstate").first.chomp
       end
-    else
-      output.match(/ESSID:"(.+)"/)
-      str = $1
-      clr = $colors[:white]
     end
-    @wifi = sprintf("%s%s%s%s", $colors[:blue], $glyphs[:wifi], clr, str) 
+
+    if wlan_state == "up"
+      @wifi = sprintf("%s%s", $colors[:blue], $glyphs[:wifi]) #TODO wifi signal strength with glyph
+    elsif eth_state == "up"
+      @wifi = sprintf("%s%s", $colors[:blue], $glyphs[:ether])
+    else
+      @wifi = sprintf("%s%s", $colors[:grey], $glyphs[:disconn])
+    end
   rescue
     @wifi = nil
   end
 
   def update_weather
-    return @weather = sprintf("%s%s%s%s°C, %s", $colors[:blue], $glyphs[:weather], 
+    return @weather = sprintf("%s%s%s%d°C, %s", $colors[:blue], $glyphs[:weather],
       $colors[:white], @weather_data[:temp], @weather_data[:cond]) if @weather_data != nil
     @weather = nil
   end
-  
+
   def update_date
     time = Time.now
-    @the_date = sprintf("%s%s %s%s", $colors[:blue], $glyphs[:clock],$colors[:white], time.strftime("%a %b %d %H:%M"))
-	    #"#{$colors[:grey]}#{$glyphs[:clock]}#{$colors[:white]}#{time.strftime("%a %b %d %H:%M")}"
+    @the_date = sprintf("%s%s  %s%s", $colors[:blue], $glyphs[:clock],$colors[:white], time.strftime("%a %b %d %H:%M"))
+      #"#{$colors[:grey]}#{$glyphs[:clock]}#{$colors[:white]}#{time.strftime("%a %b %d %H:%M")}"
   end
 
   # get update count created by cronjob
   def update_pacman_updates
-    output = `pacman -Qqu --dbpath /tmp/.localsync 2> /dev/null | wc -l`
+    output = `checkupdates | wc -l`
     count = output.to_i
 
-    return @updates = sprintf("%s%s%s%d", $colors[:blue], $glyphs[:pacman], 
+    return @updates = sprintf("%s%s%s%d", $colors[:blue], $glyphs[:pacman],
       $colors[:white], count) if count > 0
     @updates = nil
   end
@@ -296,14 +263,14 @@ class Status
     if $?.success?
       if output.match(/Absolute upper-left Y:  0/)
         output.match(/Width:\s+([0-9]+)/)
-        return @tray_padding = " " * ($1.to_i / 7) + " " 
+        return @tray_padding = " " * ($1.to_i / 7) + " "
       end
     end
     @tray_padding = nil
   end
 
   def to_s
-    "#{@weather}#{@battery}#{@volume}#{@cpu_temp}#{@updates}#{@wifi}#{@the_date}#{@tray_padding}"
+    "#{@weather}#{@sys_load}#{@battery}#{@volume}#{@cpu_temp}#{@updates}#{@wifi}#{@the_date}#{@tray_padding}"
   end
 
   def run
@@ -318,21 +285,22 @@ class Status
       # update every 60 minutes
       fetch_geo_info if time_diff % 3600 == 0
 
+      update_pacman_updates if time_diff % 86400 == 0
       update_volume
       update_date
-      update_tray_padding
+      #update_tray_padding
 
       # update every 10 seconds
       if time_diff % 10 == 0
-	update_wifi
-	update_cpu_temp
-	update_battery
+        update_wifi
+        update_cpu_temp
+        update_battery
+        update_cpu_mem_usage
       end
 
       # update every 10 minutes
       if time_diff % 600 == 0
         update_weather
-        update_pacman_updates
       end
 
       `xsetroot -name "#{self.to_s}"`

@@ -273,7 +273,7 @@ Plug 'python_match.vim'
 Plug 'gabesoft/vim-ags'
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 
-Plug 'Valloric/YouCompleteMe', { 'for': ['cpp', 'c', 'python', 'javascript', 'markdown'] } "'do': 'build', todo
+Plug 'Valloric/YouCompleteMe', { 'for': ['cpp', 'c', 'python', 'javascript', 'markdown'], 'do': './install.sh'} "todo c-family build script
 Plug 'pangloss/vim-javascript', {'for': 'javascript'}
 Plug 'wting/rust.vim', {'for': 'rust'}
 Plug 'fatih/go.vim', {'for': 'go'}

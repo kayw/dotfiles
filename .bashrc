@@ -13,9 +13,9 @@ export LD_LIBRARY_PATH=LD_LIBRARY_PATH:/usr/local/lib/
 #export PYTHONPATH=$PYTHONPATH:/home/kayw/share/codebase/hyde/kayw.github.com/extensions/
 
 #http://stackoverflow.com/questions/25433505/go-all-bash-compilation-testing-fails-with-permission-denied
-export GOROOT=/usr/local/go
+export GOROOT=$HOME/kspace/goroot
 export GOPATH=$HOME/kspace/go
-export PATH=$PATH:/home/kayw/bin/:/usr/local/texlive/2010/bin/i386-linux/:$GOROOT/bin:$GOPATH/bin:/usr/local/android-studio/bin:/opt/webstorm/bin
+export PATH=$PATH:/home/kayw/bin/:$GOROOT/bin:$GOPATH/bin:/usr/local/android-studio/bin:/opt/webstorm/bin
 #http://stackoverflow.com/questions/13830594/when-i-execute-bash-the-path-keeps-repeating-itself
 #export PATH=$(echo "$PATH" | awk -v RS=: -v ORS=: '!(a[$0]++)' | sed 's/:$//')
 
@@ -55,6 +55,7 @@ xterm*|rxvt)
 screen*)
 PROMPT_COMMAND='echo -ne "\033]2;`perl -pl0 -e "s|^${HOME}|~|;s|([^/])[^/]*/|$""1/|g" <<<${PWD}`\033\\"'
 #http://unix.stackexchange.com/questions/26844/abbreviated-current-directory-in-shell-prompt
+#http://vim.wikia.com/wiki/Automatically_set_screen_title
 esac
 
 
@@ -67,7 +68,9 @@ fi
 # man:
 function man
 {
-	/usr/bin/man $* | col -b | vim -c 'set ft=man nomod nolist set &titlestring=man'.$* -
+#http://vim.wikia.com/wiki/Using_vim_as_a_man-page_viewer_under_Unix
+#TODO: show the title in vim buffer
+	/usr/bin/man $* | col -b | vim -c 'set ft=man nomod nolist titlestring=Man-'$* -
 }
 
 ### quinn dotfiles
