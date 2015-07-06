@@ -65,12 +65,15 @@ if [ -f $HOME/bin/git-completion.bash ]; then
 fi
 #complete -o bashdefault -o default -o nospace -F _gitk co
 #http://benmabey.com/2008/05/07/git-bash-completion-git-aliases.html
+
 # man:
 function man
 {
 #http://vim.wikia.com/wiki/Using_vim_as_a_man-page_viewer_under_Unix
-#TODO: show the title in vim buffer
-	/usr/bin/man $* | col -b | vim -c 'set ft=man nomod nolist titlestring=Man-'$* -
+#http://stackoverflow.com/questions/16740246/what-is-a-way-to-read-man-pages-in-vim-without-using-temporary-files
+#goog vim as man pager
+
+/usr/bin/man $* | col -b | vim -c 'file MAN-'$* -c 'set ft=man nomod nolist titlestring=MAN-'$* -c 'nmap K :Man <C-R>=expand(\"<cword>\")<CR><CR>' -
 }
 
 ### quinn dotfiles
