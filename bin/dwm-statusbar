@@ -59,6 +59,7 @@ class Status
     @mutex = Mutex.new
     @weather_data = nil
     @geo = geo
+    @network_devices = `ls /sys/class/net | grep -v 'lo'`.split("\n")
   end
 
   def fetch_geo_info
@@ -213,10 +214,9 @@ class Status
   end
 
   def update_wifi
-    network_devices = `ls /sys/class/net | grep -v 'lo'`.split("\n")
     eth_state = nil
     wlan_state = nil
-    network_devices.each do |dev|
+    @network_devices.each do |dev|
       if dev =~ %r"enp" and eth_state != "up"
         eth_state = File.open("/sys/class/net/"+dev+"/operstate").first.chomp
       elsif dev =~ %r"wlp" and wlan_state != "up"

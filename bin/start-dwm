@@ -5,9 +5,9 @@
 #BG_IMG="$HOME/.dotfiles/wallpapers/blue-1920x1080.png"
 #feh >/dev/null 2>&1 && feh --bg-scale $BG_IMG & # set the background wallpaper
 xsetroot -name "" & # we status bar, set main WM window title to none
-DWM_STARTLOG="$HOME/.local/dwm-start.log"
+DWM_STARTLOG="/tmp/dwm-start.log"
 $HOME/kspace/go/bin/ss-local -c "$HOME/.config/shadowsocks/config.json"&
-#devmon >/dev/null 2>&1 && devmon & # automount removable devices
+devmon 2>&1 > $DWM_STARTLOG & # automount removable devices
 while true; do
 	(sleep 1 && $HOME/bin/dwm-statusbar) > /dev/null 2>&1 & # run status bar, need to make sure wm loads first
 	# start dwm
