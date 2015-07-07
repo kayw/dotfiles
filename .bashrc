@@ -72,8 +72,12 @@ function man
 #http://vim.wikia.com/wiki/Using_vim_as_a_man-page_viewer_under_Unix
 #http://stackoverflow.com/questions/16740246/what-is-a-way-to-read-man-pages-in-vim-without-using-temporary-files
 #goog vim as man pager
+Title=''
+for i in $@; do
+	Title+='-'$i
+done
 
-/usr/bin/man $* | col -b | vim -c 'file MAN-'$* -c 'set ft=man nomod nolist titlestring=MAN-'$* -c 'nmap K :Man <C-R>=expand(\"<cword>\")<CR><CR>' -
+/usr/bin/man $* | col -b | vim -c 'file MAN'$Title -c 'set ft=man nomod nolist titlestring=MAN'$Title -c 'nmap K :Man <C-R>=expand(\"<cword>\")<CR><CR>' -
 }
 
 ### quinn dotfiles
