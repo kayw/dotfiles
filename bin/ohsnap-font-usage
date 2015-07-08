@@ -1,9 +1,9 @@
 #!/bin/sh
 #https://bbs.archlinux.org/viewtopic.php?id=165825
-# at first urxvtc -fn -*-ohsnap.icons-medium-r-*-*-24-*-*-*-*-*-*-*
 symbol_ohsnap() {
+# first urxvtc -fn -*-ohsnap.icons-medium-r-*-*-24-*-*-*-*-*-*-*
 #for i in {50..255}; do  printf "\\$(printf '%03o' $i)\n" ; done
- printf "\\$(printf '%03o' $2)\n" 
+ printf "\\$(printf '%03o' $1)\n" 
 }
 #  xfd -fn -*-ohsnap.icons-medium-r-*-*-24-*-*-*-*-*-*-*
 mk_ohsnap() {
@@ -19,7 +19,8 @@ makepkg -s
 
 case "$1" in
 	p)
-		symbol_ohsnap
+		#http://stackoverflow.com/questions/6212219/passing-parameters-to-a-bash-function
+		symbol_ohsnap $2
 		;;
 	i)
 		mk_ohsnap
