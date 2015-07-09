@@ -12,6 +12,8 @@ export HISTIGNORE='&:[ ]*:ls*:cd*:ps*:du*:rm*:cat*'
 export LD_LIBRARY_PATH=LD_LIBRARY_PATH:/usr/local/lib/
 #export PYTHONPATH=$PYTHONPATH:/home/kayw/share/codebase/hyde/kayw.github.com/extensions/
 
+export RXVT_SOCKET=/tmp/urxvtd-Arch
+
 #http://stackoverflow.com/questions/25433505/go-all-bash-compilation-testing-fails-with-permission-denied
 export GOROOT=$HOME/kspace/goroot
 export GOPATH=$HOME/kspace/go
@@ -77,7 +79,7 @@ for i in $@; do
 	Title+='-'$i
 done
 
-/usr/bin/man $* | col -b | vim -c 'file MAN'$Title -c 'set ft=man nomod nolist titlestring=MAN'$Title -c 'nmap K :Man <C-R>=expand(\"<cword>\")<CR><CR>' -
+/usr/bin/man $* | col -b | vim -c 'file MAN'$Title -c 'set ft=man nomod nolist titlestring=MAN'$Title -c 'nmap K :Man <C-R>=expand("<cword>")<CR><CR>' -
 }
 
 ### quinn dotfiles

@@ -11,7 +11,7 @@ devmon 2>&1 > $DWM_STARTLOG & # automount removable devices
 while true; do
 	(sleep 1 && $HOME/bin/dwm-statusbar) > /dev/null 2>&1 & # run status bar, need to make sure wm loads first
 	# start dwm
-	dwm 2>&1 > $DWM_STARTLOG # never had any errors anyway
+	dwm > $DWM_STARTLOG 2>&1 # never had any errors anyway
 	# if dwm exists with any error code, restart it
 	#if [ $? -eq 0 ]; then
 #		exit 0 # means exit clean => quit

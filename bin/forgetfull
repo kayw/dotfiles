@@ -387,6 +387,7 @@ http://unix.stackexchange.com/questions/40749/remove-duplicate-path-entries-with
 PATH=`echo -n $PATH | awk -v RS=: '{ if (!arr[$0]++) {printf("%s%s",!ln++?"":":",$0)}}'`
 don't add {} for PATH
 #http://askubuntu.com/questions/186808/every-command-fails-with-command-not-found-after-changing-bash-profile
+
 #LOG FILE Cleanup
 cat /dev/null > /file
 #http://serverfault.com/questions/146913/nginx-error-log-was-huge-so-i-deleted-and-created-a-new-one-now-nginx-wont-st
@@ -413,6 +414,10 @@ journalctl --disk-usage
 SystemMaxUse + SystemMaxUse/8 #https://bbs.archlinux.org/viewtopic.php?id=155451
 journalctl -b --no-pager _SYSTEMD_UNIT=systemd-journald.service
 #https://bbs.archlinux.org/viewtopic.php?pid=1173031
+
+SYSTEMD_LOG_LEVEL=debug journalctl
+https://github.com/systemd/systemd/issues/487
+https://bugs.archlinux.org/task/45451 journalctl broken on upgrade to 221 
 
 Edit /etc/systemd/journald.conf to set SystemMaxUse=1M
 Restarting journal: sudo systemctl restart systemd-journald
