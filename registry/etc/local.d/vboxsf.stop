@@ -1,0 +1,4 @@
+#!/bin/sh -e
+umount /home/kayw/share
+umount /media/sf_shared
+exit 0

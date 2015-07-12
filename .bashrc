@@ -9,10 +9,11 @@ export HISTIGNORE='&:[ ]*:ls*:cd*:ps*:du*:rm*:cat*'
 # ... or force ignoredups and ignorespace
 #export HISTCONTROL=ignoreboth
 
-export LD_LIBRARY_PATH=LD_LIBRARY_PATH:/usr/local/lib/
+export LD_LIBRARY_PATH=LD_LIBRARY_PATH:/usr/local/lib/  #rustlib node_modules
 #export PYTHONPATH=$PYTHONPATH:/home/kayw/share/codebase/hyde/kayw.github.com/extensions/
 
 export RXVT_SOCKET=/tmp/urxvtd-Arch
+export GEM_HOME=$HOME/.local/share/.gem
 
 #http://stackoverflow.com/questions/25433505/go-all-bash-compilation-testing-fails-with-permission-denied
 export GOROOT=$HOME/kspace/goroot

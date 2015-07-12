@@ -1,0 +1,12 @@
+#!/bin/sh -e
+# rc.local
+# This script is executed at the end of each multiuser runlevel
+# Make sure that the script will "exit 0" on success or any other
+# value on error
+# In order to enable or disable this script just change the execution bits
+
+mount -t vboxsf -o defaults,uid=1000,gid=1000,dmode=755,auto shared /home/kayw/share
+exit 0
+
+#http://ubuntuforums.org/showthread.php?t=1467794
+#https://www.google.com/search?q=virtualbox+gentoo+boot+mount.vboxsf+no+such+device&oq=virtualbox+gentoo+boot+mount.vboxsf+no+such+device
