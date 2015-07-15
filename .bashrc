@@ -12,13 +12,15 @@ export HISTIGNORE='&:[ ]*:ls*:cd*:ps*:du*:rm*:cat*'
 export LD_LIBRARY_PATH=LD_LIBRARY_PATH:/usr/local/lib/  #rustlib node_modules
 #export PYTHONPATH=$PYTHONPATH:/home/kayw/share/codebase/hyde/kayw.github.com/extensions/
 
-export RXVT_SOCKET=/tmp/urxvtd-Arch
-export GEM_HOME=$HOME/.local/share/.gem
+export GEM_HOME=$HOME/fshare/.gem
+export GEM_PATH=/usr/lib/ruby/gems/2.2.0
+export GEM_SPEC_CACHE=$GEM_HOME/specs
+export GRADLE_USER_HOME=$HOME/fshare/.gradle
 
 #http://stackoverflow.com/questions/25433505/go-all-bash-compilation-testing-fails-with-permission-denied
 export GOROOT=$HOME/kspace/goroot
 export GOPATH=$HOME/kspace/go
-export PATH=$PATH:/home/kayw/bin/:$GOROOT/bin:$GOPATH/bin:/usr/local/android-studio/bin:/opt/webstorm/bin
+export PATH=$PATH:/home/kayw/bin/:$GOROOT/bin:$GOPATH/bin:/usr/local/android-studio/bin:/opt/webstorm/bin:$GEM_HOME/bin
 #http://stackoverflow.com/questions/13830594/when-i-execute-bash-the-path-keeps-repeating-itself
 #export PATH=$(echo "$PATH" | awk -v RS=: -v ORS=: '!(a[$0]++)' | sed 's/:$//')
 
