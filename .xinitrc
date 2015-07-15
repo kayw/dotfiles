@@ -25,6 +25,7 @@ xset +fp /usr/share/fonts/local/
 xset fp rehash
 
 command -v VBoxClient-all >/dev/null && VBoxClient-all
+export RXVT_SOCKET=/tmp/urxvtd-Arch
 urxvtd -q -o -f
 if [[ -z "$TMUX" ]]; then
   urxvtc -e tmux
