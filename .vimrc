@@ -17,7 +17,8 @@ set nobackup
 " place for swap files
 set dir=/tmp
 set viminfo='20,\"50    " read/write a .viminfo file, don't store more than
-            " 50 lines of registers
+                        " 50 lines of registers
+set viminfo+=n/tmp "http://stackoverflow.com/questions/6286866/how-to-tell-vim-to-store-the-viminfo-file-somewhere-else
 set history=50      " keep 50 lines of command line history
 set ruler       " show the cursor position all the time
 
@@ -97,7 +98,7 @@ if has("autocmd")
  "http://stackoverflow.com/questions/15123477/tmux-tabs-with-name-of-file-open-in-vim
  "http://vim.wikia.com/wiki/Automatically_set_screen_title
  if !empty($TMUX)
-  autocmd BufEnter * let &titlestring = expand('%:.') . ' - VIM'  "TODO man 
+  autocmd BufEnter * let &titlestring = expand('%:.') . ' - VIM'  "TODO man
   auto VimLeave * :set t_ts=k\
   "autocmd BufReadPost,FileReadPost,BufNewFile * call system("tmux rename-window ". expand("%:t"))
  endif

@@ -16,6 +16,7 @@ export GEM_HOME=$HOME/fshare/.gem
 export GEM_PATH=/usr/lib/ruby/gems/2.2.0
 export GEM_SPEC_CACHE=$GEM_HOME/specs
 export GRADLE_USER_HOME=$HOME/fshare/.gradle
+export ANDROID_SDK_HOME=$HOME/fshare/.android
 
 #http://stackoverflow.com/questions/25433505/go-all-bash-compilation-testing-fails-with-permission-denied
 export GOROOT=$HOME/kspace/goroot
