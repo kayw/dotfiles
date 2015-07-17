@@ -121,7 +121,7 @@ ex ()
 }
 
 # necessary work settings per terminal session(!!!must put .profile or .bashrc, can't use in a separate script)
-export NVM_DIR="$HOME/.nvm"
+export NVM_DIR="$HOME/fshare/.nvm"
 
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion" # load nvm completion
