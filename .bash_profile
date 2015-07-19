@@ -1,3 +1,4 @@
+export XAUTHORITY=/tmp/.Xauthority
 if [[ -z "$DISPLAY" ]] && [[ $(tty) = /dev/tty1 ]]; then
 startx
 logout

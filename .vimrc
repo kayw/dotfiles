@@ -18,7 +18,9 @@ set nobackup
 set dir=/tmp
 set viminfo='20,\"50    " read/write a .viminfo file, don't store more than
                         " 50 lines of registers
-"set viminfo+=n/tmp "http://stackoverflow.com/questions/6286866/how-to-tell-vim-to-store-the-viminfo-file-somewhere-else
+set viminfo+=n/tmp/.viminfo 
+"http://stackoverflow.com/questions/6286866/how-to-tell-vim-to-store-the-viminfo-file-somewhere-else
+"http://vim.1045645.n5.nabble.com/search-vimrc-and-viminfo-in-a-different-directory-td4391875.html
 set history=50      " keep 50 lines of command line history
 set ruler       " show the cursor position all the time
 
@@ -323,7 +325,7 @@ let g:airline#extensions#tabline#buffer_nr_show = 1
 "let g:airline#extensions#syntastic#enabled = 1
 
 " Nerd tree
-nmap <Leader>. :let NERDTreeQuitOnOpen = 1<bar>NERDTreeToggle<CR>
+nmap <Leader>t :let NERDTreeQuitOnOpen = 1<bar>NERDTreeToggle<CR>
 
 "YouCompleteMe
 let g:ycm_autoclose_preview_window_after_completion = 1
