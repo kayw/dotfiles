@@ -16,12 +16,12 @@ export GEM_HOME=$HOME/fshare/.gem
 export GEM_PATH=/usr/lib/ruby/gems/2.2.0
 export GEM_SPEC_CACHE=$GEM_HOME/specs
 export GRADLE_USER_HOME=$HOME/fshare/.gradle
-export ANDROID_SDK_HOME=$HOME/fshare/.android
+export ANDROID_SDK_HOME=$HOME/fshare/
 
 #http://stackoverflow.com/questions/25433505/go-all-bash-compilation-testing-fails-with-permission-denied
 export GOROOT=$HOME/kspace/goroot
 export GOPATH=$HOME/kspace/go
-export PATH=$PATH:/home/kayw/bin/:$GOROOT/bin:$GOPATH/bin:/opt/webstorm/bin:$GEM_HOME/bin:/opt/apache-maven-3.3.3/bin:$HOME/.config/AndroidStudio/sdk/platform-tools
+export PATH=$PATH:/home/kayw/bin/:$GOROOT/bin:$GOPATH/bin:/opt/webstorm/bin:$GEM_HOME/bin:/opt/apache-maven-3.3.3/bin:$HOME/.config/AndroidStudio/sdk/platform-tools:$HOME/.config/AndroidStudio/sdk/tools
 #http://stackoverflow.com/questions/13830594/when-i-execute-bash-the-path-keeps-repeating-itself
 #export PATH=$(echo "$PATH" | awk -v RS=: -v ORS=: '!(a[$0]++)' | sed 's/:$//')
 
@@ -41,7 +41,7 @@ alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
 alias dotfiles='git --git-dir=/home/kayw/.git --work-tree=/home/kayw'
 alias mvn='ANDROID_HOME=$HOME/.config/AndroidStudio/sdk mvn -gs "/home/kayw/fshare/.m2/global/settings.xml"'
-alias studio='ANDROID_SDK_HOME=$HOME/fshare/ /usr/local/android-studio/bin/studio.sh'
+alias studio='ANDROID_SDK_HOME=$HOME/fshare/ /usr/local/android-studio/bin/studio.sh >/dev/null 2>&1'
 
 # PS1='[\u@\h \W]\$ '
 # export PS1="\[\e[36;1m\]\u\[\e[34;1m\]@\[\e[32;1m\]\H\[\e[30;1m\](\j)\[\e[33;1m\]\W\[\033k\033\134\] \$ \[\e[0m\]" \134 is \
