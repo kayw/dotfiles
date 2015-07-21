@@ -21,7 +21,7 @@ export ANDROID_SDK_HOME=$HOME/fshare/.android
 #http://stackoverflow.com/questions/25433505/go-all-bash-compilation-testing-fails-with-permission-denied
 export GOROOT=$HOME/kspace/goroot
 export GOPATH=$HOME/kspace/go
-export PATH=$PATH:/home/kayw/bin/:$GOROOT/bin:$GOPATH/bin:/usr/local/android-studio/bin:/opt/webstorm/bin:$GEM_HOME/bin
+export PATH=$PATH:/home/kayw/bin/:$GOROOT/bin:$GOPATH/bin:/opt/webstorm/bin:$GEM_HOME/bin:/opt/apache-maven-3.3.3/bin:$HOME/.config/AndroidStudio/sdk/platform-tools
 #http://stackoverflow.com/questions/13830594/when-i-execute-bash-the-path-keeps-repeating-itself
 #export PATH=$(echo "$PATH" | awk -v RS=: -v ORS=: '!(a[$0]++)' | sed 's/:$//')
 
@@ -40,6 +40,8 @@ alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
 alias dotfiles='git --git-dir=/home/kayw/.git --work-tree=/home/kayw'
+alias mvn='ANDROID_HOME=$HOME/.config/AndroidStudio/sdk mvn -gs "/home/kayw/fshare/.m2/global/settings.xml"'
+alias studio='ANDROID_SDK_HOME=$HOME/fshare/ /usr/local/android-studio/bin/studio.sh'
 
 # PS1='[\u@\h \W]\$ '
 # export PS1="\[\e[36;1m\]\u\[\e[34;1m\]@\[\e[32;1m\]\H\[\e[30;1m\](\j)\[\e[33;1m\]\W\[\033k\033\134\] \$ \[\e[0m\]" \134 is \
