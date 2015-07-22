@@ -15,10 +15,10 @@ set backspace=indent,eol,start  " more powerful backspacing
 set textwidth=0     " Don't wrap lines by default
 set nobackup
 " place for swap files
-set dir=/tmp
+set dir=~/fshare/.tmp
 set viminfo='20,\"50    " read/write a .viminfo file, don't store more than
                         " 50 lines of registers
-set viminfo+=n/tmp/.viminfo 
+set viminfo+=n~/fshare/.tmp/.viminfo 
 "http://stackoverflow.com/questions/6286866/how-to-tell-vim-to-store-the-viminfo-file-somewhere-else
 "http://vim.1045645.n5.nabble.com/search-vimrc-and-viminfo-in-a-different-directory-td4391875.html
 set history=50      " keep 50 lines of command line history

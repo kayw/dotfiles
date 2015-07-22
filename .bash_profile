@@ -1,4 +1,4 @@
-export XAUTHORITY=/tmp/.Xauthority
+export XAUTHORITY=/home/kayw/fshare/.tmp/.Xauthority
 if [[ -z "$DISPLAY" ]] && [[ $(tty) = /dev/tty1 ]]; then
 startx
 logout
