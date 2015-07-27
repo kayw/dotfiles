@@ -1,5 +1,5 @@
 setl et
-setl sw=4
-setl ts=4
-setl sts=4
+setl sw=2
+setl ts=2
+setl sts=2
 se nu
