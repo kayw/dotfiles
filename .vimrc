@@ -259,7 +259,8 @@ call plug#begin('~/.vim/bundle/')
 "Plug 'vim-scripts/gitignore' " use gitignore for wildignore
 "Plug 'mhinz/vim-sayonara', { 'on': 'Sayonara' }
 "Plug 'tmhedberg/matchit'
-"Plug 'mattn/emmet-vim'
+Plug 'mattn/emmet-vim', { 'for': ['html', 'css']}
+  let g:user_emmet_install_global = 0
 "Plug 'tpope/vim-commentary'
 "Plug 'tpope/vim-surround'
 "Plug 'Raimondi/delimitMate'
