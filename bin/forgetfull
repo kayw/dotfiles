@@ -72,7 +72,7 @@ $ tar -ztvf file.tar.gz
 tar -tf file.tar.gz #list files
 tar -xzvf file.tar.gz #extract
 $ tar -jtvf file.tar.bz2
-xz -d path/to/.xz #http://superuser.com/questions/145846/howto-unzip-xz-file-with-7z-and-lzma
+xz -d path/to/.tar.xz #http://superuser.com/questions/145846/howto-unzip-xz-file-with-7z-and-lzma  https://en.wikipedia.org/wiki/XZ_Utils
 
 gzip -d *.gz
 gunzip *.gz
