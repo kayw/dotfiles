@@ -21,7 +21,7 @@ export ANDROID_SDK_HOME=$HOME/fshare/
 #http://stackoverflow.com/questions/25433505/go-all-bash-compilation-testing-fails-with-permission-denied
 export GOROOT=$HOME/kspace/goroot
 export GOPATH=$HOME/kspace/go
-export PATH=$PATH:/home/kayw/bin/:$GOROOT/bin:$GOPATH/bin:/opt/webstorm/bin:$GEM_HOME/bin:$HOME/fshare/.android/sdk/platform-tools:$HOME/fshare/.android/sdk/tools
+export PATH=$PATH:/home/kayw/bin/:$GOROOT/bin:$GOPATH/bin:$GEM_HOME/bin:$HOME/fshare/.android/sdk/platform-tools:$HOME/fshare/.android/sdk/tools
 #http://stackoverflow.com/questions/13830594/when-i-execute-bash-the-path-keeps-repeating-itself
 #export PATH=$(echo "$PATH" | awk -v RS=: -v ORS=: '!(a[$0]++)' | sed 's/:$//')
 
