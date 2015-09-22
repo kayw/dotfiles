@@ -18,6 +18,7 @@ export GEM_SPEC_CACHE=$GEM_HOME/specs
 export GRADLE_USER_HOME=$HOME/fshare/.gradle
 export ANDROID_SDK_HOME=$HOME/fshare/
 export PM2_HOME=$HOME/fshare/.pm2/
+export BABEL_CACHE_PATH=/tmp/babel.json
 
 #http://stackoverflow.com/questions/25433505/go-all-bash-compilation-testing-fails-with-permission-denied
 export GOROOT=$HOME/kspace/goroot
