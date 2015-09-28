@@ -72,6 +72,7 @@ function MyDiff()
 endfunction
 
 runtime! ftplugin/man.vim
+runtime! macros/matchit.vim "tmhedberg/matchit
 
 if !empty($TMUX)"http://stackoverflow.com/questions/9496769/how-to-correctly-use-undefined-environment-variables-in-vimrc
   if &term =~ "screen"
@@ -258,7 +259,6 @@ call plug#begin('~/.vim/bundle/')
 "Plug 'tpope/vim-sensible' " sensible defaults for ViM
 "Plug 'vim-scripts/gitignore' " use gitignore for wildignore
 "Plug 'mhinz/vim-sayonara', { 'on': 'Sayonara' }
-"Plug 'tmhedberg/matchit'
 Plug 'mattn/emmet-vim', { 'for': ['html', 'css']}
   let g:user_emmet_install_global = 0
 "Plug 'tpope/vim-commentary'
