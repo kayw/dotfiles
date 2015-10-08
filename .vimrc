@@ -119,6 +119,10 @@ inoremap <F12> <ESC>:e ~/.vimrc<CR>
 "nnoremap <C-K> <C-W>k
 "nnoremap <C-L> <C-W>l
 "imap <C-Tab> <ESC><C-6>i
+" Swap the word the cursor is on with the next word (which can be on a
+" newline, and punctuation is "skipped"):
+" http://superuser.com/questions/290360/how-to-switch-words-in-an-easy-manner-in-vim
+nmap <silent> gw "_yiw:s/\(\%#\w\+\)\(\_W\+\)\(\w\+\)/\3\2\1/<CR><C-o>:noh<CR>
 
 "*** Command-line-invocation-of-ctags ***
 "map  <C-c> :!ctags --c++-kinds=+p --fields=+iaS --extra=+q .<CR>
