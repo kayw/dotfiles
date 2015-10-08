@@ -38,6 +38,11 @@ shopt -s checkwinsize
 
 # enable color support of ls and also add handy aliases
 alias ls='ls --color=auto -A'
+# http://stackoverflow.com/questions/3455625/linux-command-to-print-directory-structure-in-the-form-of-a-tree
+alias lst='ls -R | grep ":$" | sed -e '"'"'s/:$//'"'"' -e \
+          '"'"'s/[^-][^\/]*\//--/g'"'"' -e '"'"'s/^/   /'"'"' -e '"'"'s/-/|/'"'"
+alias lss='find . -type f | grep -v ".git" | xargs du -b | sort -rn' #http://unix.stackexchange.com/questions/53737/how-to-list-all-files-in-the-size-order
+alias getack='curl http://betterthangrep.com/ack-standalone > ~/bin/ack && chmod 0755 !#:3'
 alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
@@ -122,6 +127,16 @@ ex ()
   else
     echo "'$1' is not a valid file"
   fi
+}
+
+top10() {
+  #from newsmth
+  ps -e -o comm -o %mem= | sort -nrk2 | head -n 10
+
+  #list most frequent used command http://talk.linuxtoy.org/using-cli/
+  history | awk '{CMD[$2]++;count++;}END { for (a in CMD)\
+  print CMD[a] " " CMD[a]/count*100 "% " a;}' | grep -v "./" \
+  | column -c3 -s " " -t | sort -nr | nl | head -n10
 }
 
 # necessary work settings per terminal session(!!!must put .profile or .bashrc, can't use in a separate script)
