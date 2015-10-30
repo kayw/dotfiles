@@ -12,3 +12,5 @@
 	default = matching
 [branch]
 	autosetupmerge = true
+[core]
+	editor = vim
