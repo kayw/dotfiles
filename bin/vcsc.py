@@ -4,8 +4,10 @@ from __future__ import print_function
 
 import os
 import subprocess
+import signal
+import time
 from os.path import join, exists, isdir
-from collections import deque #tutorial/datastructures
+from collections import deque # tutorial/datastructures.html
 from multiprocessing import Pool,freeze_support
 class VcsCmd(dict):
 
@@ -37,6 +39,7 @@ vcs_git = VcsCmd(name="Git", cmd="git", downloadCmd="pull", statusCmd='status -u
 vcs_hg = VcsCmd(name="Mecurial", cmd="hg", downloadCmd="pull -u", statusCmd="status -u", submoduleCmd=None)
 
 available_vcses = [vcs_hg, vcs_git]
+vcsc_running_dir = os.getcwd()
 
 def init_worker():
     signal.signal(signal.SIGINT, signal.SIG_IGN)
@@ -48,7 +51,7 @@ def RunVcsCmd(vcs_root, child_dir_level, cmd_str, args):
     ignore_subchild_dir = False
     if child_dir_level == -1:
         ignore_subchild_dir = True
-        for root, dirs, _ in os.walk(root_dir):
+        for root, dirs, _ in os.walk(vcs_root):
             for child_dir in dirs:
                 root_queue.append(join(root, child_dir))
 
@@ -69,44 +72,59 @@ def RunVcsCmd(vcs_root, child_dir_level, cmd_str, args):
                 root_queue.append(join(root_dir, sub_dir))
 
 
-    mpp = Pool()
+    mpp = Pool(None, init_worker)
 
     try:
-        #print(list(cmd_args_queue))
+        for cmd in cmd_args_queue:
+            print(cmd)
+
         #http://stackoverflow.com/questions/5773397/converting-a-deque-object-into-list
-        mpp.map(run_star, list(cmd_args_queue))
+        #http://stackoverflow.com/questions/1408356/keyboard-interrupts-with-pythons-multiprocessing-pool
+        mpp.map_async(run_star, list(cmd_args_queue)).get(9999)
         #http://stackoverflow.com/questions/3822512/chunksize-parameter-in-pythons-multiprocessing-pool-map
         #http://stackoverflow.com/questions/9874042/using-pythons-multiprocessing-module-to-execute-simultaneous-and-separate-seawa
 
         #http://jtushman.github.io/blog/2014/01/14/python-|-multiprocessing-and-interrupts/
         #http://stackoverflow.com/questions/21104997/keyboard-interrupt-with-pythons-multiprocessing/21106459#21106459
+
         #http://stackoverflow.com/questions/11312525/catch-ctrlc-and-exit-multiprocesses-gracefully-in-python
+        time.sleep(10)
         mpp.close()
         mpp.join()
     except KeyboardInterrupt:
         print("Caught KeyboardInterrupt, terminating workers")
         mpp.terminate()
         mpp.join()
+    except Exception, e:
+        print("Caught %s" % e)
+        mpp.terminate()
+        mpp.join()
 
 #http://stackoverflow.com/questions/5442910/python-multiprocessing-pool-map-for-multiple-arguments
 def run_star(cmd):
-    run(*cmd)
+    # http://stackoverflow.com/questions/15314189/python-multiprocessing-pool-hangs-at-join
+    # http://bugs.python.org/issue9400
+    try:
+        run(*cmd)
+    except Exception, e:
+        print('caught exception in run_star', e)
 
 def run(root_dir, cmd, subcmd, args):
+    os.chdir(vcsc_running_dir)
     #http://stackoverflow.com/questions/7714868/python-multiprocessing-how-can-i-reliably-redirect-stdout-from-a-child-process
     #http://stackoverflow.com/questions/2331339/piping-output-of-subprocess-popen-to-files
-    with open(str(os.getpid()) + ".log", "w") as logf:
-        cur_dir = os.getcwd()
+    with open(str(os.getpid()) + ".log", "a") as logf:
         os.chdir(root_dir)
         #http://stackoverflow.com/questions/18344932/python-subprocess-call-stdout-to-file-stderr-to-file-display-stderr-on-scree
         #see also http://codereview.stackexchange.com/questions/6567/how-to-redirect-a-subprocesses-output-stdout-and-stderr-to-logging-module
-        logf.write("run command %s in directory %s" % (cmd + ' ' + subcmd + ' ' + args, root_dir))
+        logf.write("run command {} in directory {}".format(cmd + ' ' + subcmd + ' ' + args, root_dir))
+        logf.write("\n")
+        logf.write("\n") ## todo why put this after subprocess donot work
         cmd_args = [cmd]
         cmd_args.extend(subcmd.split())
         cmd_args.extend(args.split())
-        subprocess.check_call(cmd_args, stdout=logf, stderr=logf)
-        os.chdir(cur_dir)
         #another way use bash redirection http://stackoverflow.com/questions/26855464/bash-fetch-stdout-stderr-of-python-multiprocessing-process
+        subprocess.check_call(cmd_args, stdout=logf, stderr=logf)
 
 def main():
     import argparse
@@ -123,12 +141,12 @@ def main():
     #cmdline.add_argument('-r', '--recursive', action='store_true', help='whether run command in child directory recursively')
     #http://stackoverflow.com/questions/5262702/argparse-module-how-to-add-option-without-any-argument
     cmdline.add_argument('-l', '--level', type=int, help='command run in child directory level, default search every directory')
-    cmdline.add_argument('optargs', nargs='*', default='', help='optional arguments for the vcs command') 
+    cmdline.add_argument('optargs', nargs='*', default='', help='optional arguments for the vcs command')
     #http://stackoverflow.com/questions/4480075/argparse-optional-positional-arguments
     cur_dir = os.getcwd() #http://stackoverflow.com/questions/3430372/how-to-get-full-path-of-current-files-directory-in-python
     args = cmdline.parse_args()
     cmd_str = ""
-    if args.u: 
+    if args.u:
         cmd_str = 'downloadCmd'
     elif args.s:
         cmd_str = 'statusCmd'
