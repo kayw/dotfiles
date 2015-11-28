@@ -9,6 +9,8 @@ import time
 from os.path import join, exists, isdir
 from collections import deque # tutorial/datastructures.html
 from multiprocessing import Pool,freeze_support
+#Test directory: codebase/webapp/testvcs
+
 class VcsCmd(dict):
 
     """vcs cmd to describe how to use version control system like mercurial, git
