@@ -9,7 +9,7 @@ import time
 from os.path import join, exists, isdir
 from collections import deque # tutorial/datastructures.html
 from multiprocessing import Pool,freeze_support
-#Test directory: codebase/webapp/testvcs
+#test method 1: create directory with directory and .git
 
 class VcsCmd(dict):
 
