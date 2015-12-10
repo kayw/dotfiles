@@ -146,5 +146,5 @@ export NVM_DIR="$HOME/fshare/.nvm"
 
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion" # load nvm completion
-command -v nvm &> /dev/null && nvm use v4.2.2
+command -v nvm &> /dev/null && nvm use default
 #. "$HOME/.nvm/nvm.sh" && . "$HOME/.nvm/bash_completion" && nvm use iojs;
