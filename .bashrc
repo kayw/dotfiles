@@ -19,6 +19,8 @@ export GRADLE_USER_HOME=$HOME/fshare/.gradle
 export ANDROID_SDK_HOME=$HOME/fshare/
 export PM2_HOME=$HOME/fshare/.pm2/
 export BABEL_CACHE_PATH=/tmp/babel.json
+export NODE_REPL_HISTORY=$HOME/fshare/.node_history
+export PYTHONSTARTUP=$HOME/fshare/.py_history
 
 #http://stackoverflow.com/questions/25433505/go-all-bash-compilation-testing-fails-with-permission-denied
 export GOROOT=$HOME/kspace/goroot
@@ -42,7 +44,7 @@ alias ls='ls --color=auto -A'
 alias lst='ls -R | grep ":$" | sed -e '"'"'s/:$//'"'"' -e \
           '"'"'s/[^-][^\/]*\//--/g'"'"' -e '"'"'s/^/   /'"'"' -e '"'"'s/-/|/'"'"
 alias lss='find . -type f | grep -v ".git" | xargs du -b | sort -rn' #http://unix.stackexchange.com/questions/53737/how-to-list-all-files-in-the-size-order
-alias getack='curl http://betterthangrep.com/ack-standalone > ~/bin/ack && chmod 0755 !#:3'
+alias getack='curl -L http://betterthangrep.com/ack-standalone > ~/bin/ack'
 alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
@@ -144,5 +146,5 @@ export NVM_DIR="$HOME/fshare/.nvm"
 
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion" # load nvm completion
-command -v nvm &> /dev/null && nvm use iojs
+command -v nvm &> /dev/null && nvm use v4.2.2
 #. "$HOME/.nvm/nvm.sh" && . "$HOME/.nvm/bash_completion" && nvm use iojs;
