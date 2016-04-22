@@ -51,6 +51,7 @@ alias egrep='egrep --color=auto'
 alias dotfiles='git --git-dir=/home/kayw/.git --work-tree=/home/kayw'
 alias mvn='ANDROID_HOME=$HOME/fshare/.android/sdk /opt/apache-maven-3.3.3/bin/mvn -gs "/home/kayw/fshare/.m2/global/settings.xml"'
 alias studio='ANDROID_SDK_HOME=$HOME/fshare/ /usr/local/android-studio/bin/studio.sh >/dev/null 2>&1'
+alias wps='wps -style gtk+'
 
 # PS1='[\u@\h \W]\$ '
 # export PS1="\[\e[36;1m\]\u\[\e[34;1m\]@\[\e[32;1m\]\H\[\e[30;1m\](\j)\[\e[33;1m\]\W\[\033k\033\134\] \$ \[\e[0m\]" \134 is \
