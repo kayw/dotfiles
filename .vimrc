@@ -322,7 +322,7 @@ let g:snips_author="kayw"
 
 "airline
 set laststatus=2 "http://superuser.com/questions/634570/vim-how-to-install-airline
-let g:airline_theme='powerlineish'
+"let g:airline_theme='powerlineish'
 let g:airline#extensions#disable_rtp_load = 1
 let g:airline#extensions#bufferline#enabled = 1  "http://stackoverflow.com/questions/4865132/an-alternative-to-minibufexplorer-vim
 let g:airline#extensions#tabline#show_buffers = 1

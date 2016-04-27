@@ -7,7 +7,7 @@ Requires=docker.socket
 [Service]
 Environment="DOCKER_HOST=tcp://127.0.0.1:4243" "OPTION=-g /home/kayw/fshare/.dockercache --insecure-registry dl.dockerpool.com:5000 --exec-opt native.cgroupdriver=cgroupfs"
 #ExecStart=/usr/local/bin/docker -d -H $DOCKER_HOST -g /home/kayw/fshare/.dockercache --insecure-registry dl.dockerpool.com:5000
-ExecStart=/usr/local/bin/docker -d $OPTION
+ExecStart=/usr/local/bin/docker daemon $OPTION
 MountFlags=slave
 LimitNOFILE=1048576
 LimitNPROC=1048576

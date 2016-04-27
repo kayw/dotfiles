@@ -149,3 +149,4 @@ export NVM_DIR="$HOME/fshare/.nvm"
 [ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion" # load nvm completion
 command -v nvm &> /dev/null && nvm use default
 #. "$HOME/.nvm/nvm.sh" && . "$HOME/.nvm/bash_completion" && nvm use iojs;
+command -v nodemon &> /dev/null || alias nodemon="pm2 start --no-daemon"
