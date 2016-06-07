@@ -1,7 +1,3 @@
-" sourced from
-" https://github.com/l3pp4rd/dotfiles/blob/master/vimrc  colorscheme  used plugins(TODO)
-" https://github.com/frank604/dotfiles/blob/master/.vimrc  w!!
-" TODO merge with  https://github.com/zhuochun/dotfiles/blob/master/vimrc
 set runtimepath=~/.vim/,$VIMRUNTIME,~/.vim/bundle/vim-snippets/,~/.vim/after/
 
 " Normally we use vim-extensions. If you want true vi-compatibility
@@ -18,7 +14,7 @@ set nobackup
 set dir=~/fshare/.tmp
 set viminfo='20,\"50    " read/write a .viminfo file, don't store more than
                         " 50 lines of registers
-set viminfo+=n~/fshare/.tmp/.viminfo 
+set viminfo+=n~/fshare/.tmp/.viminfo
 "http://stackoverflow.com/questions/6286866/how-to-tell-vim-to-store-the-viminfo-file-somewhere-else
 "http://vim.1045645.n5.nabble.com/search-vimrc-and-viminfo-in-a-different-directory-td4391875.html
 set history=50      " keep 50 lines of command line history
@@ -35,7 +31,8 @@ set suffixes=.bak,~,.swp,.o,.info,.aux,.log,.dvi,.bbl,.blg,.brf,.cb,.ind,.idx,.i
 
 " Vim5 and later versions support syntax highlighting. Uncommenting the next
 " line enables syntax highlighting by default.
-syntax on
+" enable by Plug
+" syntax on
 
 " If using a dark background within the editing area and syntax highlighting
 " turn on this option as well
@@ -54,8 +51,6 @@ set wic         " Wildignorecase for cmdline completion especially for filename
 "set mouse=a        " Enable mouse usage (all modes) in terminals
 set fencs=utf-8,ucs-bom,cp936,gb18310,big5,latin1
 set title
-"colo molokai
-"set autochdir
 
 "https://groups.google.com/forum/#!msg/vim_use/SR12FCxkQYg/aZIGO33waN0J
 set diffexpr=MyDiff()
@@ -72,7 +67,6 @@ function MyDiff()
 endfunction
 
 runtime! ftplugin/man.vim
-runtime! macros/matchit.vim "tmhedberg/matchit
 
 if !empty($TMUX)"http://stackoverflow.com/questions/9496769/how-to-correctly-use-undefined-environment-variables-in-vimrc
   if &term =~ "screen"
@@ -90,7 +84,7 @@ if has("autocmd")
  " Enable highlight variable under cursor(not smart)
  " http://code.google.com/p/vim-python-ide/source/browse/.vimrc
  " http://stackoverflow.com/questions/1551231/vim-highlight-variable-under-cursor-like-in-netbeans
- " None idea why seperate the "exe" to next with \| make the "l" operator not
+ " No idea why seperate the "exe" to next with \| make the "l" operator not
  " working
  "au BufRead,BufNewFile *.c,*.cpp,*.js,*.py  autocmd CursorMoved * silent! exe printf('match IncSearch /\<%s\>/', expand('<cword>'))
  "smth stephenjy 可不可以直接高亮某个词？Tue Nov  6 10:37:12 2012
@@ -105,13 +99,12 @@ if has("autocmd")
   auto VimLeave * :set t_ts=k\
   "autocmd BufReadPost,FileReadPost,BufNewFile * call system("tmux rename-window ". expand("%:t"))
  endif
- "au FILETYPE c set omnifunc=ccomplete#CompleteC
  au FILETYPE c,cpp,javascript,python,rust set nu
- "au BufRead reportbug.*        set ft=mail
- "au BufRead reportbug-*        set ft=mail
 endif " has ("autocmd")
 
-
+" cd to the directory containing the file in the buffer
+" https://github.com/olalonde/dotfiles/blob/master/tag-vim/vimrc#L189
+nmap <silent> <leader>cd :lcd %:h<CR>
 noremap <F12> :e ~/.vimrc<CR>
 inoremap <F12> <ESC>:e ~/.vimrc<CR>
 "nnoremap <C-H> <C-W>h
@@ -124,134 +117,24 @@ inoremap <F12> <ESC>:e ~/.vimrc<CR>
 " http://superuser.com/questions/290360/how-to-switch-words-in-an-easy-manner-in-vim
 nmap <silent> gw "_yiw:s/\(\%#\w\+\)\(\_W\+\)\(\w\+\)/\3\2\1/<CR><C-o>:noh<CR>
 
-"*** Command-line-invocation-of-ctags ***
-"map  <C-c> :!ctags --c++-kinds=+p --fields=+iaS --extra=+q .<CR>
-
-if has("cscope")
-    "
-    set csprg=/usr/bin/cscope
-    set cscopequickfix=s-,c-,d-,t-,e-,f-,i-,g-
-    set csto=0
-    set cst
-    set nocsverb
-    " add any database in current directory
-    if filereadable("cscope.out")
-        cs add cscope.out
-    " else add database pointed to by environment
-    elseif $CSCOPE_DB != ""
-        cs add $CSCOPE_DB
-    endif
-    set csverb
-    " http://cscope.sourceforge.net/cscope_maps.vim
-    """"""""""""" My cscope/vim key mappings
-    "
-    " The following maps all invoke one of the following
-    " cscope search types:
-    "
-    " 's'   symbol: find all references to the  token under cursor
-    " 'g'   global: find global definition(s) of the token under cursor
-    " 'c'   calls:  find all calls to the function name under cursor
-    " 't'   text:   find all instances of the text under cursor
-    " 'e'   egrep:  egrep search for the word under cursor
-    " 'f'   file:   open the filename under cursor
-    " 'i'   includes: find files that include the filename under cursor
-    " 'd'   called: find functions that function under cursor calls
-    "
-    " Below are three sets of the maps: one set that just jumps to your
-    " search result, one that splits the existing vim window horizontally and
-    " diplays your search result in the new window, and one that does the same
-    " thing, but does a vertical split instead (vim 6 only).
-    " I've used CTRL-\ and CTRL-@ as the starting keys for these maps,
-    " as it's unlikely that you need their default mappings (CTRL-\'s default use
-    " is as part of CTRL-\ CTRL-N typemap, which basically just does the same thing
-    " as hitting 'escape': CTRL-@ doesn't seem to have any default use).
-    " If you don't like using 'CTRL-@' or CTRL-\, , you can change some or all of these
-    " maps to use other keys.  One likely candidate is 'CTRL-_'(which also maps to CTRL-/,
-    " which is easier to type).  By default it is used to switch between Hebrew and English
-    " keyboard mode. All of the maps involving the <cfile> macro use '^<cfile>$': this is
-    " so that searches over '#include <time.h>" return only references to 'time.h', and
-    " not 'sys/time.h', etc.  (by default cscope will return all files that contain 'time.h'
-    " as part of their name). To do the first type of search, hit 'CTRL-\', followed by one
-    " of the  cscope search types above (s,g,c,t,e,f,i,d).  The result of your cscope search
-    " will be displayed in the current window.  You can use CTRL-T to go back to where you were
-    " before the search.
-    "nmap <C-\>s :scs find s <C-R>=expand("<cword>")<CR><CR>
-    "nmap <C-\>g :scs find g <C-R>=expand("<cword>")<CR><CR>:copen<CR>
-    "nmap <C-\>c :scs find c <C-R>=expand("<cword>")<CR><CR>
-    "nmap <C-\>t :scs find t <C-R>=expand("<cword>")<CR><CR>
-    "nmap <C-\>e :scs find e <C-R>=expand("<cword>")<CR><CR>
-    "nmap <C-\>f :scs find f <C-R>=expand("<cfile>")<CR><CR>
-    "nmap <C-\>i :scs find i ^<C-R>=expand("<cfile>")<CR>$<CR>
-    "nmap <C-\>d :scs find d <C-R>=expand("<cword>")<CR><CR>
-    nnoremap <F2> :scs find s <C-R>=expand("<cword>")<CR><CR>
-    nnoremap <F3> :scs find g <C-R>=expand("<cword>")<CR><CR>:copen<CR>
-    nnoremap <F4> :scs find c <C-R>=expand("<cword>")<CR><CR>
-    nnoremap <C-\>t :scs find t <C-R>=expand("<cword>")<CR><CR>
-    nnoremap <C-\>e :scs find e <C-R>=expand("<cword>")<CR><CR>
-    nnoremap <F7> :scs find f <C-R>=expand("<cfile>")<CR><CR>
-    nnoremap <C-\>i :scs find i ^<C-R>=expand("<cfile>")<CR>$<CR>
-    nnoremap <C-\>d :scs find d <C-R>=expand("<cword>")<CR><CR>
-    " Using 'CTRL-spacebar' (intepreted as CTRL-@ by vim) then a search type
-    " makes the vim window split horizontally, with search result displayed
-    " in the new window. (Note: earlier versions of vim may not have the :scs
-    " command, but it can be simulated roughly via:
-
-    "nmap <C-@>g <C-W><C-S> :cs find g <C-R>=expand("<cword>")<CR><CR>
-    "nmap <C-2>s :scs find s <C-R>=expand("<cword>")<CR><CR>
-    "nmap <C-@>g :scs find g <C-R>=expand("<cword>")<CR><CR>
-    "nmap <C-2>c :scs find c <C-R>=expand("<cword>")<CR><CR>
-    "nmap <C-2>t :scs find t <C-R>=expand("<cword>")<CR><CR>
-    "nmap <C-2>e :scs find e <C-R>=expand("<cword>")<CR><CR>
-    "nmap <C-2>f :scs find f <C-R>=expand("<cfile>")<CR><CR>
-    "nmap <C-2>i :scs find i ^<C-R>=expand("<cfile>")<CR>$<CR>
-    "nmap <C-2>d :scs find d <C-R>=expand("<cword>")<CR><CR>
-    "Hitting CTRL-space *twice* before the search type does a vertical split
-    "instead of a horizontal one (vim 6 and up only) (Note: you may wish to put
-    "a 'set splitright' in your .vimrc " if you prefer the new window on the
-    "right instead of the left
-    "nmap <C-@><C-@>s :vert scs find s <C-R>=expand("<cword>")<CR><CR>
-    "nmap <C-@><C-@>g :vert scs find g <C-R>=expand("<cword>")<CR><CR>
-    "nmap <C-@><C-@>c :vert scs find c <C-R>=expand("<cword>")<CR><CR>
-    "nmap <C-@><C-@>t :vert scs find t <C-R>=expand("<cword>")<CR><CR>
-    "nmap <C-@><C-@>e :vert scs find e <C-R>=expand("<cword>")<CR><CR>
-    "nmap <C-@><C-@>f :vert scs find f <C-R>=expand("<cfile>")<CR><CR>
-    "nmap <C-@><C-@>i :vert scs find i ^<C-R>=expand("<cfile>")<CR>$<CR>
-    "nmap <C-@><C-@>d :vert scs find d <C-R>=expand("<cword>")<CR><CR>
-    " key map timeouts
-    "
-    "By default Vim will only wait 1 second for each keystroke in a mapping.
-    "You may find that too short with the above typemaps.  If so, you should
-    "either turn off mapping timeouts via 'notimeout'.
-"set notimeout
-    "Or, you can keep timeouts, by uncommenting the timeoutlen line below,
-    "with your own personal favorite value (in milliseconds)
-"set timeoutlen=4000
-    "Either way, since mapping timeout settings by default also set the timeouts
-    "for multicharacter 'keys codes' (like <F1>), you should also set ttimeout
-    "and ttimeoutlen: otherwise, you will experience strange delays as vim waits
-    "for a keystroke after you hit ESC (it will be waiting to see if the ESC is
-    "actually part of a key code like <F1>).
-"set ttimeout
-    "personally, I find a tenth of a second to work well for key code timeouts.
-    "If you experience problems and have a slow terminal or network connection,
-    "set it higher.If you don't set ttimeoutlen, the value for timeoutlent
-    "(default: 1000 = 1 second,which is sluggish) is used.
- "set ttimeoutlen=100
-endif
-
 if has('gui_running')
   " Make shift-insert work like in Xterm
   map <S-Insert> <MiddleMouse>
   map! <S-Insert> <MiddleMouse>
 endif
 
-set pastetoggle=<F9>
+set pastetoggle=<F9>  "http://stackoverflow.com/questions/2514445/turning-off-auto-indent-when-pasting-text-into-vim
 
 " Allows writing to files with root priviledges
 cmap w!! w !sudo tee % > /dev/null
 
-"https://github.com/gmarik/Vundle.vim#quick-start
-filetype off
+" https://www.reddit.com/r/vim/comments/4l00pj/eli5_why_is_nerdtree_discouraged_but_everyone/d3jufab
+" I don't use these methods of installing vim plugins.
+let g:loaded_getscriptPlugin = 0
+let g:loaded_vimballPlugin = 0
+let g:loaded_netrwPlugin = 0
+" LogiPat seems useful, but I've never touched it.
+let g:loaded_logiPat = 0
 
 "Vim-Plug
 "https://github.com/junegunn/vim-plug
@@ -260,38 +143,35 @@ call plug#begin('~/.vim/bundle/')
 
 "bundles
 
-"Plug 'tpope/vim-sensible' " sensible defaults for ViM
-"Plug 'vim-scripts/gitignore' " use gitignore for wildignore
-"Plug 'mhinz/vim-sayonara', { 'on': 'Sayonara' }
-Plug 'mattn/emmet-vim', { 'for': ['html', 'css']}
-  let g:user_emmet_install_global = 0
-"Plug 'tpope/vim-commentary'
-"Plug 'tpope/vim-surround'
-"Plug 'Raimondi/delimitMate'
-"Plug 'groenewege/vim-less', { 'for': 'less' }
+"Plug 'mattn/emmet-vim', { 'for': ['html', 'css']}
+  "let g:user_emmet_install_global = 0
+Plug 'Raimondi/delimitMate', { 'for': [ 'cpp', 'javascript', 'go', 'vim' ]}
 "Plug 'tpope/vim-markdown', { 'for': 'markdown' }
-"Plug 'evanmiller/nginx-vim-syntax'
 "Plug 'mxw/vim-jsx', { 'for': 'jsx' }
 
 Plug 'SirVer/ultisnips' | Plug 'kayw/vim-snippets'
 Plug 'scrooloose/syntastic'
-Plug 'Yggdroot/LeaderF' "http://stackoverflow.com/questions/4108073/is-there-a-vim-plug-in-similar-to-fuzzyfinder-textmate-and-command-t-which-does
 Plug 'tpope/vim-fugitive' "http://vimcasts.org/episodes/fugitive-vim-working-with-the-git-index/
 Plug 'python_match.vim'
-Plug 'gabesoft/vim-ags'
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 
-Plug 'Valloric/YouCompleteMe', { 'for': ['cpp', 'c', 'python', 'javascript', 'markdown'], 'do': './install.sh'} "todo c-family build script
-Plug 'pangloss/vim-javascript', {'for': 'javascript'}
+Plug 'Valloric/YouCompleteMe', { 'for': ['cpp', 'c', 'python', 'javascript'], 'do': './install.py --tern-completer'}
+Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
 Plug 'wting/rust.vim', {'for': 'rust'}
 Plug 'fatih/go.vim', {'for': 'go'}
 Plug 'cakebaker/scss-syntax.vim', {'for': 'scss'}
 
-Plug 'dahu/LearnVim'
-
-Plug 'bling/vim-airline'
-Plug 'bling/vim-bufferline'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 Plug 'altercation/vim-colors-solarized'
+
+Plug 'junegunn/fzf', { 'do': './install --all' } "https://www.reddit.com/r/vim/comments/4l00pj/eli5_why_is_nerdtree_discouraged_but_everyone/d3juidx
+Plug 'junegunn/fzf.vim' "https://github.com/junegunn/fzf.vim
+Plug 'ap/vim-buftabline' "https://www.reddit.com/r/vim/comments/4l00pj/eli5_why_is_nerdtree_discouraged_but_everyone/d3nyg6n
+
+Plug 'scrooloose/nerdcommenter', { 'for': ['python', 'javascript', 'cpp', 'go', 'rust' ] }
+Plug 'octol/vim-cpp-enhanced-highlight', { 'for': 'cpp' } "differ highlight for macro namespace type
+Plug 'Chiel92/vim-autoformat', { 'for': [ 'python', 'javascript', 'cpp', 'go', 'rust' ] }
 
 call plug#end()
 
@@ -303,11 +183,8 @@ filetype plugin on
 " detected filetype.
 filetype indent on
 
-"list search result  use ag.vim todo
-map <M-C-F> <ESC>:Ags<Enter>
-
 "UltiSnip
-"need improvement https://github.com/Valloric/YouCompleteMe/issues/36
+"ycm TAB key TODO https://github.com/Valloric/YouCompleteMe/issues/36
 let g:UltiSnipsExpandTrigger = "<C-e>"
 let g:UltiSnipsListSnippets = "<C-g>"
 let g:UltiSnipsJumpForwardTrigger="<C-e>"
@@ -322,12 +199,13 @@ let g:snips_author="kayw"
 
 "airline
 set laststatus=2 "http://superuser.com/questions/634570/vim-how-to-install-airline
-"let g:airline_theme='powerlineish'
+let g:airline_theme='badwolf'
 let g:airline#extensions#disable_rtp_load = 1
-let g:airline#extensions#bufferline#enabled = 1  "http://stackoverflow.com/questions/4865132/an-alternative-to-minibufexplorer-vim
-let g:airline#extensions#tabline#show_buffers = 1
-let g:airline#extensions#tabline#buffer_nr_show = 1
+"let g:airline#extensions#bufferline#enabled = 1  "http://stackoverflow.com/questions/4865132/an-alternative-to-minibufexplorer-vim
+"let g:airline#extensions#tabline#show_buffers = 1
+"let g:airline#extensions#tabline#buffer_nr_show = 1
 "let g:airline#extensions#syntastic#enabled = 1
+"let g:airline#extensions#ycm#enabled = 1
 
 " Nerd tree
 nmap <Leader>t :let NERDTreeQuitOnOpen = 1<bar>NERDTreeToggle<CR>
@@ -335,26 +213,91 @@ nmap <Leader>t :let NERDTreeQuitOnOpen = 1<bar>NERDTreeToggle<CR>
 "YouCompleteMe
 let g:ycm_autoclose_preview_window_after_completion = 1
 let g:ycm_global_ycm_extra_conf = '~/.vim/compiler/global.ycm_extra_conf.py'
+let g:ycm_confirm_extra_conf = 0
+let g:ycm_complete_in_comments = 1
 noremap <Leader>k :YcmCompleter GoToDefinitionElseDeclaration<CR>
 inoremap <Leader>k :YcmCompleter GoToDefinitionElseDeclaration<CR>
 
-
 "Syntastic
-"avoid terminal vim flick with ycm
-let syntastic_full_redraws = 0 "https://github.com/scrooloose/syntastic/issues/668
-let g:syntastic_mode_map = { "mode": "active",
-                           \ "active_filetypes": [],
-                           \ "passive_filetypes": ["go"] }
-let g:syntastic_javascript_checkers = ['jsxhint']  " npm install -g jsxhint
+let syntastic_full_redraws = 0 "https://github.com/scrooloose/syntastic/issues/668 avoid terminal vim flick with ycm
+"let g:syntastic_mode_map = { 'mode': 'active',
+"                           \ 'active_filetypes': [],
+"                           \ 'passive_filetypes': ['go'] }
+"https://github.com/fatih/vim-go/issues/144#issuecomment-136145692
+let g:syntastic_go_checkers = ['golint', 'govet', 'errcheck']
 
-"leadf
-let g:Lf_CacheDiretory = '/tmp'
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_wq = 0
+let g:syntastic_javascript_checkers = ['eslint']
+"https://github.com/scrooloose/syntastic/issues/1736#issuecomment-207448645
+let g:eslint_path = system('PATH=$(npm bin):$PATH && which eslint')
+let g:syntastic_javascript_eslint_exec = substitute(g:eslint_path, '^\n*\s*\(.\{-}\)\n*\s*$', '\1', '')
+"https://github.com/scrooloose/syntastic/issues/1692 add to package.json { eslint: \"eslint\" }
+"let g:syntastic_javascript_eslint_exe = 'npm run eslint --'
+
+"fzf
+"copy from leaderf
+nnoremap <leader>f :<C-U>Files<CR>
+nnoremap <leader>b :<C-U>Buffers<CR>
+nnoremap ;s :Ag <C-R><C-W><CR>
+vnoremap ;s :<C-U>
+  \let old_reg=getreg('"')<Bar>let old_regtype=getregtype('"')<CR>
+  \gvy:Ag <C-R><C-R>=substitute(
+  \escape(@", '/\.*$^~['), '\_s\+', '\\_s\\+', 'g')<CR><CR>
+  \gV:call setreg('"', old_reg, old_regtype)<CR>
+"https://www.reddit.com/r/vim/comments/4ffvt1/is_there_a_way_to_switch_between_fzf_commands/
+
+"http://vim.wikia.com/wiki/Search_for_visually_selected_text
+vnoremap <silent> * :<C-U>
+  \let old_reg=getreg('"')<Bar>let old_regtype=getregtype('"')<CR>
+  \gvy/<C-R><C-R>=substitute(
+  \escape(@", '/\.*$^~['), '\_s\+', '\\_s\\+', 'g')<CR><CR>
+  \gV:call setreg('"', old_reg, old_regtype)<CR>
+
+vnoremap <silent> # :<C-U>
+  \let old_reg=getreg('"')<Bar>let old_regtype=getregtype('"')<CR>
+  \gvy?<C-R><C-R>=substitute(
+  \escape(@", '?\.*$^~['), '\_s\+', '\\_s\\+', 'g')<CR><CR>
+  \gV:call setreg('"', old_reg, old_regtype)<CR>
+
+"https://github.com/junegunn/fzf.vim/issues/27
+function! s:ag_in(...)
+  call fzf#vim#ag(join(a:000[1:], ' '), extend({'dir': a:1}, g:fzf#vim#default_layout))
+endfunction
+"AgIn dir pattern
+command! -nargs=+ -complete=dir AgIn call s:ag_in(<f-args>)
+
+"delimitMate
+au FileType vim let b:delimitMate_matchpairs = "(:),[:],{:},<:>"
+au FileType vim let b:delimitMate_quotes = "' `"
 
 "javascript-vim
 let javascript_enable_domhtmlcss=1
 
+"autoformat
+"http://stackoverflow.com/a/23496781
+"autocmd BufWritePre *.{js,jsx,go,py,go,rs} :Autoformat
+"http://stackoverflow.com/a/27334950
+au BufWritePre * if 'javascript|python|cpp|go|rust' =~? &ft | Autoformat | endif " command will accept |endif as arguments
+"au BufWritePre * :Autoformat
+
+let g:formatdef_eslint_javascript = 'g:eslint_path." --fix"'
+let g:formatters_javascript = ['eslint_javascript']
+au FileType javascript,python,cpp let g:autoformat_autoindent = 0
+let g:formatters_python = [ 'yapf' ]
+let g:formatter_yapf_style = 'chromium'
+
+"buftabline
+let g:buftabline_numbers = 2
+let g:buftabline_indicators = 1
+
 "colorscheme
-set background=light "dark 
+set background=light "dark
 let g:solarized_contrast="low"
 let g:solarized_visibility="high"
 if $TERM =~ "-256color"

@@ -21,11 +21,12 @@ export PM2_HOME=$HOME/fshare/.pm2/
 export BABEL_CACHE_PATH=/tmp/babel.json
 export NODE_REPL_HISTORY=$HOME/fshare/.node_history
 export PYTHONSTARTUP=$HOME/fshare/.py_history
+export PYTHONUSERBASE=$HOME/fshare/.pip
 
 #http://stackoverflow.com/questions/25433505/go-all-bash-compilation-testing-fails-with-permission-denied
 export GOROOT=$HOME/kspace/goroot
 export GOPATH=$HOME/kspace/go
-export PATH=$PATH:/home/kayw/bin/:$GOROOT/bin:$GOPATH/bin:$GEM_HOME/bin:$HOME/fshare/.android/sdk/platform-tools:$HOME/fshare/.android/sdk/tools
+export PATH=$PATH:/home/kayw/bin/:$GOROOT/bin:$GOPATH/bin:$GEM_HOME/bin:$HOME/fshare/.pip/bin:$HOME/fshare/.android/sdk/platform-tools:$HOME/fshare/.android/sdk/tools
 #http://stackoverflow.com/questions/13830594/when-i-execute-bash-the-path-keeps-repeating-itself
 #export PATH=$(echo "$PATH" | awk -v RS=: -v ORS=: '!(a[$0]++)' | sed 's/:$//')
 
@@ -150,3 +151,5 @@ export NVM_DIR="$HOME/fshare/.nvm"
 command -v nvm &> /dev/null && nvm use default
 #. "$HOME/.nvm/nvm.sh" && . "$HOME/.nvm/bash_completion" && nvm use iojs;
 command -v nodemon &> /dev/null || alias nodemon="pm2 start --no-daemon"
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash

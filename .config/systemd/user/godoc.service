@@ -7,7 +7,7 @@ Description=Go Documentation
 [Service]
 #Environment=GOPATH=/home/kayw/share/codebase/vm/go/gows GOROOT=/home/kayw/share/codebase/vm/go
 Environment=GOPATH=/home/kayw/kspace/go
-ExecStart=/home/kayw/kspace/goroot/bin/godoc -http=:6060 -play=true 
+ExecStart=/home/kayw/kspace/go/bin/godoc -http=:6060 -play=true
 #-index=true 
 #RestartSec=30
 #Restart=always
