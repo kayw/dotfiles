@@ -155,7 +155,7 @@ Plug 'tpope/vim-fugitive' "http://vimcasts.org/episodes/fugitive-vim-working-wit
 Plug 'python_match.vim'
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 
-Plug 'Valloric/YouCompleteMe', { 'for': ['cpp', 'c', 'python', 'javascript'], 'do': './install.py --tern-completer'}
+Plug 'Valloric/YouCompleteMe', { 'for': ['cpp', 'c', 'python', 'javascript'], 'do': './install.py --clang-completer --tern-completer'}
 Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
 Plug 'wting/rust.vim', {'for': 'rust'}
 Plug 'fatih/go.vim', {'for': 'go'}
@@ -171,7 +171,8 @@ Plug 'ap/vim-buftabline' "https://www.reddit.com/r/vim/comments/4l00pj/eli5_why_
 
 Plug 'scrooloose/nerdcommenter', { 'for': ['python', 'javascript', 'cpp', 'go', 'rust' ] }
 Plug 'octol/vim-cpp-enhanced-highlight', { 'for': 'cpp' } "differ highlight for macro namespace type
-Plug 'Chiel92/vim-autoformat', { 'for': [ 'python', 'javascript', 'cpp', 'go', 'rust' ] }
+"Plug 'Chiel92/vim-autoformat', { 'for': [ 'python', 'javascript', 'cpp', 'go', 'rust' ] }
+Plug 'kayw/vim-autoformat', { 'for': [ 'python', 'javascript', 'cpp', 'go', 'rust' ], 'branch': 'command-bar' }
 
 call plug#end()
 
@@ -283,8 +284,7 @@ let javascript_enable_domhtmlcss=1
 "http://stackoverflow.com/a/23496781
 "autocmd BufWritePre *.{js,jsx,go,py,go,rs} :Autoformat
 "http://stackoverflow.com/a/27334950
-au BufWritePre * if 'javascript|python|cpp|go|rust' =~? &ft | Autoformat | endif " command will accept |endif as arguments
-"au BufWritePre * :Autoformat
+au BufWritePre * if &ft =~? 'javascript\|python\|cpp\|go\|rust' | Autoformat | endif
 
 let g:formatdef_eslint_javascript = 'g:eslint_path." --fix"'
 let g:formatters_javascript = ['eslint_javascript']
