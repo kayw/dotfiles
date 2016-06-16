@@ -171,8 +171,7 @@ Plug 'ap/vim-buftabline' "https://www.reddit.com/r/vim/comments/4l00pj/eli5_why_
 
 Plug 'scrooloose/nerdcommenter', { 'for': ['python', 'javascript', 'cpp', 'go', 'rust' ] }
 Plug 'octol/vim-cpp-enhanced-highlight', { 'for': 'cpp' } "differ highlight for macro namespace type
-"Plug 'Chiel92/vim-autoformat', { 'for': [ 'python', 'javascript', 'cpp', 'go', 'rust' ] }
-Plug 'kayw/vim-autoformat', { 'for': [ 'python', 'javascript', 'cpp', 'go', 'rust' ], 'branch': 'command-bar' }
+Plug 'Chiel92/vim-autoformat', { 'for': [ 'python', 'javascript', 'cpp', 'go', 'rust' ] }
 
 call plug#end()
 
