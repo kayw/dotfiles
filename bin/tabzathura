@@ -1,0 +1,28 @@
+#!/bin/bash
+
+xidfile="/run/user/"$(id -u)"/zathura-tabbed.xid"
+wmclass="zathura-tabbed"
+
+# check if a tabbed window is open
+set -o pipefail
+if [ -r "$xidfile" ] && xid=$(cat "$xidfile") && xprop -id "$xid" WM_CLASS 2> /dev/null | grep -q "$wmclass";
+then
+	wmctrl -i -R "$xid"
+else
+	read xid < <(tabbed -cdn "$wmclass" -p s1 2> /dev/null)
+	wmctrl -i -r "$xid" -b add,maximized_vert,maximized_horz
+	echo "$xid" > "$xidfile"
+fi
+zathura -e "$xid" "$@" &> /dev/null &
+#https://github.com/blindFS/bin/blob/master/zathura-tabbed
+#raise-or-run "tabbed.tabbed" "tabbed" &
+#until wmctrl -lx | grep "tabbed.tabbed"; do
+#    sleep 0.5
+#done
+#wmctrl -r :ACTIVE:
+#
+#if [ "$#" = 0 ]; then
+#    zathura -e `wmctrl -lx | grep "tabbed.tabbed" | cut -d' ' -f1`
+#else
+#    zathura -e `wmctrl -lx | grep "tabbed.tabbed" | cut -d' ' -f1` "$1"
+#fi
