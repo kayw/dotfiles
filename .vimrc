@@ -145,18 +145,16 @@ call plug#begin('~/.vim/bundle/')
 
 "Plug 'mattn/emmet-vim', { 'for': ['html', 'css']}
   "let g:user_emmet_install_global = 0
-Plug 'Raimondi/delimitMate', { 'for': [ 'cpp', 'javascript', 'go', 'vim' ]}
-"Plug 'tpope/vim-markdown', { 'for': 'markdown' }
-"Plug 'mxw/vim-jsx', { 'for': 'jsx' }
-
+Plug 'Raimondi/delimitMate', { 'for': [ 'cpp', 'javascript*', 'go', 'vim' ]}
 Plug 'SirVer/ultisnips' | Plug 'kayw/vim-snippets'
 Plug 'scrooloose/syntastic'
 Plug 'tpope/vim-fugitive' "http://vimcasts.org/episodes/fugitive-vim-working-with-the-git-index/
 Plug 'python_match.vim'
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 
-Plug 'Valloric/YouCompleteMe', { 'for': ['cpp', 'c', 'python', 'javascript'], 'do': './install.py --clang-completer --tern-completer'}
+Plug 'Valloric/YouCompleteMe', { 'for': ['cpp', 'c', 'python', 'javascript*'], 'do': './install.py --clang-completer --tern-completer'}
 Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
+Plug 'mxw/vim-jsx', { 'for': 'jsx' }
 Plug 'wting/rust.vim', {'for': 'rust'}
 Plug 'fatih/go.vim', {'for': 'go'}
 Plug 'cakebaker/scss-syntax.vim', {'for': 'scss'}
@@ -169,9 +167,9 @@ Plug 'junegunn/fzf', { 'do': './install --all' } "https://www.reddit.com/r/vim/c
 Plug 'junegunn/fzf.vim' "https://github.com/junegunn/fzf.vim
 Plug 'ap/vim-buftabline' "https://www.reddit.com/r/vim/comments/4l00pj/eli5_why_is_nerdtree_discouraged_but_everyone/d3nyg6n
 
-Plug 'scrooloose/nerdcommenter', { 'for': ['python', 'javascript', 'cpp', 'go', 'rust' ] }
+Plug 'scrooloose/nerdcommenter', { 'for': ['python', 'javascript*', 'cpp', 'go', 'rust' ] }
 Plug 'octol/vim-cpp-enhanced-highlight', { 'for': 'cpp' } "differ highlight for macro namespace type
-Plug 'Chiel92/vim-autoformat', { 'for': [ 'python', 'javascript', 'cpp', 'go', 'rust' ] }
+Plug 'Chiel92/vim-autoformat', { 'for': [ 'python', 'javascript*', 'cpp', 'go', 'rust' ] }
 
 call plug#end()
 
@@ -244,7 +242,7 @@ let g:syntastic_javascript_eslint_exec = substitute(g:eslint_path, '^\n*\s*\(.\{
 "copy from leaderf
 nnoremap <leader>f :<C-U>Files<CR>
 nnoremap <leader>b :<C-U>Buffers<CR>
-nnoremap ;s :Ag <C-R><C-W><CR>
+nnoremap ;s :Ag \b<C-R><C-W>\b<CR>
 vnoremap ;s :<C-U>
   \let old_reg=getreg('"')<Bar>let old_regtype=getregtype('"')<CR>
   \gvy:Ag <C-R><C-R>=substitute(
@@ -283,16 +281,16 @@ let javascript_enable_domhtmlcss=1
 "http://stackoverflow.com/a/23496781
 "autocmd BufWritePre *.{js,jsx,go,py,go,rs} :Autoformat
 "http://stackoverflow.com/a/27334950
-au BufWritePre * if &ft =~? 'javascript\|python\|cpp\|go\|rust' | Autoformat | endif
+au BufWritePre * if &ft =~? 'javascript*\|python\|cpp\|go\|rust' | Autoformat | endif
 
 let g:formatdef_eslint_javascript = 'g:eslint_path." --fix"'
 let g:formatters_javascript = ['eslint_javascript']
-au FileType javascript,python,cpp let g:autoformat_autoindent = 0
+au FileType javascript*,python,cpp let g:autoformat_autoindent = 0
 let g:formatters_python = [ 'yapf' ]
 let g:formatter_yapf_style = 'chromium'
 
 "buftabline
-let g:buftabline_numbers = 2
+let g:buftabline_numbers = 1
 let g:buftabline_indicators = 1
 
 "colorscheme
