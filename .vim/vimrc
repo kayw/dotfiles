@@ -99,14 +99,14 @@ if has("autocmd")
   auto VimLeave * :set t_ts=k\
   "autocmd BufReadPost,FileReadPost,BufNewFile * call system("tmux rename-window ". expand("%:t"))
  endif
- au FILETYPE c,cpp,javascript,python,rust set nu
+ au FILETYPE c,cpp,javascript*,python,rust set nu
 endif " has ("autocmd")
 
 " cd to the directory containing the file in the buffer
 " https://github.com/olalonde/dotfiles/blob/master/tag-vim/vimrc#L189
 nmap <silent> <leader>cd :lcd %:h<CR>
-noremap <F12> :e ~/.vimrc<CR>
-inoremap <F12> <ESC>:e ~/.vimrc<CR>
+noremap <F12> :e ~/.vim/vimrc<CR>
+inoremap <F12> <ESC>:e ~/.vim/vimrc<CR>
 "nnoremap <C-H> <C-W>h
 "nnoremap <C-J> <C-W>j
 "nnoremap <C-K> <C-W>k
@@ -152,9 +152,9 @@ Plug 'tpope/vim-fugitive' "http://vimcasts.org/episodes/fugitive-vim-working-wit
 Plug 'python_match.vim'
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 
-Plug 'Valloric/YouCompleteMe', { 'for': ['cpp', 'c', 'python', 'javascript*'], 'do': './install.py --clang-completer --tern-completer'}
-Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
-Plug 'mxw/vim-jsx', { 'for': 'jsx' }
+Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer --tern-completer', 'on': [] }
+Plug 'pangloss/vim-javascript', { 'for': 'javascript*' }
+Plug 'mxw/vim-jsx', { 'for': 'javascript.jsx' }
 Plug 'wting/rust.vim', {'for': 'rust'}
 Plug 'fatih/go.vim', {'for': 'go'}
 Plug 'cakebaker/scss-syntax.vim', {'for': 'scss'}
@@ -215,6 +215,13 @@ let g:ycm_confirm_extra_conf = 0
 let g:ycm_complete_in_comments = 1
 noremap <Leader>k :YcmCompleter GoToDefinitionElseDeclaration<CR>
 inoremap <Leader>k :YcmCompleter GoToDefinitionElseDeclaration<CR>
+"https://github.com/junegunn/vim-plug/issues/444#issuecomment-195363891
+augroup ycmonload
+  au!
+  au FileType javascript*,cpp,c,python,go,rust call plug#load('YouCompleteMe')
+                                         \| call youcompleteme#Enable()
+                                         \| au! ycmonload
+augroup END
 
 "Syntastic
 let syntastic_full_redraws = 0 "https://github.com/scrooloose/syntastic/issues/668 avoid terminal vim flick with ycm
