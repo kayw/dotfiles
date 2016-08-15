@@ -81,15 +81,6 @@ if has("autocmd")
  " reopening a file
  au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$")
     \| exe "normal g'\"" | endif
- " Enable highlight variable under cursor(not smart)
- " http://code.google.com/p/vim-python-ide/source/browse/.vimrc
- " http://stackoverflow.com/questions/1551231/vim-highlight-variable-under-cursor-like-in-netbeans
- " No idea why seperate the "exe" to next with \| make the "l" operator not
- " working
- "au BufRead,BufNewFile *.c,*.cpp,*.js,*.py  autocmd CursorMoved * silent! exe printf('match IncSearch /\<%s\>/', expand('<cword>'))
- "smth stephenjy 可不可以直接高亮某个词？Tue Nov  6 10:37:12 2012
- "autocmd CursorMoved * silent! exe printf('match Underlined /\<%s\>/', expand('<cword>'))
- "autocmd CursorHold * silent! exe printf('match Underlined /\<%s\>/', expand('<cword>'))
 
  "http://superuser.com/questions/251019/customizing-tmux-status-to-represent-current-working-directory-and-files
  "http://stackoverflow.com/questions/15123477/tmux-tabs-with-name-of-file-open-in-vim
@@ -146,13 +137,13 @@ call plug#begin('~/.vim/bundle/')
 "Plug 'mattn/emmet-vim', { 'for': ['html', 'css']}
   "let g:user_emmet_install_global = 0
 Plug 'Raimondi/delimitMate', { 'for': [ 'cpp', 'javascript*', 'go', 'vim' ]}
-Plug 'SirVer/ultisnips' | Plug 'kayw/vim-snippets'
+Plug 'SirVer/ultisnips', { 'for': [] } | Plug 'kayw/vim-snippets'
 Plug 'scrooloose/syntastic'
 Plug 'tpope/vim-fugitive' "http://vimcasts.org/episodes/fugitive-vim-working-with-the-git-index/
 Plug 'python_match.vim'
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 
-Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer --tern-completer', 'on': [] }
+Plug 'Valloric/YouCompleteMe', { 'do': './install.py --system-libclang --tern-completer', 'on': [] }
 Plug 'pangloss/vim-javascript', { 'for': 'javascript*' }
 Plug 'mxw/vim-jsx', { 'for': 'javascript.jsx' }
 Plug 'wting/rust.vim', {'for': 'rust'}
@@ -199,11 +190,6 @@ let g:snips_author="kayw"
 set laststatus=2 "http://superuser.com/questions/634570/vim-how-to-install-airline
 let g:airline_theme='badwolf'
 let g:airline#extensions#disable_rtp_load = 1
-"let g:airline#extensions#bufferline#enabled = 1  "http://stackoverflow.com/questions/4865132/an-alternative-to-minibufexplorer-vim
-"let g:airline#extensions#tabline#show_buffers = 1
-"let g:airline#extensions#tabline#buffer_nr_show = 1
-"let g:airline#extensions#syntastic#enabled = 1
-"let g:airline#extensions#ycm#enabled = 1
 
 " Nerd tree
 nmap <Leader>t :let NERDTreeQuitOnOpen = 1<bar>NERDTreeToggle<CR>
@@ -215,12 +201,17 @@ let g:ycm_confirm_extra_conf = 0
 let g:ycm_complete_in_comments = 1
 noremap <Leader>k :YcmCompleter GoToDefinitionElseDeclaration<CR>
 inoremap <Leader>k :YcmCompleter GoToDefinitionElseDeclaration<CR>
-"https://github.com/junegunn/vim-plug/issues/444#issuecomment-195363891
+"https://github.com/junegunn/vim-plug/issues/444#issuecomment-195363891  au FileType javascript.jsx change twice autocommand nested e218 save e13 ycm load twice => use if &ft
+"https://github.com/junegunn/vim-plug/wiki/faq#loading-plugins-manually
+"https://github.com/Valloric/YouCompleteMe/issues/893#issuecomment-53151235
 augroup ycmonload
   au!
-  au FileType javascript*,cpp,c,python,go,rust call plug#load('YouCompleteMe')
-                                         \| call youcompleteme#Enable()
-                                         \| au! ycmonload
+  au! InsertEnter *  call plug#load('ultisnips')
+  au InsertEnter * if &ft =~? 'javascript*\|python\|cpp\|c\|go\|rust' |
+    \ call plug#load('YouCompleteMe') |
+    \ call youcompleteme#Enable() |
+    \ endif |
+    \ au! ycmonload
 augroup END
 
 "Syntastic
@@ -283,12 +274,13 @@ au FileType vim let b:delimitMate_quotes = "' `"
 
 "javascript-vim
 let javascript_enable_domhtmlcss=1
+let g:jsx_ext_required = 0
 
 "autoformat
 "http://stackoverflow.com/a/23496781
 "autocmd BufWritePre *.{js,jsx,go,py,go,rs} :Autoformat
 "http://stackoverflow.com/a/27334950
-au BufWritePre * if &ft =~? 'javascript*\|python\|cpp\|go\|rust' | Autoformat | endif
+au BufWritePre * if &ft =~? 'javascript*\|python\|cpp\|go\|rust' | Autoformat | endif " TODO filetypes in one places
 
 let g:formatdef_eslint_javascript = 'g:eslint_path." --fix"'
 let g:formatters_javascript = ['eslint_javascript']
