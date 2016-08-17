@@ -17,7 +17,7 @@ set viminfo='20,\"50    " read/write a .viminfo file, don't store more than
 set viminfo+=n~/fshare/.tmp/.viminfo
 "http://stackoverflow.com/questions/6286866/how-to-tell-vim-to-store-the-viminfo-file-somewhere-else
 "http://vim.1045645.n5.nabble.com/search-vimrc-and-viminfo-in-a-different-directory-td4391875.html
-set history=50      " keep 50 lines of command line history
+set history=50  " keep 50 lines of command line history
 set ruler       " show the cursor position all the time
 
 " modelines have historically been a source of security/resource
@@ -55,14 +55,14 @@ set title
 "https://groups.google.com/forum/#!msg/vim_use/SR12FCxkQYg/aZIGO33waN0J
 set diffexpr=MyDiff()
 function MyDiff()
-   let opt = ""
-   if &diffopt =~ "icase"
-     let opt = opt . "-i "
-   endif
-   if &diffopt =~ "iwhite"
-     let opt = opt . "-b "
-   endif
-   silent execute "!diff -a --binary " . opt . v:fname_in . " " . v:fname_new .
+  let opt = ""
+  if &diffopt =~ "icase"
+    let opt = opt . "-i "
+  endif
+  if &diffopt =~ "iwhite"
+    let opt = opt . "-b "
+  endif
+  silent execute "!diff -a --binary " . opt . v:fname_in . " " . v:fname_new .
     \  " > " . v:fname_out
 endfunction
 
@@ -70,27 +70,24 @@ runtime! ftplugin/man.vim
 
 if !empty($TMUX)"http://stackoverflow.com/questions/9496769/how-to-correctly-use-undefined-environment-variables-in-vimrc
   if &term =~ "screen"
-    set t_ts=k
+    set t_ts=k "<C-v><C-]>
     set t_fs=\
   endif
-
 endif
 
 if has("autocmd")
- " Uncomment the following to have Vim jump to the last position when
- " reopening a file
- au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$")
-    \| exe "normal g'\"" | endif
+  " Uncomment the following to have Vim jump to the last position when
+  " reopening a file
+  au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal g'\"" | endif
 
- "http://superuser.com/questions/251019/customizing-tmux-status-to-represent-current-working-directory-and-files
- "http://stackoverflow.com/questions/15123477/tmux-tabs-with-name-of-file-open-in-vim
- "http://vim.wikia.com/wiki/Automatically_set_screen_title
- if !empty($TMUX)
-  autocmd BufEnter * let &titlestring = expand('%:.') . ' - VIM'  "TODO man
-  auto VimLeave * :set t_ts=k\
-  "autocmd BufReadPost,FileReadPost,BufNewFile * call system("tmux rename-window ". expand("%:t"))
- endif
- au FILETYPE c,cpp,javascript*,python,rust set nu
+  "http://superuser.com/questions/251019/customizing-tmux-status-to-represent-current-working-directory-and-files
+  "http://stackoverflow.com/questions/15123477/tmux-tabs-with-name-of-file-open-in-vim
+  "http://vim.wikia.com/wiki/Automatically_set_screen_title
+  if !empty($TMUX)
+    autocmd BufEnter * let &titlestring = expand('%:.') . ' - VIM'  "TODO man
+    auto VimLeave * :set t_ts=k\
+    "autocmd BufReadPost,FileReadPost,BufNewFile * call system("tmux rename-window ". expand("%:t"))
+  endif
 endif " has ("autocmd")
 
 " cd to the directory containing the file in the buffer
@@ -127,6 +124,10 @@ let g:loaded_netrwPlugin = 0
 " LogiPat seems useful, but I've never touched it.
 let g:loaded_logiPat = 0
 
+let g:on_demand_autoformat_fts = [ 'cpp', 'c', 'javascript*', 'go', 'python', 'rust' ]
+let g:on_demand_fts = g:on_demand_autoformat_fts + [ 'vim', 'ruby' ]
+let g:on_demand_ft_regex = join(g:on_demand_fts, '\|')
+
 "Vim-Plug
 "https://github.com/junegunn/vim-plug
 let g:plug_timeout=600000 "ycm https://github.com/junegunn/vim-plug/issues/75
@@ -135,8 +136,8 @@ call plug#begin('~/.vim/bundle/')
 "bundles
 
 "Plug 'mattn/emmet-vim', { 'for': ['html', 'css']}
-  "let g:user_emmet_install_global = 0
-Plug 'Raimondi/delimitMate', { 'for': [ 'cpp', 'javascript*', 'go', 'vim' ]}
+"let g:user_emmet_install_global = 0
+Plug 'Raimondi/delimitMate', { 'for': g:on_demand_fts }
 Plug 'SirVer/ultisnips', { 'for': [] } | Plug 'kayw/vim-snippets'
 Plug 'scrooloose/syntastic'
 Plug 'tpope/vim-fugitive' "http://vimcasts.org/episodes/fugitive-vim-working-with-the-git-index/
@@ -158,9 +159,9 @@ Plug 'junegunn/fzf', { 'do': './install --all' } "https://www.reddit.com/r/vim/c
 Plug 'junegunn/fzf.vim' "https://github.com/junegunn/fzf.vim
 Plug 'ap/vim-buftabline' "https://www.reddit.com/r/vim/comments/4l00pj/eli5_why_is_nerdtree_discouraged_but_everyone/d3nyg6n
 
-Plug 'scrooloose/nerdcommenter', { 'for': ['python', 'javascript*', 'cpp', 'go', 'rust' ] }
+Plug 'scrooloose/nerdcommenter', { 'for': g:on_demand_fts }
 Plug 'octol/vim-cpp-enhanced-highlight', { 'for': 'cpp' } "differ highlight for macro namespace type
-Plug 'Chiel92/vim-autoformat', { 'for': [ 'python', 'javascript*', 'cpp', 'go', 'rust' ] }
+Plug 'Chiel92/vim-autoformat', { 'for': g:on_demand_autoformat_fts }
 
 call plug#end()
 
@@ -206,12 +207,16 @@ inoremap <Leader>k :YcmCompleter GoToDefinitionElseDeclaration<CR>
 "https://github.com/Valloric/YouCompleteMe/issues/893#issuecomment-53151235
 augroup ycmonload
   au!
+  au BufReadPost * if &ft =~? g:on_demand_ft_regex |
+                 \   set nu |
+                 \   let g:autoformat_autoindent = 0 |
+                 \ endif
   au! InsertEnter *  call plug#load('ultisnips')
-  au InsertEnter * if &ft =~? 'javascript*\|python\|cpp\|c\|go\|rust' |
-    \ call plug#load('YouCompleteMe') |
-    \ call youcompleteme#Enable() |
-    \ endif |
-    \ au! ycmonload
+  au InsertEnter * if &ft =~? g:on_demand_ft_regex |
+                   \ call plug#load('YouCompleteMe') |
+                   \ call youcompleteme#Enable() |
+                   \ endif |
+                   \ au! ycmonload
 augroup END
 
 "Syntastic
@@ -240,26 +245,39 @@ let g:syntastic_javascript_eslint_exec = substitute(g:eslint_path, '^\n*\s*\(.\{
 "copy from leaderf
 nnoremap <leader>f :<C-U>Files<CR>
 nnoremap <leader>b :<C-U>Buffers<CR>
-nnoremap ;s :Ag \b<C-R><C-W>\b<CR>
+" https://github.com/junegunn/fzf.vim/issues/92
+function! s:ag_with_opts(arg, ...)
+  let query = a:arg
+  call fzf#vim#ag(query, join(a:000, ' '), fzf#vim#layout())
+endfunction
+
+" AgM: case sensitive Ag call
+autocmd VimEnter * command! -nargs=* -bang AgM call s:ag_with_opts('\b'.expand('<cword>').'\b',  '-s')
+
+nnoremap ;s :AgM<CR>
+" \b\s?<C-R><C-W>\b<CR>   "http://vi.stackexchange.com/a/3168
+" <C-R><C-W> word begin with b will eat \b
+"nnoremap ;s :<C-u>execute 'Ag! \b'.expand('<cword>').'\b'<CR>
+" result window "cover the whole because of -bang ! <bang>0
 vnoremap ;s :<C-U>
-  \let old_reg=getreg('"')<Bar>let old_regtype=getregtype('"')<CR>
-  \gvy:Ag <C-R><C-R>=substitute(
-  \escape(@", '/\.*$^~['), '\_s\+', '\\_s\\+', 'g')<CR><CR>
-  \gV:call setreg('"', old_reg, old_regtype)<CR>
+            \let old_reg=getreg('"')<Bar>let old_regtype=getregtype('"')<CR>
+            \gvy:Ag <C-R><C-R>=substitute(
+            \escape(@", '/\.*$^~['), '\_s\+', '\\_s\\+', 'g')<CR><CR>
+            \gV:call setreg('"', old_reg, old_regtype)<CR>
 "https://www.reddit.com/r/vim/comments/4ffvt1/is_there_a_way_to_switch_between_fzf_commands/
 
 "http://vim.wikia.com/wiki/Search_for_visually_selected_text
 vnoremap <silent> * :<C-U>
-  \let old_reg=getreg('"')<Bar>let old_regtype=getregtype('"')<CR>
-  \gvy/<C-R><C-R>=substitute(
-  \escape(@", '/\.*$^~['), '\_s\+', '\\_s\\+', 'g')<CR><CR>
-  \gV:call setreg('"', old_reg, old_regtype)<CR>
+                    \let old_reg=getreg('"')<Bar>let old_regtype=getregtype('"')<CR>
+                    \gvy/<C-R><C-R>=substitute(
+                    \escape(@", '/\.*$^~['), '\_s\+', '\\_s\\+', 'g')<CR><CR>
+                    \gV:call setreg('"', old_reg, old_regtype)<CR>
 
 vnoremap <silent> # :<C-U>
-  \let old_reg=getreg('"')<Bar>let old_regtype=getregtype('"')<CR>
-  \gvy?<C-R><C-R>=substitute(
-  \escape(@", '?\.*$^~['), '\_s\+', '\\_s\\+', 'g')<CR><CR>
-  \gV:call setreg('"', old_reg, old_regtype)<CR>
+                    \let old_reg=getreg('"')<Bar>let old_regtype=getregtype('"')<CR>
+                    \gvy?<C-R><C-R>=substitute(
+                    \escape(@", '?\.*$^~['), '\_s\+', '\\_s\\+', 'g')<CR><CR>
+                    \gV:call setreg('"', old_reg, old_regtype)<CR>
 
 "https://github.com/junegunn/fzf.vim/issues/27
 function! s:ag_in(...)
@@ -270,7 +288,7 @@ command! -nargs=+ -complete=dir AgIn call s:ag_in(<f-args>)
 
 "delimitMate
 au FileType vim let b:delimitMate_matchpairs = "(:),[:],{:},<:>"
-au FileType vim let b:delimitMate_quotes = "' `"
+             \| let b:delimitMate_quotes = "' `"
 
 "javascript-vim
 let javascript_enable_domhtmlcss=1
@@ -280,11 +298,10 @@ let g:jsx_ext_required = 0
 "http://stackoverflow.com/a/23496781
 "autocmd BufWritePre *.{js,jsx,go,py,go,rs} :Autoformat
 "http://stackoverflow.com/a/27334950
-au BufWritePre * if &ft =~? 'javascript*\|python\|cpp\|go\|rust' | Autoformat | endif " TODO filetypes in one places
+au BufWritePre * if &ft =~? join(g:on_demand_autoformat_fts, '\|') | Autoformat | endif
 
 let g:formatdef_eslint_javascript = 'g:eslint_path." --fix"'
 let g:formatters_javascript = ['eslint_javascript']
-au FileType javascript*,python,cpp let g:autoformat_autoindent = 0
 let g:formatters_python = [ 'yapf' ]
 let g:formatter_yapf_style = 'chromium'
 
@@ -297,9 +314,9 @@ set background=light "dark
 let g:solarized_contrast="low"
 let g:solarized_visibility="high"
 if $TERM =~ "-256color"
-    se t_Co=256
-    let g:solarized_termcolors=256
-    let g:solarized_contrast="high"
-    let g:solarized_termtrans=1
+  se t_Co=256
+  let g:solarized_termcolors=256
+  let g:solarized_contrast="high"
+  let g:solarized_termtrans=1
 endif
 colo solarized
