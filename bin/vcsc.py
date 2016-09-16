@@ -3,6 +3,7 @@
 from __future__ import print_function
 
 import os
+import re
 import subprocess
 import signal
 import time
@@ -120,7 +121,9 @@ def RunVcsCmd(args):
         else:
             #http://stackoverflow.com/questions/973473/getting-a-list-of-all-subdirectories-in-the-current-directory
             for sub_dir in next(os.walk(root_dir))[1]:
-                root_queue.append(join(root_dir, sub_dir))
+                subroot = join(root_dir, sub_dir)
+                if vcs_by_repo(subroot) is not None:
+                    root_queue.append(subroot)
 
     mpp = Pool(None, init_worker)
 
@@ -156,7 +159,7 @@ def run_star(cmd):
     try:
         run(*cmd)
     except Exception, e:
-        print('caught exception in run_star', e)
+        print('caught exception in run_star', e.output)
 
 
 def run(root_dir, vcs, cmd_name, args=""):
@@ -166,7 +169,10 @@ def run(root_dir, vcs, cmd_name, args=""):
         logf.write("run command {} in directory {}\n\n".format(vcs.name(
         ) + ' ' + cmd_name + ' ' + args, root_dir))
         #http://stackoverflow.com/questions/3061/calling-a-function-of-a-module-from-a-string-with-the-functions-name-in-python
-        stdout = getattr(vcs, cmd_name)(args.split(" "))
+        fargs = []
+        if args != "":
+            fargs = args.split(" ")
+        stdout = getattr(vcs, cmd_name)(fargs)
         logf.write(stdout + "\n")
 
 
@@ -195,7 +201,32 @@ def main():
                          help='optional arguments for the vcs command')
     #http://stackoverflow.com/questions/4480075/argparse-optional-positional-arguments
     args = cmdline.parse_args()
-    #subprocess.call("work")  # ssh-agent start todo subshell it's now not called
+    if os.path.lexists(os.path.expanduser('~/.ssh/ssh_auth_sock')) == False:
+        # https://gist.github.com/romnempire/290b6bc10841a1d8aba5 only on this command
+        runme = subprocess.check_output(["ssh-agent"]).decode("utf-8")
+        re_auth_sock = re.compile('SSH_AUTH_SOCK=(?P<SSH_AUTH_SOCK>[^;]*);')
+        ssh_auth_sock = re.search(re_auth_sock, runme).group("SSH_AUTH_SOCK")
+
+        re_agent_pid = re.compile('SSH_AGENT_PID=(?P<SSH_AGENT_PID>[^;]*);')
+        ssh_agent_pid = re.search(re_agent_pid, runme).group("SSH_AGENT_PID")
+
+        #local for the local call, userspace for further calls from the command line
+        os.environ['SSH_AUTH_SOCK'] = ssh_auth_sock
+        #os.system("export SSH_AUTH_SOCK=" + ssh_auth_sock)
+
+        os.environ['SSH_AGENT_PID'] = ssh_agent_pid
+        #os.system("export SSH_AGENT_PID=" + ssh_agent_pid)
+        os.system("ln -sf \"$SSH_AUTH_SOCK\" ~/.ssh/ssh_auth_sock")
+
+        try:
+            subprocess.check_output(
+                ["ssh-add", os.path.expandvars("$HOME/.ssh/id_rsa")])
+        except KeyboardInterrupt:
+            return
+        except Exception as e:
+            print(e.output)
+    else:
+        os.environ['SSH_AUTH_SOCK'] = os.path.expanduser('~/.ssh/ssh_auth_sock')
     RunVcsCmd(args)
 
 

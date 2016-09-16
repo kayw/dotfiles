@@ -143,13 +143,15 @@ top10() {
   | column -c3 -s " " -t | sort -nr | nl | head -n10
 }
 
-# necessary work settings per terminal session(!!!must put .profile or .bashrc, can't use in a separate script)
-export NVM_DIR="$HOME/fshare/.nvm"
+alias work='. ~/bin/work'
 
+# nvm settings per terminal session
+#. "$HOME/.nvm/nvm.sh" && . "$HOME/.nvm/bash_completion" && nvm use iojs;(!!!this one need source Or . in script)
+export NVM_DIR="$HOME/fshare/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion" # load nvm completion
 command -v nvm &> /dev/null && nvm use default
-#. "$HOME/.nvm/nvm.sh" && . "$HOME/.nvm/bash_completion" && nvm use iojs;
+
 command -v nodemon &> /dev/null || alias nodemon="pm2 start --no-daemon"
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash

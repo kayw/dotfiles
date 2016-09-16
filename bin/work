@@ -8,8 +8,14 @@
 # This script run a ssh-agent on a sub-shell and automatically ssh-add all keyfiles at once.
 # This agent ends when you type `exit` to close the sub-shell.
 # http://unix.stackexchange.com/questions/90853/how-can-i-run-ssh-add-automatically-without-password-prompt
-exec ssh-agent bash -c "ssh-add ~/.ssh/id_rsa &> /dev/null; exec bash"
+#exec ssh-agent bash -c "ssh-add ~/.ssh/id_rsa &> /dev/null; exec bash"
 
 # also can be put in bashrc profile
 # see here http://stackoverflow.com/questions/18880024/start-ssh-agent-on-login
 #eval "$(ssh-agent -s)" && ssh-add ~/.ssh/id_rsa
+if [ ! -S ~/.ssh/ssh_auth_sock ]; then
+	eval `ssh-agent`
+	ln -sf "$SSH_AUTH_SOCK" ~/.ssh/ssh_auth_sock
+fi
+export SSH_AUTH_SOCK=~/.ssh/ssh_auth_sock
+ssh-add -l | grep "The agent has no identities" && ssh-add
