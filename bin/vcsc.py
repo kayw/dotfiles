@@ -102,12 +102,13 @@ def vcs_by_repo(root):
 def RunVcsCmd(args):
     cmd_args_queue = deque()
     root_queue = deque()
-    root_queue.append(vcsc_root)
+    root_queue.append((vcsc_root, vcs_by_repo(vcsc_root)))
 
-    # CAVEAT: unsupport llvm clang repo structure
+    # CAVEAT: unsupport llvm clang repo structure / omit none repo directory
     while len(root_queue) > 0:
-        root_dir = root_queue.popleft()
-        vcs = vcs_by_repo(root_dir)
+        root = root_queue.popleft()
+        root_dir = root[0]
+        vcs = root[1]
         if vcs is not None:
             cmd_name = ""
             if args.u:
@@ -122,8 +123,9 @@ def RunVcsCmd(args):
             #http://stackoverflow.com/questions/973473/getting-a-list-of-all-subdirectories-in-the-current-directory
             for sub_dir in next(os.walk(root_dir))[1]:
                 subroot = join(root_dir, sub_dir)
-                if vcs_by_repo(subroot) is not None:
-                    root_queue.append(subroot)
+                subvcs = vcs_by_repo(subroot)
+                if subvcs is not None:
+                    root_queue.append((subroot, subvcs))
 
     mpp = Pool(None, init_worker)
 
