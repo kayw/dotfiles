@@ -9,11 +9,11 @@ export HISTIGNORE='&:[ ]*:ls*:cd*:ps*:du*:rm*:cat*'
 # ... or force ignoredups and ignorespace
 #export HISTCONTROL=ignoreboth
 
-export LD_LIBRARY_PATH=LD_LIBRARY_PATH:/usr/local/lib/  #rustlib node_modules
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib/  #rustlib node_modules
 #export PYTHONPATH=$PYTHONPATH:/home/kayw/share/codebase/hyde/kayw.github.com/extensions/
 
 export GEM_HOME=$HOME/fshare/.gem
-export GEM_PATH=/usr/lib/ruby/gems/2.2.0
+export GEM_PATH=/usr/lib/ruby/gems/2.3.0
 export GEM_SPEC_CACHE=$GEM_HOME/specs
 export GRADLE_USER_HOME=$HOME/fshare/.gradle
 export ANDROID_SDK_HOME=$HOME/fshare/
@@ -72,9 +72,11 @@ xterm*|rxvt)
 #screen*)
 #PROMPT_COMMAND='echo -ne "\033k\033\134\033k${HOSTNAME}[`basename ${PWD}`]\033\134"'
 screen*)
-PROMPT_COMMAND='echo -ne "\033]2;`perl -pl0 -e "s|^${HOME}|~|;s|([^/])[^/]*/|$""1/|g" <<<${PWD}`\033\\"'
-#http://unix.stackexchange.com/questions/26844/abbreviated-current-directory-in-shell-prompt
+PROMPT_COMMAND='echo -ne "\033]2;`perl -pl0 -e "s|^${HOME}|~|;s|([^/])[^/]*/|$""1/|g" <<<${PWD} | tr -d "\000"`\033\\"'
+#PROMPT_COMMAND='echo -ne "\033]2;`sed "s|^${HOME}|~|;s:\([^/]\)[^/]*/:\1/:g" <<<$PWD`\033\\"'
+#http://unix.stackexchange.com/questions/26844/abbreviated-current-directory-in-shell-prompt  For vim bash prompt directory
 #http://vim.wikia.com/wiki/Automatically_set_screen_title
+#https://github.com/dracutdevs/dracut/pull/119/files
 esac
 
 
