@@ -22,6 +22,7 @@ export BABEL_CACHE_PATH=/tmp/babel.json
 export NODE_REPL_HISTORY=$HOME/fshare/.node_history
 export PYTHONSTARTUP=$HOME/fshare/.py_history
 export PYTHONUSERBASE=$HOME/fshare/.pip
+export npm_config_nodedir=/home/kayw/fshare/.npm #https://github.com/nodejs/node-gyp/issues/21
 
 #http://stackoverflow.com/questions/25433505/go-all-bash-compilation-testing-fails-with-permission-denied
 export GOROOT=$HOME/kspace/goroot
@@ -149,6 +150,7 @@ alias work='. ~/bin/work'
 
 # nvm settings per terminal session
 #. "$HOME/.nvm/nvm.sh" && . "$HOME/.nvm/bash_completion" && nvm use iojs;(!!!this one need source Or . in script)
+export NVM_NODEJS_ORG_MIRROR=https://npm.taobao.org/mirrors/node  # https://cnodejs.org/topic/5338c5db7cbade005
 export NVM_DIR="$HOME/fshare/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion" # load nvm completion
