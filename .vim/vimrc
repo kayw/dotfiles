@@ -209,12 +209,12 @@ augroup ycmonload
   au!
   au BufReadPost * if &ft =~? g:on_demand_ft_regex |
                  \   set nu |
-                 \   let g:autoformat_autoindent = 0 |
                  \ endif
   au! InsertEnter *  call plug#load('ultisnips')
   au InsertEnter * if &ft =~? g:on_demand_ft_regex |
                    \ call plug#load('YouCompleteMe') |
                    \ call youcompleteme#Enable() |
+                   \ let g:autoformat_autoindent = 0 |
                    \ endif |
                    \ au! ycmonload
 augroup END
