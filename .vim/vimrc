@@ -208,6 +208,7 @@ inoremap <Leader>k :YcmCompleter GoToDefinitionElseDeclaration<CR>
 augroup ycmonload
   au!
   au BufReadPost * if &ft =~? g:on_demand_ft_regex |
+                 \ let g:autoformat_autoindent = 0 |
                  \   set nu |
                  \ endif
   au! InsertEnter *  call plug#load('ultisnips')
