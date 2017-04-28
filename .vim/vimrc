@@ -207,7 +207,7 @@ inoremap <Leader>k :YcmCompleter GoToDefinitionElseDeclaration<CR>
 "https://github.com/Valloric/YouCompleteMe/issues/893#issuecomment-53151235
 augroup ycmonload
   au!
-  au BufReadPost * if &ft =~? g:on_demand_ft_regex |
+  au BufReadPost,BufEnter * if &ft =~? g:on_demand_ft_regex |
                  \ let g:autoformat_autoindent = 0 |
                  \   set nu |
                  \ endif
