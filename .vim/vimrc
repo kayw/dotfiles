@@ -124,7 +124,7 @@ let g:loaded_netrwPlugin = 0
 " LogiPat seems useful, but I've never touched it.
 let g:loaded_logiPat = 0
 
-let g:on_demand_autoformat_fts = [ 'cpp', 'c', 'javascript*', 'go', 'python', 'rust' ]
+let g:on_demand_autoformat_fts = [ '\<cpp\>', '\<c\>', '\<javascript*', '\<go\>', 'python', 'rust' ]
 let g:on_demand_fts = g:on_demand_autoformat_fts + [ 'vim', 'ruby' ]
 let g:on_demand_ft_regex = join(g:on_demand_fts, '\|')
 
@@ -138,13 +138,13 @@ call plug#begin('~/.vim/bundle/')
 "Plug 'mattn/emmet-vim', { 'for': ['html', 'css']}
 "let g:user_emmet_install_global = 0
 Plug 'Raimondi/delimitMate', { 'for': g:on_demand_fts }
-Plug 'SirVer/ultisnips', { 'for': [] } | Plug 'kayw/vim-snippets'
+Plug 'SirVer/ultisnips', { 'for': [] } | Plug 'git@github.com:kayw/vim-snippets.git'
 Plug 'scrooloose/syntastic'
 Plug 'tpope/vim-fugitive' "http://vimcasts.org/episodes/fugitive-vim-working-with-the-git-index/
-Plug 'python_match.vim'
+Plug 'vim-scripts/python_match.vim'
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 
-Plug 'Valloric/YouCompleteMe', { 'do': './install.py --system-libclang --tern-completer', 'on': [] }
+Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer --system-libclang --tern-completer', 'on': [] }
 Plug 'pangloss/vim-javascript', { 'for': 'javascript*' }
 Plug 'mxw/vim-jsx', { 'for': 'javascript.jsx' }
 Plug 'wting/rust.vim', {'for': 'rust'}
