@@ -13,7 +13,6 @@ URxvt.geometry: 80x36
 URxvt.transparent: 0
 URxvt*urgentOnBell: true
 URxvt.lineSpace: 0
-URxvt.letterSpace: -2
 URxvt*scrollBar_right: false
 URxvt*scrollBar: false
 URxvt*borderLess: false
@@ -34,8 +33,9 @@ URxvt.iso14755_52: false
 !https://bbs.archlinux.org/viewtopic.php?id=123045 chinese font
 !https://github.com/proycon/dotfiles/blob/master/Xresources
 ! -- Fonts -- !
-URxvt.font:xft:dejavu sans mono:size=12,xft:WenQuanYi Micro Hei Mono:size=12
-URxvt.boldFont:xft:dejavu sans mono:size=12:style=Bold,xft:WenQuanYi Micro Hei Mono:style=Regular:size=12
+!URxvt.letterSpace: -1
+URxvt.font:xft:dejavu sans mono for powerline:size=12,xft:WenQuanYi Micro Hei Mono:size=12
+URxvt.boldFont:xft:dejavu sans mono for powerline:size=12:style=Bold,xft:WenQuanYi Micro Hei Mono:style=Regular:size=12
 !URxvt*font:xft:luxi mono:regular:pixelsize=16
 !URxvt*boldFont:xft:luxi mono:regular:pixelsize=16
 

@@ -156,7 +156,7 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'altercation/vim-colors-solarized'
 
 Plug 'junegunn/fzf', { 'do': './install --all' } "https://www.reddit.com/r/vim/comments/4l00pj/eli5_why_is_nerdtree_discouraged_but_everyone/d3juidx
-Plug 'junegunn/fzf.vim' "https://github.com/junegunn/fzf.vim
+Plug 'junegunn/fzf.vim'
 Plug 'ap/vim-buftabline' "https://www.reddit.com/r/vim/comments/4l00pj/eli5_why_is_nerdtree_discouraged_but_everyone/d3nyg6n
 
 Plug 'scrooloose/nerdcommenter', { 'for': g:on_demand_fts }
@@ -191,6 +191,7 @@ let g:snips_author="kayw"
 set laststatus=2 "http://superuser.com/questions/634570/vim-how-to-install-airline
 let g:airline_theme='badwolf'
 let g:airline#extensions#disable_rtp_load = 1
+let g:airline_powerline_fonts = 1
 
 " Nerd tree
 nmap <Leader>t :let NERDTreeQuitOnOpen = 1<bar>NERDTreeToggle<CR>
@@ -246,14 +247,10 @@ let g:syntastic_javascript_eslint_exec = substitute(g:eslint_path, '^\n*\s*\(.\{
 "copy from leaderf
 nnoremap <leader>f :<C-U>Files<CR>
 nnoremap <leader>b :<C-U>Buffers<CR>
-" https://github.com/junegunn/fzf.vim/issues/92
-function! s:ag_with_opts(arg, ...)
-  let query = a:arg
-  call fzf#vim#ag(query, join(a:000, ' '), fzf#vim#layout())
-endfunction
 
+" https://github.com/junegunn/fzf.vim/issues/92
 " AgM: case sensitive Ag call
-autocmd VimEnter * command! -nargs=* -bang AgM call s:ag_with_opts('\b'.expand('<cword>').'\b',  '-s')
+autocmd VimEnter * command! -nargs=* -bang AgM call fzf#vim#ag_raw('-s '.fzf#shellescape('\b'.expand('<cword>').'\b'))
 
 nnoremap ;s :AgM<CR>
 " \b\s?<C-R><C-W>\b<CR>   "http://vi.stackexchange.com/a/3168
@@ -282,7 +279,7 @@ vnoremap <silent> # :<C-U>
 
 "https://github.com/junegunn/fzf.vim/issues/27
 function! s:ag_in(...)
-  call fzf#vim#ag(join(a:000[1:], ' '), extend({'dir': a:1}, g:fzf#vim#default_layout))
+  call fzf#vim#ag(join(a:000[1:], ' '), {'dir': a:1})
 endfunction
 "AgIn dir pattern
 command! -nargs=+ -complete=dir AgIn call s:ag_in(<f-args>)
