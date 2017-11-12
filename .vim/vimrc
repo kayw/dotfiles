@@ -139,7 +139,7 @@ call plug#begin('~/.vim/bundle/')
 "let g:user_emmet_install_global = 0
 Plug 'Raimondi/delimitMate', { 'for': g:on_demand_fts }
 Plug 'SirVer/ultisnips', { 'for': [] } | Plug 'git@github.com:kayw/vim-snippets.git'
-Plug 'scrooloose/syntastic'
+"Plug 'scrooloose/syntastic'
 Plug 'tpope/vim-fugitive' "http://vimcasts.org/episodes/fugitive-vim-working-with-the-git-index/
 Plug 'vim-scripts/python_match.vim'
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
@@ -162,7 +162,7 @@ Plug 'ap/vim-buftabline' "https://www.reddit.com/r/vim/comments/4l00pj/eli5_why_
 Plug 'scrooloose/nerdcommenter', { 'for': g:on_demand_fts }
 Plug 'octol/vim-cpp-enhanced-highlight', { 'for': 'cpp' } "differ highlight for macro namespace type
 Plug 'Chiel92/vim-autoformat', { 'for': g:on_demand_autoformat_fts }
-
+Plug 'w0rp/ale'
 call plug#end()
 
 " Enabled file type detection
@@ -221,27 +221,11 @@ augroup ycmonload
                    \ au! ycmonload
 augroup END
 
-"Syntastic
-let syntastic_full_redraws = 0 "https://github.com/scrooloose/syntastic/issues/668 avoid terminal vim flick with ycm
-"let g:syntastic_mode_map = { 'mode': 'active',
-"                           \ 'active_filetypes': [],
-"                           \ 'passive_filetypes': ['go'] }
-"https://github.com/fatih/vim-go/issues/144#issuecomment-136145692
-let g:syntastic_go_checkers = ['golint', 'govet', 'errcheck']
-
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_wq = 0
-let g:syntastic_javascript_checkers = ['eslint']
-"https://github.com/scrooloose/syntastic/issues/1736#issuecomment-207448645
-let g:eslint_path = system('PATH=$(npm bin):$PATH && which eslint')
-let g:syntastic_javascript_eslint_exec = substitute(g:eslint_path, '^\n*\s*\(.\{-}\)\n*\s*$', '\1', '')
-"https://github.com/scrooloose/syntastic/issues/1692 add to package.json { eslint: \"eslint\" }
-"let g:syntastic_javascript_eslint_exe = 'npm run eslint --'
+"ALE
+let g:ale_fixers = {
+      \   'javascript': ['eslint'],
+      \}
+let g:ale_fix_on_save = 1
 
 "fzf
 "copy from leaderf
