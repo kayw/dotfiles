@@ -1,10 +1,11 @@
 [user]
-	email = kayw@outlook.com
+	email = kayw@welogix.cn
 	name = kayw
 [alias]
 	unstage = reset HEAD --
 	ac = !git add -A && git commit
 	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --decorate --
+	mr = !sh -c 'git fetch $1 merge-requests/$2/head:mr-$1-$2 && git checkout mr-$1-$2' -
 [color]
 	ui = true
 	diff = always
@@ -14,3 +15,5 @@
 	autosetupmerge = true
 [core]
 	editor = vim
+[http]
+	postBuffer = 1048576000
