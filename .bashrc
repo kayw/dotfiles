@@ -23,6 +23,8 @@ export NODE_REPL_HISTORY=$HOME/fshare/.node_history
 export PYTHONSTARTUP=$HOME/fshare/.py_history
 export PYTHONUSERBASE=$HOME/fshare/.pip
 export npm_config_devdir=/home/kayw/fshare/.npm/.node_gyp #https://github.com/nodejs/node-gyp/issues/21
+export ELECTRON_MIRROR="https://npm.taobao.org/mirrors/electron/"
+export ELECTRON_CACHE=/home/kayw/fshare/.npm/electron/
 
 #http://stackoverflow.com/questions/25433505/go-all-bash-compilation-testing-fails-with-permission-denied
 export GOROOT=$HOME/kspace/goroot
@@ -82,11 +84,12 @@ esac
 
 
 #git alias
-if [ -f $HOME/bin/git-completion.bash ]; then
-    . $HOME/bin/git-completion.bash
-fi
+#if [ -f $HOME/bin/git-completion.bash ]; then  /usr/share/bash-completion/completions/git
+#    . $HOME/bin/git-completion.bash
+#fi
 #complete -o bashdefault -o default -o nospace -F _gitk co
 #http://benmabey.com/2008/05/07/git-bash-completion-git-aliases.html
+alias kgit="GIT_DIR=~/kspace/dotfiles/.git GIT_WORK_TREE=~ git"
 
 # man:
 function man
