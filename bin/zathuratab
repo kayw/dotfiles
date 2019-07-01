@@ -8,8 +8,9 @@ then
     uri="$1"
 fi
 
+#TODO wm_class is tabbed / exit when no pdf open / multiple file
 runtabbed() {
-    tabbed -dn tabbed-zathura -r 2 zathura -e '' "$uri" >"$xidfile" \
+    tabbed -cdn tabbed-zathura -r 2 zathura -e '' "$uri" >"$xidfile" \
         2>/dev/null &
 }
 

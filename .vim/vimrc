@@ -138,6 +138,7 @@ call plug#begin('~/.vim/bundle/')
 "Plug 'mattn/emmet-vim', { 'for': ['html', 'css']}
 "let g:user_emmet_install_global = 0
 Plug 'Raimondi/delimitMate', { 'for': g:on_demand_fts }
+Plug 'tenfyzhong/CompleteParameter.vim', {'for': g:on_demand_fts }
 Plug 'SirVer/ultisnips', { 'for': [] } | Plug 'git@github.com:kayw/vim-snippets.git'
 "Plug 'scrooloose/syntastic'
 Plug 'tpope/vim-fugitive' "http://vimcasts.org/episodes/fugitive-vim-working-with-the-git-index/
@@ -155,7 +156,8 @@ Plug 'cakebaker/scss-syntax.vim', {'for': 'scss'}
 
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'altercation/vim-colors-solarized'
+"Plug 'altercation/vim-colors-solarized'
+Plug 'NigoroJr/color_coded-colorschemes'
 
 Plug 'junegunn/fzf', { 'do': './install --all' } "https://www.reddit.com/r/vim/comments/4l00pj/eli5_why_is_nerdtree_discouraged_but_everyone/d3juidx
 Plug 'junegunn/fzf.vim'
@@ -324,32 +326,43 @@ let g:ycm_filepath_blacklist = {} "https://github.com/Valloric/YouCompleteMe/iss
 let g:ycm_global_ycm_extra_conf = '~/.vim/compiler/global.ycm_extra_conf.py'
 let g:ycm_confirm_extra_conf = 0
 let g:ycm_complete_in_comments = 1
-noremap <Leader>k :YcmCompleter GoToDefinitionElseDeclaration<CR>
-inoremap <Leader>k :YcmCompleter GoToDefinitionElseDeclaration<CR>
 "https://github.com/junegunn/vim-plug/issues/444#issuecomment-195363891  au FileType javascript.jsx change twice autocommand nested e218 save e13 ycm load twice => use if &ft
 "https://github.com/junegunn/vim-plug/wiki/faq#loading-plugins-manually
 "https://github.com/Valloric/YouCompleteMe/issues/893#issuecomment-53151235
 augroup ycmonload
   au!
   au BufReadPost,BufEnter * if &ft =~? g:on_demand_ft_regex |
-                 \ let g:autoformat_autoindent = 0 |
-                 \   set nu |
+                 \ set nu |
+                 \ noremap <Leader>k :YcmCompleter GoToDefinitionElseDeclaration<CR> |
+                 \ inoremap <Leader>k <ESC>:YcmCompleter GoToDefinitionElseDeclaration<CR> |
+                 \ noremap <Leader>yf :YcmCompleter FixIt<CR> |
+                 \ inoremap <Leader>yf <ESC>:YcmCompleter FixIt<CR>i |
+                 \ inoremap <silent><expr> ( complete_parameter#pre_complete("()") |
+                 \ smap <c-j> <Plug>(complete_parameter#goto_next_parameter) |
+                 \ imap <c-j> <Plug>(complete_parameter#goto_next_parameter) |
+                 \ smap <c-k> <Plug>(complete_parameter#goto_previous_parameter) |
+                 \ imap <c-k> <Plug>(complete_parameter#goto_previous_parameter)) |
                  \ endif
   au! InsertEnter *  call plug#load('ultisnips')
   au InsertEnter * if &ft =~? g:on_demand_ft_regex |
                    \ call plug#load('YouCompleteMe') |
-                   \ let g:autoformat_autoindent = 0 |
                    \ endif |
-                   \ au! ycmonload
+  au BufWritePre * if &ft =~? '\<c\>\|\<cpp\>' && exists("g:loaded_youcompleteme") |
+                    \ YcmCompleter FixIt |
+                    \ endif
 augroup END
 
 "ALE
 let g:ale_lint_on_text_changed = 'never'
 let g:ale_open_list = 1
 
+let g:ale_linters = {'cpp': ['clangtidy']}
+let g:ale_c_clangtidy_checks=[]
+let g:ale_cpp_clangtidy_checks=[]
 let g:ale_fixers = {
       \   'javascript': ['eslint'],
       \   'dart': ['dartfmt'],
+      \   'cpp': ['clang-format'],
       \}
 let g:ale_linters = {'dart': []}
 let g:ale_fix_on_save = 1
@@ -418,6 +431,8 @@ autocmd CompleteDone * silent! pclose
 "http://stackoverflow.com/a/27334950
 "au BufWritePre * if &ft =~? join(g:on_demand_autoformat_fts, '\|') | Autoformat | endif
 
+let g:formatdef_eslint_javascript = 'g:eslint_path." --fix"'
+let g:formatters_javascript = ['eslint_javascript']
 let g:formatters_python = [ 'yapf' ]
 let g:formatter_yapf_style = 'chromium'
 
@@ -435,4 +450,4 @@ if $TERM =~ "-256color"
   let g:solarized_contrast="high"
   let g:solarized_termtrans=1
 endif
-colo solarized
+colo solarizeded

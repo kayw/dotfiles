@@ -13,7 +13,7 @@ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib/  #rustlib node_modules
 #export PYTHONPATH=$PYTHONPATH:/home/kayw/share/codebase/hyde/kayw.github.com/extensions/
 
 export GEM_HOME=$HOME/fshare/.gem
-export GEM_PATH=/usr/lib/ruby/gems/2.3.0
+export GEM_PATH=/usr/lib/ruby/gems/2.6.0
 export GEM_SPEC_CACHE=$GEM_HOME/specs
 export GRADLE_USER_HOME=$HOME/fshare/.gradle
 export ANDROID_SDK_HOME=$HOME/fshare/.android/sdk
@@ -33,6 +33,7 @@ export GOPROXY=https://mirrors.aliyun.com/goproxy/
 #http://stackoverflow.com/questions/25433505/go-all-bash-compilation-testing-fails-with-permission-denied
 #export GOROOT=$HOME/kspace/goroot
 export GOPATH=$HOME/kspace/go
+export DOCKER_VOLUME=$HOME/fshare/volume
 export PATH=$PATH:/home/kayw/bin/:$GOPATH/bin:$GEM_HOME/bin:$HOME/fshare/.pip/bin:$ANDROID_SDK_HOME/platform-tools:$ANDROID_SDK_HOME/emulator:$ANDROID_SDK_HOME/tools:/opt/flutter/bin:/opt/flutter/bin/cache/dart-sdk/bin/:/opt/flutter/.pub-cache/bin
 #http://stackoverflow.com/questions/13830594/when-i-execute-bash-the-path-keeps-repeating-itself
 #export PATH=$(echo "$PATH" | awk -v RS=: -v ORS=: '!(a[$0]++)' | sed 's/:$//')
@@ -163,6 +164,6 @@ export NVM_DIR="$HOME/fshare/.nvm" # upgrade git fetch --tags origin git checkou
 [ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion" # load nvm completion
 command -v nvm &> /dev/null && nvm use default
 
-command -v nodemon &> /dev/null || alias nodemon="pm2 start --no-daemon"
+#command -v nodemon &> /dev/null || alias nodemon="pm2 start --no-daemon"
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
