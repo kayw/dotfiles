@@ -157,6 +157,7 @@ Plug 'cakebaker/scss-syntax.vim', {'for': 'scss'}
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 "Plug 'altercation/vim-colors-solarized'
+"https://github.com/MaskRay/ccls/wiki/Editor-Configuration
 Plug 'NigoroJr/color_coded-colorschemes'
 
 Plug 'junegunn/fzf', { 'do': './install --all' } "https://www.reddit.com/r/vim/comments/4l00pj/eli5_why_is_nerdtree_discouraged_but_everyone/d3juidx

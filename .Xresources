@@ -38,6 +38,8 @@ URxvt.font:xft:dejavu sans mono for powerline:size=12,xft:WenQuanYi Micro Hei Mo
 URxvt.boldFont:xft:dejavu sans mono for powerline:size=12:style=Bold,xft:WenQuanYi Micro Hei Mono:style=Regular:size=12
 !URxvt*font:xft:luxi mono:regular:pixelsize=16
 !URxvt*boldFont:xft:luxi mono:regular:pixelsize=16
+st.font:dejavu sans mono for powerline:size=12
+st.alpha: 1
 
 ! -- Colours -- !
 #include "/home/kayw/.config/solarized"
