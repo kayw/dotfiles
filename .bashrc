@@ -16,7 +16,8 @@ export GEM_HOME=$HOME/fshare/.gem
 export GEM_PATH=/usr/lib/ruby/gems/2.3.0
 export GEM_SPEC_CACHE=$GEM_HOME/specs
 export GRADLE_USER_HOME=$HOME/fshare/.gradle
-export ANDROID_SDK_HOME=$HOME/fshare/
+export ANDROID_SDK_HOME=$HOME/fshare/.android/sdk
+export ANDROID_SDK_ROOT=$HOME/fshare/.android/sdk
 export PM2_HOME=$HOME/fshare/.pm2/
 export BABEL_CACHE_PATH=/tmp/babel.json
 export NODE_REPL_HISTORY=$HOME/fshare/.node_history
@@ -25,11 +26,14 @@ export PYTHONUSERBASE=$HOME/fshare/.pip
 export npm_config_devdir=/home/kayw/fshare/.npm/.node_gyp #https://github.com/nodejs/node-gyp/issues/21
 export ELECTRON_MIRROR="https://npm.taobao.org/mirrors/electron/"
 export ELECTRON_CACHE=/home/kayw/fshare/.npm/electron/
+export PUB_HOSTED_URL=https://pub.flutter-io.cn
+export FLUTTER_STORAGE_BASE_URL=https://storage.flutter-io.cn
+export GOPROXY=https://mirrors.aliyun.com/goproxy/
 
 #http://stackoverflow.com/questions/25433505/go-all-bash-compilation-testing-fails-with-permission-denied
-export GOROOT=$HOME/kspace/goroot
+#export GOROOT=$HOME/kspace/goroot
 export GOPATH=$HOME/kspace/go
-export PATH=$PATH:/home/kayw/bin/:$GOROOT/bin:$GOPATH/bin:$GEM_HOME/bin:$HOME/fshare/.pip/bin:$HOME/fshare/.android/sdk/platform-tools:$HOME/fshare/.android/sdk/tools
+export PATH=$PATH:/home/kayw/bin/:$GOPATH/bin:$GEM_HOME/bin:$HOME/fshare/.pip/bin:$ANDROID_SDK_HOME/platform-tools:$ANDROID_SDK_HOME/emulator:$ANDROID_SDK_HOME/tools:/opt/flutter/bin:/opt/flutter/bin/cache/dart-sdk/bin/:/opt/flutter/.pub-cache/bin
 #http://stackoverflow.com/questions/13830594/when-i-execute-bash-the-path-keeps-repeating-itself
 #export PATH=$(echo "$PATH" | awk -v RS=: -v ORS=: '!(a[$0]++)' | sed 's/:$//')
 
@@ -52,9 +56,9 @@ alias getack='curl -L http://betterthangrep.com/ack-standalone > ~/bin/ack'
 alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
-alias dotfiles='git --git-dir=/home/kayw/.git --work-tree=/home/kayw'
+#alias dotfiles='git --git-dir=/home/kayw/.git --work-tree=/home/kayw'
 alias mvn='ANDROID_HOME=$HOME/fshare/.android/sdk /opt/apache-maven-3.3.3/bin/mvn -gs "/home/kayw/fshare/.m2/global/settings.xml"'
-alias studio='ANDROID_SDK_HOME=$HOME/fshare/ /usr/local/android-studio/bin/studio.sh >/dev/null 2>&1'
+alias studio='ANDROID_SDK_HOME=$HOME/fshare/.android/sdk/ /usr/local/android-studio/bin/studio.sh >/dev/null 2>&1'
 alias wps='wps -style gtk+'
 
 # PS1='[\u@\h \W]\$ '
@@ -99,7 +103,7 @@ function man
 #goog vim as man pager
 Title=''
 for i in $@; do
-	Title+='-'$i
+  Title+='-'$i
 done
 
 /usr/bin/man $* | col -b | vim -c 'file MAN'$Title -c 'set ft=man nomod nolist titlestring=MAN'$Title -c 'nmap K :Man <C-R>=expand("<cword>")<CR><CR>' -
@@ -154,7 +158,7 @@ alias work='. ~/bin/work'
 # nvm settings per terminal session
 #. "$HOME/.nvm/nvm.sh" && . "$HOME/.nvm/bash_completion" && nvm use iojs;(!!!this one need source Or . in script)
 export NODEJS_ORG_MIRROR=https://npm.taobao.org/mirrors/node  # https://cnodejs.org/topic/5338c5db7cbade005
-export NVM_DIR="$HOME/fshare/.nvm"
+export NVM_DIR="$HOME/fshare/.nvm" # upgrade git fetch --tags origin git checkout `git describe --abbrev=0 --tags --match "v[0-9]*" $(git rev-list --tags --max-count=1)`
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion" # load nvm completion
 command -v nvm &> /dev/null && nvm use default

@@ -1,7 +1,7 @@
 # Setup fzf
 # ---------
 if [[ ! "$PATH" == */home/kayw/.vim/bundle/fzf/bin* ]]; then
-  export PATH="$PATH:/home/kayw/.vim/bundle/fzf/bin"
+  export PATH="${PATH:+${PATH}:}/home/kayw/.vim/bundle/fzf/bin"
 fi
 
 # Auto-completion
@@ -11,4 +11,3 @@ fi
 # Key bindings
 # ------------
 source "/home/kayw/.vim/bundle/fzf/shell/key-bindings.bash"
-
