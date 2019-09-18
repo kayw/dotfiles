@@ -33,5 +33,5 @@ if [[ -z "$TMUX" ]]; then
 else
   urxvtc -e tmux att
 fi
-  #urxvtc -e tmux
+  #urxvtc -e tmux  https://unix.stackexchange.com/questions/43601/how-can-i-set-my-default-shell-to-start-up-tmux
 exec $HOME/bin/start-dwm

@@ -138,40 +138,41 @@ call plug#begin('~/.vim/bundle/')
 "Plug 'mattn/emmet-vim', { 'for': ['html', 'css']}
 "let g:user_emmet_install_global = 0
 Plug 'Raimondi/delimitMate', { 'for': g:on_demand_fts }
-Plug 'tenfyzhong/CompleteParameter.vim', {'for': g:on_demand_fts }
+"Plug 'tenfyzhong/CompleteParameter.vim', {'for': g:on_demand_fts }
 Plug 'SirVer/ultisnips', { 'for': [] } | Plug 'git@github.com:kayw/vim-snippets.git'
 "Plug 'scrooloose/syntastic'
 Plug 'tpope/vim-fugitive' "http://vimcasts.org/episodes/fugitive-vim-working-with-the-git-index/
 Plug 'vim-scripts/python_match.vim'
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-
-"Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer --system-libclang --tern-completer', 'on': [] }
+"Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer --system-libclang --tern-completer', 'for': [] }
 Plug 'pangloss/vim-javascript', { 'for': 'javascript*' }
 Plug 'mxw/vim-jsx', { 'for': 'javascript.jsx' }
 Plug 'wting/rust.vim', {'for': 'rust'}
 Plug 'fatih/go.vim', {'for': 'go'}
-Plug 'cakebaker/scss-syntax.vim', {'for': 'scss'}
+"Plug 'cakebaker/scss-syntax.vim', {'for': 'scss'}
 
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-"Plug 'altercation/vim-colors-solarized'
+Plug 'altercation/vim-colors-solarized'
 "https://github.com/MaskRay/ccls/wiki/Editor-Configuration
-Plug 'NigoroJr/color_coded-colorschemes'
+"Plug 'NigoroJr/color_coded-colorschemes'
 
 Plug 'junegunn/fzf', { 'do': './install --all' } "https://www.reddit.com/r/vim/comments/4l00pj/eli5_why_is_nerdtree_discouraged_but_everyone/d3juidx
 Plug 'junegunn/fzf.vim'
 Plug 'ap/vim-buftabline' "https://www.reddit.com/r/vim/comments/4l00pj/eli5_why_is_nerdtree_discouraged_but_everyone/d3nyg6n
 
 Plug 'scrooloose/nerdcommenter', { 'for': g:on_demand_fts }
-Plug 'octol/vim-cpp-enhanced-highlight', { 'for': 'cpp' } "differ highlight for macro namespace type
-"Plug 'Chiel92/vim-autoformat', { 'for': g:on_demand_autoformat_fts }
-"Plug 'w0rp/ale'
 
 Plug 'dart-lang/dart-vim-plugin'
 "Plug 'natebosch/vim-lsc'
 "Plug 'natebosch/vim-lsc-dart'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'jackguo380/vim-lsp-cxx-highlight', { 'for': ['cpp','c','h','hpp','cc', 'cxx'] }
+"Plug 'octol/vim-cpp-enhanced-highlight', { 'for': 'cpp' } "differ highlight for macro namespace type  davits/DyeVim
+"Plug 'jeaye/color_coded', { 'do': 'rm -f CMakeCache.txt && cmake -H. -Bbuild && mv clang+llvm-5.0.0-linux-x86_64-ubuntu14.04 build/ && cd build && make && make install && rm -rf build' }
+"Plug 'Chiel92/vim-autoformat', { 'for': g:on_demand_autoformat_fts }
+"Plug 'w0rp/ale'
 call plug#end()
 
 " Enabled file type detection
@@ -451,4 +452,4 @@ if $TERM =~ "-256color"
   let g:solarized_contrast="high"
   let g:solarized_termtrans=1
 endif
-colo solarizeded
+colo solarized
