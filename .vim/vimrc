@@ -1,3 +1,6 @@
+" Get the defaults that most users want.
+"source $VIMRUNTIME/defaults.vim
+
 set runtimepath=~/.vim/,$VIMRUNTIME,~/.vim/bundle/vim-snippets/,~/.vim/after/
 
 " Normally we use vim-extensions. If you want true vi-compatibility
@@ -73,6 +76,10 @@ if !empty($TMUX)"http://stackoverflow.com/questions/9496769/how-to-correctly-use
     set t_ts=k "<C-v><C-]>
     set t_fs=\
   endif
+  let &t_BE="\<Esc>[?2004h"
+  let &t_BD="\<Esc>[?2004l"
+  let &t_PS="\<Esc>[200~"
+  let &t_PE="\<Esc>[201~"
 endif
 
 if has("autocmd")
@@ -141,6 +148,7 @@ Plug 'Raimondi/delimitMate', { 'for': g:on_demand_fts }
 "Plug 'tenfyzhong/CompleteParameter.vim', {'for': g:on_demand_fts }
 Plug 'SirVer/ultisnips', { 'for': [] } | Plug 'git@github.com:kayw/vim-snippets.git'
 "Plug 'scrooloose/syntastic'
+Plug 'tpope/vim-eneuch' " https://vi.stackexchange.com/questions/305/how-can-i-rename-the-file-im-editing
 Plug 'tpope/vim-fugitive' "http://vimcasts.org/episodes/fugitive-vim-working-with-the-git-index/
 Plug 'vim-scripts/python_match.vim'
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
@@ -194,7 +202,7 @@ set updatetime=300
 set shortmess+=c
 
 " always show signcolumns
-"set signcolumn=yes
+set signcolumn=no
 
 " Use tab for trigger completion with characters ahead and navigate.
 " Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
@@ -321,6 +329,7 @@ let g:airline_powerline_fonts = 1
 
 " Nerd tree
 nmap <Leader>t :let NERDTreeQuitOnOpen = 1<bar>NERDTreeToggle<CR>
+nmap gr :call Move()<cr>
 
 "YouCompleteMe
 let g:ycm_autoclose_preview_window_after_completion = 1

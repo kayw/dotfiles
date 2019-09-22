@@ -1,5 +1,5 @@
 #!/bin/sh
-# merged from 
+# merged from
 #   https://bbs.archlinux.org/viewtopic.php?id=136351  tmux urxvt
 #   https://bbs.archlinux.org/viewtopic.php?id=117448  urxvt startup
 
@@ -29,9 +29,11 @@ command -v VBoxClient-all >/dev/null && VBoxClient-all
 export RXVT_SOCKET=/tmp/urxvtd-Arch
 urxvtd -q -o -f
 if [[ -z "$TMUX" ]]; then
-  urxvtc -e tmux
+  #urxvtc -e tmux
+  alacritty -e tmux &
 else
-  urxvtc -e tmux att
+  #urxvtc -e tmux att  #https://unix.stackexchange.com/questions/43601/how-can-i-set-my-default-shell-to-start-up-tmux
+  alacritty -e tmux att &
 fi
-  #urxvtc -e tmux  https://unix.stackexchange.com/questions/43601/how-can-i-set-my-default-shell-to-start-up-tmux
+
 exec $HOME/bin/start-dwm
