@@ -131,7 +131,7 @@ let g:loaded_netrwPlugin = 0
 " LogiPat seems useful, but I've never touched it.
 let g:loaded_logiPat = 0
 
-let g:on_demand_autoformat_fts = [ '\<cpp\>', '\<c\>', '\<javascript*', '\<go\>', 'python', 'rust', 'dart' ]
+let g:on_demand_autoformat_fts = [ '\<cpp\>', '\<c\>', '\<javascript*', '\<typescript*', '\<go\>', 'python', 'rust', 'dart' ]
 let g:on_demand_fts = g:on_demand_autoformat_fts + [ 'vim', 'ruby' ]
 let g:on_demand_ft_regex = join(g:on_demand_fts, '\|')
 
@@ -148,7 +148,7 @@ Plug 'Raimondi/delimitMate', { 'for': g:on_demand_fts }
 "Plug 'tenfyzhong/CompleteParameter.vim', {'for': g:on_demand_fts }
 Plug 'SirVer/ultisnips', { 'for': [] } | Plug 'git@github.com:kayw/vim-snippets.git'
 "Plug 'scrooloose/syntastic'
-Plug 'tpope/vim-eneuch' " https://vi.stackexchange.com/questions/305/how-can-i-rename-the-file-im-editing
+"Plug 'tpope/vim-eneuch' " https://vi.stackexchange.com/questions/305/how-can-i-rename-the-file-im-editing
 Plug 'tpope/vim-fugitive' "http://vimcasts.org/episodes/fugitive-vim-working-with-the-git-index/
 Plug 'vim-scripts/python_match.vim'
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
@@ -164,7 +164,6 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'altercation/vim-colors-solarized'
 "https://github.com/MaskRay/ccls/wiki/Editor-Configuration
-"Plug 'NigoroJr/color_coded-colorschemes'
 
 Plug 'junegunn/fzf', { 'do': './install --all' } "https://www.reddit.com/r/vim/comments/4l00pj/eli5_why_is_nerdtree_discouraged_but_everyone/d3juidx
 Plug 'junegunn/fzf.vim'
@@ -176,10 +175,8 @@ Plug 'dart-lang/dart-vim-plugin'
 "Plug 'natebosch/vim-lsc'
 "Plug 'natebosch/vim-lsc-dart'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'jackguo380/vim-lsp-cxx-highlight', { 'for': ['cpp','c','h','hpp','cc', 'cxx'] }
+"Plug 'jackguo380/vim-lsp-cxx-highlight', { 'for': ['cpp','c','h','hpp','cc', 'cxx'] }
 "Plug 'octol/vim-cpp-enhanced-highlight', { 'for': 'cpp' } "differ highlight for macro namespace type  davits/DyeVim
-"Plug 'jeaye/color_coded', { 'do': 'rm -f CMakeCache.txt && cmake -H. -Bbuild && mv clang+llvm-5.0.0-linux-x86_64-ubuntu14.04 build/ && cd build && make && make install && rm -rf build' }
-"Plug 'Chiel92/vim-autoformat', { 'for': g:on_demand_autoformat_fts }
 "Plug 'w0rp/ale'
 call plug#end()
 
@@ -340,32 +337,26 @@ let g:ycm_complete_in_comments = 1
 "https://github.com/junegunn/vim-plug/issues/444#issuecomment-195363891  au FileType javascript.jsx change twice autocommand nested e218 save e13 ycm load twice => use if &ft
 "https://github.com/junegunn/vim-plug/wiki/faq#loading-plugins-manually
 "https://github.com/Valloric/YouCompleteMe/issues/893#issuecomment-53151235
-augroup ycmonload
+augroup bufevent
   au!
   au BufReadPost,BufEnter * if &ft =~? g:on_demand_ft_regex |
                  \ set nu |
-                 \ noremap <Leader>k :YcmCompleter GoToDefinitionElseDeclaration<CR> |
-                 \ inoremap <Leader>k <ESC>:YcmCompleter GoToDefinitionElseDeclaration<CR> |
-                 \ noremap <Leader>yf :YcmCompleter FixIt<CR> |
-                 \ inoremap <Leader>yf <ESC>:YcmCompleter FixIt<CR>i |
-                 \ inoremap <silent><expr> ( complete_parameter#pre_complete("()") |
-                 \ smap <c-j> <Plug>(complete_parameter#goto_next_parameter) |
-                 \ imap <c-j> <Plug>(complete_parameter#goto_next_parameter) |
-                 \ smap <c-k> <Plug>(complete_parameter#goto_previous_parameter) |
-                 \ imap <c-k> <Plug>(complete_parameter#goto_previous_parameter)) |
-                 \ endif
-  au! InsertEnter *  call plug#load('ultisnips')
-  au InsertEnter * if &ft =~? g:on_demand_ft_regex |
-                   \ call plug#load('YouCompleteMe') |
-                   \ endif |
-  au BufWritePre * if &ft =~? '\<c\>\|\<cpp\>' && exists("g:loaded_youcompleteme") |
-                    \ YcmCompleter FixIt |
-                    \ endif
+                 \ setl et |
+                 \ setl sw=2 |
+                 \ setl ts=2 |
+                 \ setl sts=2 |
+                 "\ inoremap <silent><expr> ( complete_parameter#pre_complete("()") |
+                 "\ smap <c-j> <Plug>(complete_parameter#goto_next_parameter) |
+                 "\ imap <c-j> <Plug>(complete_parameter#goto_next_parameter) |
+                 "\ smap <c-k> <Plug>(complete_parameter#goto_previous_parameter) |
+                 "\ imap <c-k> <Plug>(complete_parameter#goto_previous_parameter)) |
+                 "\ endif
+  "au! InsertEnter *  call plug#load('ultisnips')
 augroup END
 
 "ALE
 let g:ale_lint_on_text_changed = 'never'
-let g:ale_open_list = 1
+let g:ale_open_list = 0
 
 let g:ale_linters = {'cpp': ['clangtidy']}
 let g:ale_c_clangtidy_checks=[]
@@ -433,8 +424,8 @@ let dart_format_on_save = 1
 "let g:ale_dart_dartanalyzer_executable = ''
 
 "vims-lsc
-let g:lsc_auto_map = v:true
-autocmd CompleteDone * silent! pclose
+"let g:lsc_auto_map = v:true
+"autocmd CompleteDone * silent! pclose
 
 "autoformat
 "http://stackoverflow.com/a/23496781
@@ -442,10 +433,10 @@ autocmd CompleteDone * silent! pclose
 "http://stackoverflow.com/a/27334950
 "au BufWritePre * if &ft =~? join(g:on_demand_autoformat_fts, '\|') | Autoformat | endif
 
-let g:formatdef_eslint_javascript = 'g:eslint_path." --fix"'
-let g:formatters_javascript = ['eslint_javascript']
-let g:formatters_python = [ 'yapf' ]
-let g:formatter_yapf_style = 'chromium'
+"let g:formatdef_eslint_javascript = 'g:eslint_path." --fix"'
+"let g:formatters_javascript = ['eslint_javascript']
+"let g:formatters_python = [ 'yapf' ]
+"let g:formatter_yapf_style = 'chromium'
 
 "buftabline
 let g:buftabline_numbers = 1

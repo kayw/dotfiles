@@ -28,7 +28,7 @@ export ELECTRON_MIRROR="https://npm.taobao.org/mirrors/electron/"
 export ELECTRON_CACHE=/home/kayw/fshare/.npm/electron/
 export PUB_HOSTED_URL=https://pub.flutter-io.cn
 export FLUTTER_STORAGE_BASE_URL=https://storage.flutter-io.cn
-export GOPROXY=https://mirrors.aliyun.com/goproxy/
+export GOPROXY=https://goproxy.cn,direct
 
 #http://stackoverflow.com/questions/25433505/go-all-bash-compilation-testing-fails-with-permission-denied
 #export GOROOT=$HOME/kspace/goroot
@@ -167,3 +167,4 @@ command -v nvm &> /dev/null && nvm use default
 #command -v nodemon &> /dev/null || alias nodemon="pm2 start --no-daemon"
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
+command -v kubectl &> /dev/null && source <(kubectl completion bash)

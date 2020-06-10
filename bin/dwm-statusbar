@@ -130,6 +130,9 @@ class Status
   def update_volume
     output = `amixer get Master`
     line = output.lines.last
+    if line == nil
+      return
+    end
     volume = line.sub(/.*\[([0-9]+)%\].*/, '\1').to_i
 
     if line.match(/\[off\]/)
