@@ -26,6 +26,16 @@
         },
         "highlight": { "lsRanges" : true }
       }
+    },
+    "golang": {
+      "command": "/home/kayw/kspace/go/bin/gopls",
+      "rootPatterns": ["go.mod", ".git/", ".hg/"],
+      "filetypes": ["go"]
+    },
+    "zls":{
+      "command": "zls",
+      "rootPatterns": [".git/", ".hg/"],
+      "filetypes": ["zig"]
     }
   }
 }

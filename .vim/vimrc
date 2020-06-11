@@ -157,7 +157,7 @@ Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug 'pangloss/vim-javascript', { 'for': 'javascript*' }
 Plug 'mxw/vim-jsx', { 'for': 'javascript.jsx' }
 Plug 'wting/rust.vim', {'for': 'rust'}
-Plug 'fatih/go.vim', {'for': 'go'}
+Plug 'fatih/go.vim', {'for': 'go', 'do': ':GoUpdateBinaries' }
 "Plug 'cakebaker/scss-syntax.vim', {'for': 'scss'}
 
 Plug 'vim-airline/vim-airline'
@@ -175,6 +175,7 @@ Plug 'dart-lang/dart-vim-plugin'
 "Plug 'natebosch/vim-lsc'
 "Plug 'natebosch/vim-lsc-dart'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'ziglang/zig.vim'
 "Plug 'jackguo380/vim-lsp-cxx-highlight', { 'for': ['cpp','c','h','hpp','cc', 'cxx'] }
 "Plug 'octol/vim-cpp-enhanced-highlight', { 'for': 'cpp' } "differ highlight for macro namespace type  davits/DyeVim
 "Plug 'w0rp/ale'
@@ -227,9 +228,9 @@ nmap <silent> ]c <Plug>(coc-diagnostic-next)
 
 " Remap keys for gotos
 nmap <silent> <C-]> <Plug>(coc-definition)
-nnoremap <silent><buffer> gy <Plug>(coc-type-definition)
-nnoremap <silent><buffer> gi <Plug>(coc-implementation)
-nnoremap <silent><buffer> gr <Plug>(coc-references)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
 
 " Use K to show documentation in preview window
 nnoremap <silent> K :call <SID>show_documentation()<CR>
@@ -282,6 +283,7 @@ command! -nargs=? Fold :call     CocAction('fold', <f-args>)
 
 " use `:OR` for organize import of current buffer
 command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
+autocmd BufWritePre *.go :call CocAction('runCommand', 'editor.action.organizeImport')
 
 " Add status line support, for integration with other plugin, checkout `:h coc-status`
 set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
@@ -326,7 +328,7 @@ let g:airline_powerline_fonts = 1
 
 " Nerd tree
 nmap <Leader>t :let NERDTreeQuitOnOpen = 1<bar>NERDTreeToggle<CR>
-nmap gr :call Move()<cr>
+"nmap gr :call Move()<cr>
 
 "YouCompleteMe
 let g:ycm_autoclose_preview_window_after_completion = 1
