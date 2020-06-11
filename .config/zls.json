@@ -1,0 +1,5 @@
+{
+  "zig_lib_path": "/usr/local/lib/zig/",
+  "enable_snippets": true,
+  "warn_style": true
+}
