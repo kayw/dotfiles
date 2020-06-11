@@ -89,9 +89,6 @@ esac
 
 
 #git alias
-#if [ -f $HOME/bin/git-completion.bash ]; then  /usr/share/bash-completion/completions/git
-#    . $HOME/bin/git-completion.bash
-#fi
 #complete -o bashdefault -o default -o nospace -F _gitk co
 #http://benmabey.com/2008/05/07/git-bash-completion-git-aliases.html
 alias kgit="GIT_DIR=~/kspace/dotfiles/.git GIT_WORK_TREE=~ git"

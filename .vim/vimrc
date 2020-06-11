@@ -347,13 +347,7 @@ augroup bufevent
                  \ setl sw=2 |
                  \ setl ts=2 |
                  \ setl sts=2 |
-                 "\ inoremap <silent><expr> ( complete_parameter#pre_complete("()") |
-                 "\ smap <c-j> <Plug>(complete_parameter#goto_next_parameter) |
-                 "\ imap <c-j> <Plug>(complete_parameter#goto_next_parameter) |
-                 "\ smap <c-k> <Plug>(complete_parameter#goto_previous_parameter) |
-                 "\ imap <c-k> <Plug>(complete_parameter#goto_previous_parameter)) |
-                 "\ endif
-  "au! InsertEnter *  call plug#load('ultisnips')
+                 \ endif
 augroup END
 
 "ALE
