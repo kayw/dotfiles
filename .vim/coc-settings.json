@@ -2,7 +2,7 @@
   "javascript.suggestionActions.enabled": false,
   "javascript.validate.enable": false,
   "tsserver.implicitProjectConfig.experimentalDecorators":true,
-  "typescript.validate.enable": false,
+  "typescript.validate.enable": true,
   "eslint.autoFixOnSave": true,
   "python.linting.enabled": true,
   "languageserver": {
@@ -10,7 +10,8 @@
       "command": "dart",
       "args": [
         "/opt/flutter/bin/cache/dart-sdk/bin/snapshots/analysis_server.dart.snapshot",
-        "--lsp"
+        "--lsp",
+	"--suppress-analytics"
       ],
       "filetypes": ["dart"],
       "disableDynamicRegister": true,

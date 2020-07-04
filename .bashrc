@@ -22,8 +22,12 @@ export GEM_HOME=$HOME/fshare/.gem
 export GEM_PATH=/usr/lib/ruby/gems/2.6.0
 export GEM_SPEC_CACHE=$GEM_HOME/specs
 export GRADLE_USER_HOME=$HOME/fshare/.gradle
-export ANDROID_SDK_HOME=$HOME/fshare/.android/sdk
+export ANDROID_HOME=$HOME/fshare/.android
+export ANDROID_SDK_HOME=$HOME/fshare/.android
 export ANDROID_SDK_ROOT=$HOME/fshare/.android/sdk
+export ANDROID_EMULATOR_HOME=$HOME/fshare/.android
+export ANDROID_AVD_HOME=$HOME/fshare/.android/avd
+export STUDIO_PROPERTIES=$HOME/fshare/.android/idea.properties
 export PM2_HOME=$HOME/fshare/.pm2/
 export BABEL_CACHE_PATH=/tmp/babel.json
 export NODE_REPL_HISTORY=$HOME/fshare/.node_history
@@ -33,6 +37,7 @@ export npm_config_devdir=/home/kayw/fshare/.npm/.node_gyp #https://github.com/no
 export ELECTRON_MIRROR="https://npm.taobao.org/mirrors/electron/"
 export ELECTRON_CACHE=/home/kayw/fshare/.npm/electron/
 export PUB_HOSTED_URL=https://pub.flutter-io.cn
+export PUB_CACHE=/home/kayw/fshare/.pub-cache
 export FLUTTER_STORAGE_BASE_URL=https://storage.flutter-io.cn
 export GOPROXY=https://goproxy.cn,direct
 
@@ -40,7 +45,7 @@ export GOPROXY=https://goproxy.cn,direct
 #export GOROOT=$HOME/kspace/goroot
 export GOPATH=$HOME/kspace/go
 export DOCKER_VOLUME=$HOME/fshare/volume
-export PATH=$PATH:/home/kayw/bin/:$GOPATH/bin:$GEM_HOME/bin:$HOME/fshare/.pip/bin:$ANDROID_SDK_HOME/platform-tools:$ANDROID_SDK_HOME/emulator:$ANDROID_SDK_HOME/tools:/opt/flutter/bin:/opt/flutter/bin/cache/dart-sdk/bin/:/opt/flutter/.pub-cache/bin
+export PATH=$PATH:/home/kayw/bin/:$GOPATH/bin:$GEM_HOME/bin:$HOME/fshare/.pip/bin:$ANDROID_SDK_ROOT/platform-tools:$ANDROID_SDK_ROOT/emulator:$ANDROID_SDK_ROOT/tools:/opt/flutter/bin:/opt/flutter/bin/cache/dart-sdk/bin/:/opt/flutter/.pub-cache/bin
 #http://stackoverflow.com/questions/13830594/when-i-execute-bash-the-path-keeps-repeating-itself
 #export PATH=$(echo "$PATH" | awk -v RS=: -v ORS=: '!(a[$0]++)' | sed 's/:$//')
 
@@ -64,9 +69,7 @@ alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
 #alias dotfiles='git --git-dir=/home/kayw/.git --work-tree=/home/kayw'
-alias mvn='ANDROID_HOME=$HOME/fshare/.android/sdk /opt/apache-maven-3.3.3/bin/mvn -gs "/home/kayw/fshare/.m2/global/settings.xml"'
-alias studio='ANDROID_SDK_HOME=$HOME/fshare/.android/sdk/ /usr/local/android-studio/bin/studio.sh >/dev/null 2>&1'
-alias wps='wps -style gtk+'
+alias studio='/opt/android-studio/bin/studio.sh >/dev/null 2>&1'
 
 # PS1='[\u@\h \W]\$ '
 # export PS1="\[\e[36;1m\]\u\[\e[34;1m\]@\[\e[32;1m\]\H\[\e[30;1m\](\j)\[\e[33;1m\]\W\[\033k\033\134\] \$ \[\e[0m\]" \134 is \
