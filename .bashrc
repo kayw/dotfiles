@@ -1,4 +1,4 @@
-# mkdir -p ~/kspace/dotfiles  ~/fshare/.tmp ~/fshare/.npm
+# mkdir -p ~/kspace/dotfiles  ~/fshare/.tmp ~/fshare/.npm  ~/fshare/.nvm  should be owned by kayw
 # git clone --bare git@github.com:kayw/dotfiles.git kspace/dotfiles/.git
 # alias kgit...   kgit checkout
 # git clone git@github.com:kayw/dwm.git kspace/dwm  make install
@@ -22,7 +22,7 @@ export GEM_HOME=$HOME/fshare/.gem
 export GEM_PATH=/usr/lib/ruby/gems/2.6.0
 export GEM_SPEC_CACHE=$GEM_HOME/specs
 export GRADLE_USER_HOME=$HOME/fshare/.gradle
-export ANDROID_HOME=$HOME/fshare/.android
+#export ANDROID_HOME=$HOME/fshare/.android  react-native use this for sdk
 export ANDROID_SDK_HOME=$HOME/fshare/.android
 export ANDROID_SDK_ROOT=$HOME/fshare/.android/sdk
 export ANDROID_EMULATOR_HOME=$HOME/fshare/.android

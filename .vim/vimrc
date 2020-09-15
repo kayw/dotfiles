@@ -442,10 +442,10 @@ let g:buftabline_indicators = 1
 set background=light "dark
 let g:solarized_contrast="low"
 let g:solarized_visibility="high"
-if $TERM =~ "-256color"
+"if $TERM =~ "-256color"   plain alacritty / win mingw git bash also need 256
   se t_Co=256
   let g:solarized_termcolors=256
   let g:solarized_contrast="high"
   let g:solarized_termtrans=1
-endif
+"endif
 colo solarized
