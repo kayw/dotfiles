@@ -1,4 +1,4 @@
-export XAUTHORITY=/home/kayw/fshare/.tmp/.Xauthority
+export XAUTHORITY=/tmp/.Xauthority
 if [[ -z "$DISPLAY" ]] && [[ $(tty) = /dev/tty1 ]]; then
 startx
 logout
@@ -10,7 +10,7 @@ fi
 # put here because .bash_profile read only once
 # http://www.opensubscriber.com/message/screen-users@gnu.org/4932849.html
 # autostart gnu screen whenever a new terminal session is initiated
-# if there's a session available then reattach, else start a new GNU Screen session 
+# if there's a session available then reattach, else start a new GNU Screen session
 #if [ -z "$STY" ] ; then
 #	exec screen -dR
 #fi

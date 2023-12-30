@@ -1,0 +1,10 @@
+registry=https://registry.npmmirror.com/
+//registry=http://registry.npmjs.org/
+init-author-name=kayw
+cache=$HOME/kspace/env/npm
+store-dir=$HOME/kspace/env/pnpm-store
+#https://github.com/nodejs/node-gyp/issues/21
+#https://www.npmjs.com/package/node-gyp#configuration
+devdir=$HOME/.cache/node_gyp
+disturl=https://npmmirror.com/dist
+canvas_binary_host_mirror=https://registry.npmmirror.com/-/binary/canvas

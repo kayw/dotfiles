@@ -14,10 +14,10 @@ set backspace=indent,eol,start  " more powerful backspacing
 set textwidth=0     " Don't wrap lines by default
 set nobackup
 " place for swap files
-set dir=~/fshare/.tmp
+set dir=/var/tmp
 set viminfo='20,\"50    " read/write a .viminfo file, don't store more than
                         " 50 lines of registers
-set viminfo+=n~/fshare/.tmp/.viminfo
+set viminfo+=n/tmp/.viminfo
 "http://stackoverflow.com/questions/6286866/how-to-tell-vim-to-store-the-viminfo-file-somewhere-else
 "http://vim.1045645.n5.nabble.com/search-vimrc-and-viminfo-in-a-different-directory-td4391875.html
 set history=50  " keep 50 lines of command line history
@@ -83,8 +83,7 @@ if !empty($TMUX)"http://stackoverflow.com/questions/9496769/how-to-correctly-use
 endif
 
 if has("autocmd")
-  " Uncomment the following to have Vim jump to the last position when
-  " reopening a file
+  " jump to the last position when reopening a file
   au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal g'\"" | endif
 
   "http://superuser.com/questions/251019/customizing-tmux-status-to-represent-current-working-directory-and-files
@@ -96,6 +95,32 @@ if has("autocmd")
     "autocmd BufReadPost,FileReadPost,BufNewFile * call system("tmux rename-window ". expand("%:t"))
   endif
 endif " has ("autocmd")
+
+"##### auto fcitx  ###########
+"https://wiki.archlinuxcn.org/wiki/Fcitx
+let g:input_toggle = 1
+function! Fcitx2en()
+   let s:input_status = system("fcitx-remote")
+   if s:input_status == 2
+      let g:input_toggle = 1
+      let l:a = system("fcitx-remote -c")
+   endif
+endfunction
+
+function! Fcitx2zh()
+   let s:input_status = system("fcitx-remote")
+   if s:input_status != 2 && g:input_toggle == 1
+      let l:a = system("fcitx-remote -o")
+      let g:input_toggle = 0
+   endif
+endfunction
+
+set ttimeoutlen=150
+"退出插入模式
+autocmd InsertLeave * call Fcitx2en()
+"进入插入模式
+"autocmd InsertEnter * call Fcitx2zh()
+"##### auto fcitx end ######
 
 " cd to the directory containing the file in the buffer
 " https://github.com/olalonde/dotfiles/blob/master/tag-vim/vimrc#L189
@@ -131,13 +156,14 @@ let g:loaded_netrwPlugin = 0
 " LogiPat seems useful, but I've never touched it.
 let g:loaded_logiPat = 0
 
-let g:on_demand_autoformat_fts = [ '\<cpp\>', '\<c\>', '\<javascript*', '\<typescript*', '\<go\>', 'python', 'rust', 'dart' ]
-let g:on_demand_fts = g:on_demand_autoformat_fts + [ 'vim', 'ruby' ]
+let g:on_demand_autoformat_fts = [ '\<cpp\>', '\<c\>', '\<javascript*', '\<typescript*', '\<go\>', 'python', 'rust', 'dart']
+let g:on_demand_fts = g:on_demand_autoformat_fts + [ 'vim', 'ruby', '\<cs*']
 let g:on_demand_ft_regex = join(g:on_demand_fts, '\|')
 
 "Vim-Plug
 "https://github.com/junegunn/vim-plug
 let g:plug_timeout=600000 "ycm https://github.com/junegunn/vim-plug/issues/75
+let g:plug_url_format='http://150.230.249.133/%s.git'
 call plug#begin('~/.vim/bundle/')
 
 "bundles
@@ -146,14 +172,13 @@ call plug#begin('~/.vim/bundle/')
 "let g:user_emmet_install_global = 0
 Plug 'Raimondi/delimitMate', { 'for': g:on_demand_fts }
 "Plug 'tenfyzhong/CompleteParameter.vim', {'for': g:on_demand_fts }
-Plug 'SirVer/ultisnips', { 'for': [] } | Plug 'git@github.com:kayw/vim-snippets.git'
+"Plug 'SirVer/ultisnips', { 'for': ['\<cs*'] } | Plug 'kayw/vim-snippets'
 "Plug 'scrooloose/syntastic'
 "Plug 'tpope/vim-eneuch' " https://vi.stackexchange.com/questions/305/how-can-i-rename-the-file-im-editing
 Plug 'tpope/vim-fugitive' "http://vimcasts.org/episodes/fugitive-vim-working-with-the-git-index/
 Plug 'vim-scripts/python_match.vim'
-Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
+Plug 'andymass/vim-matchup'
 
-"Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer --system-libclang --tern-completer', 'for': [] }
 Plug 'pangloss/vim-javascript', { 'for': 'javascript*' }
 Plug 'mxw/vim-jsx', { 'for': 'javascript.jsx' }
 Plug 'wting/rust.vim', {'for': 'rust'}
@@ -165,17 +190,17 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'altercation/vim-colors-solarized'
 "https://github.com/MaskRay/ccls/wiki/Editor-Configuration
 
-Plug 'junegunn/fzf', { 'do': './install --all' } "https://www.reddit.com/r/vim/comments/4l00pj/eli5_why_is_nerdtree_discouraged_but_everyone/d3juidx
+Plug 'junegunn/fzf', { 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
-Plug 'ap/vim-buftabline' "https://www.reddit.com/r/vim/comments/4l00pj/eli5_why_is_nerdtree_discouraged_but_everyone/d3nyg6n
+"Plug 'ap/vim-buftabline'
+"Plug 'bagrat/vim-buffet'
 
 Plug 'scrooloose/nerdcommenter', { 'for': g:on_demand_fts }
 
 Plug 'dart-lang/dart-vim-plugin'
-"Plug 'natebosch/vim-lsc'
-"Plug 'natebosch/vim-lsc-dart'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'ziglang/zig.vim'
+"Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 "Plug 'jackguo380/vim-lsp-cxx-highlight', { 'for': ['cpp','c','h','hpp','cc', 'cxx'] }
 "Plug 'octol/vim-cpp-enhanced-highlight', { 'for': 'cpp' } "differ highlight for macro namespace type  davits/DyeVim
 "Plug 'w0rp/ale'
@@ -205,10 +230,10 @@ set signcolumn=no
 " Use tab for trigger completion with characters ahead and navigate.
 " Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
 inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
+      \ coc#pum#visible() ? coc#pum#next(1) :
       \ <SID>check_back_space() ? "\<TAB>" :
       \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+inoremap <expr><S-TAB> pumvisible() ? coc#pum#prev(1) : "\<C-h>"
 
 function! s:check_back_space() abort
   let col = col('.') - 1
@@ -216,7 +241,7 @@ function! s:check_back_space() abort
 endfunction
 
 " Use <c-space> to trigger completion.
-inoremap <silent><expr> <c-space> coc#refresh()
+inoremap <silent><expr> <c-@> coc#refresh()
 
 " Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
 " Coc only does snippet and additional edit on confirm.
@@ -227,10 +252,19 @@ nmap <silent> [c <Plug>(coc-diagnostic-prev)
 nmap <silent> ]c <Plug>(coc-diagnostic-next)
 
 " Remap keys for gotos
-nmap <silent> <C-]> <Plug>(coc-definition)
+nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
+
+" https://github.com/neoclide/coc.nvim/issues/3184
+nnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+nnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+inoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
+inoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>"
+vnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+vnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+
 
 " Use K to show documentation in preview window
 nnoremap <silent> K :call <SID>show_documentation()<CR>
@@ -244,6 +278,7 @@ function! s:show_documentation()
 endfunction
 
 " Highlight symbol under cursor on CursorHold
+" https://github.com/neoclide/coc.nvim/issues/869#issuecomment-979283481 doHover
 autocmd CursorHold * silent call CocActionAsync('highlight')
 
 " Remap for rename current word
@@ -270,10 +305,13 @@ nmap <leader>ac  <Plug>(coc-codeaction)
 " Fix autofix problem of current line
 nmap <leader>qf  <Plug>(coc-fix-current)
 
+" https://hub.gitfast.tk/neoclide/coc.nvim/issues/1089 <tab> same as <C-i>
 " Use <tab> for select selections ranges, needs server support, like: coc-tsserver, coc-python
-nmap <silent> <TAB> <Plug>(coc-range-select)
-xmap <silent> <TAB> <Plug>(coc-range-select)
-xmap <silent> <S-TAB> <Plug>(coc-range-select-backword)
+" https://vi.stackexchange.com/questions/9839/how-to-use-jumplists-c-i-which-is-seen-as-a-tab - { key: I,        mods: Control, chars:  "\x0e\x69"  }
+nmap <silent> <leader>l <Plug>(coc-range-select)
+xmap <silent> <leader>l <Plug>(coc-range-select)
+xmap <silent> <leader>l <Plug>(coc-range-select-backword)
+
 
 " Use `:Format` to format current buffer
 command! -nargs=0 Format :call CocAction('format')
@@ -306,6 +344,12 @@ nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
 " Resume latest coc list
 nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
 
+nmap <Leader>t <Cmd>CocCommand explorer --sources=buffer+,file+<CR>
+nmap <Leader>T <Cmd>CocCommand explorer --sources=buffer+,file+ --no-reveal-when-open<CR>
+"nmap <Leader>t :let NERDTreeQuitOnOpen = 1<bar>NERDTreeToggle<CR>
+"nmap <Leader>T NERDTreeFind<CR>
+"CocDisable
+
 "UltiSnip
 "ycm TAB key TODO https://github.com/Valloric/YouCompleteMe/issues/36
 let g:UltiSnipsExpandTrigger = "<C-e>"
@@ -322,13 +366,43 @@ let g:snips_author="kayw"
 
 "airline
 set laststatus=2 "http://superuser.com/questions/634570/vim-how-to-install-airline
-let g:airline_theme='badwolf'
+let g:airline_theme='tomorrow'
 let g:airline#extensions#disable_rtp_load = 1
 let g:airline_powerline_fonts = 1
-
-" Nerd tree
-nmap <Leader>t :let NERDTreeQuitOnOpen = 1<bar>NERDTreeToggle<CR>
-"nmap gr :call Move()<cr>
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#buffer_idx_mode = 3
+let g:airline#extensions#tabline#keymap_ignored_filetypes =
+  \ ['fzf', 'nerdtree']
+nmap <Leader>01 <Plug>AirlineSelectTab01
+nmap <Leader>02 <Plug>AirlineSelectTab02
+nmap <Leader>03 <Plug>AirlineSelectTab03
+nmap <Leader>04 <Plug>AirlineSelectTab04
+nmap <Leader>05 <Plug>AirlineSelectTab05
+nmap <Leader>06 <Plug>AirlineSelectTab06
+nmap <Leader>07 <Plug>AirlineSelectTab07
+nmap <Leader>08 <Plug>AirlineSelectTab08
+nmap <Leader>09 <Plug>AirlineSelectTab09
+nmap <Leader>10 <Plug>AirlineSelectTab10
+nmap <Leader>11 <Plug>AirlineSelectTab11
+nmap <Leader>12 <Plug>AirlineSelectTab12
+nmap <Leader>13 <Plug>AirlineSelectTab13
+nmap <Leader>14 <Plug>AirlineSelectTab14
+nmap <Leader>15 <Plug>AirlineSelectTab15
+nmap <Leader>16 <Plug>AirlineSelectTab16
+nmap <Leader>17 <Plug>AirlineSelectTab17
+nmap <Leader>18 <Plug>AirlineSelectTab18
+nmap <Leader>19 <Plug>AirlineSelectTab19
+nmap <Leader>20 <Plug>AirlineSelectTab20
+nmap <Leader>21 <Plug>AirlineSelectTab21
+nmap <Leader>22 <Plug>AirlineSelectTab22
+nmap <Leader>23 <Plug>AirlineSelectTab23
+nmap <Leader>24 <Plug>AirlineSelectTab24
+nmap <Leader>25 <Plug>AirlineSelectTab25
+nmap <Leader>26 <Plug>AirlineSelectTab26
+nmap <Leader>27 <Plug>AirlineSelectTab27
+nmap <Leader>28 <Plug>AirlineSelectTab28
+nmap <Leader>29 <Plug>AirlineSelectTab29
+nmap <Leader>30 <Plug>AirlineSelectTab30
 
 "YouCompleteMe
 let g:ycm_autoclose_preview_window_after_completion = 1
@@ -350,24 +424,12 @@ augroup bufevent
                  \ endif
 augroup END
 
-"ALE
-let g:ale_lint_on_text_changed = 'never'
-let g:ale_open_list = 0
-
-let g:ale_linters = {'cpp': ['clangtidy']}
-let g:ale_c_clangtidy_checks=[]
-let g:ale_cpp_clangtidy_checks=[]
-let g:ale_fixers = {
-      \   'javascript': ['eslint'],
-      \   'dart': ['dartfmt'],
-      \   'cpp': ['clang-format'],
-      \}
-let g:ale_linters = {'dart': []}
-let g:ale_fix_on_save = 1
-
 "fzf
 "copy from leaderf
+let $FZF_DEFAULT_COMMAND = 'ag -g ""'
 nnoremap <leader>f :<C-U>Files<CR>
+"nnoremap <leader>f :<C-U>GFiles --cached --others --exclude-standard<CR>
+ "https://github.com/junegunn/fzf.vim/issues/121#issuecomment-575922206
 nnoremap <leader>b :<C-U>Buffers<CR>
 
 " https://github.com/junegunn/fzf.vim/issues/92
@@ -378,12 +440,10 @@ nnoremap ;s :AgM<CR>
 " \b\s?<C-R><C-W>\b<CR>   "http://vi.stackexchange.com/a/3168
 " <C-R><C-W> word begin with b will eat \b
 "nnoremap ;s :<C-u>execute 'Ag! \b'.expand('<cword>').'\b'<CR>
+"map <leader>" :Ag! "<C-r>"" -Q<CR>  https://github.com/junegunn/fzf.vim/issues/586
 " result window "cover the whole because of -bang ! <bang>0
-vnoremap ;s :<C-U>
-            \let old_reg=getreg('"')<Bar>let old_regtype=getregtype('"')<CR>
-            \gvy:Ag <C-R><C-R>=substitute(
-            \escape(@", '/\.*$^~['), '\_s\+', '\\_s\\+', 'g')<CR><CR>
-            \gV:call setreg('"', old_reg, old_regtype)<CR>
+" <C-R>" as current word
+vnoremap ;s y:Ag <C-R>=escape(@",'/\')<CR><CR>
 "https://www.reddit.com/r/vim/comments/4ffvt1/is_there_a_way_to_switch_between_fzf_commands/
 
 "http://vim.wikia.com/wiki/Search_for_visually_selected_text
@@ -405,6 +465,37 @@ function! s:ag_in(...)
 endfunction
 "AgIn dir pattern
 command! -nargs=+ -complete=dir AgIn call s:ag_in(<f-args>)
+
+nnoremap <expr> ;d ':AgIn '.expand('<cword>').' '
+
+"https://github.com/mg979/vim-visual-multi  https://github.com/dyng/ctrlsf.vim
+"https://www.reddit.com/r/vim/comments/owm6o0/comment/h7h8mkf/
+function! s:grep_rename_cb(...)
+  "let a = a:000[0]
+  "https://vi.stackexchange.com/questions/2410/how-to-make-a-vimscript-function-with-optional-arguments
+  let a = get(a:, 1)
+  let b = get(a:, 2, '')
+  if !b
+    let b = a:000[0]
+    let a = expand('<cword>')
+  endif
+  if empty(a)
+    return
+  endif
+  "exec 'table | lv /\<' . a . '\>/j ** | ldo s/\<' . a . '\>/' . b . '/gc | up'
+  " https://vi.stackexchange.com/questions/24992/how-to-put-the-output-of-a-function-call-into-quickfix-list
+  "
+  "https://vi.stackexchange.com/questions/21004/prevent-press-enter-or-type-command-to-continue-prompt-after-external-command
+  "silent grep foo ** | redraw! get rid of Press ENTER or type command to continue
+  " ' no need for backslash, ' doubled  " as single quote   :h string
+  " https://vi.stackexchange.com/questions/5612/how-to-redirect-the-output-of-a-command-as-the-quickfix-list-to-a-vim-server-f
+  exec 'cex system(''ag --vimgrep "\b' . a . '\b"'') | cfdo %s/\<' . a . '\>/' . b . '/gc | up'
+endfunction
+
+com! -nargs=+  GrepRename  call s:grep_rename_cb(<f-args>)
+"https://vi.stackexchange.com/questions/17194/expandcword-returns-empty-string-in-inoremap
+"https://vi.stackexchange.com/questions/16090/trouble-using-cword-in-mapping
+nnoremap <expr> ;r ':GrepRename '.expand('<cword>')
 
 "delimitMate
 au FileType vim let b:delimitMate_matchpairs = "(:),[:],{:},<:>"
@@ -449,3 +540,78 @@ let g:solarized_visibility="high"
   let g:solarized_termtrans=1
 "endif
 colo solarized
+
+"https://github.com/OmniSharp/omnisharp-vim/issues/703
+let g:OmniSharp_server_use_net6=1
+let g:OmniSharp_want_snippet=1
+"set completeopt=longest,menuone,popuphidden
+" Highlight the completion documentation popup background/foreground the same as
+" the completion menu itself, for better readability with highlighted
+" documentation.
+"set completepopup=highlight:Pmenu,border:off
+augroup omnisharp_commands
+  autocmd!
+
+  " Show type information automatically when the cursor stops moving.
+  " Note that the type is echoed to the Vim command line, and will overwrite
+  " any other messages in this space including e.g. ALE linting messages.
+  "autocmd CursorHold *.cs OmniSharpTypeLookup
+
+  " The following commands are contextual, based on the cursor position.
+  autocmd FileType cs nmap <silent> <buffer> gd <Plug>(omnisharp_go_to_definition)
+  autocmd FileType cs nmap <silent> <buffer> gr <Plug>(omnisharp_find_usages)
+  autocmd FileType cs nmap <silent> <buffer> gi <Plug>(omnisharp_find_implementations)
+  autocmd FileType cs nmap <silent> <buffer> gpd <Plug>(omnisharp_preview_definition)
+  autocmd FileType cs nmap <silent> <buffer> gpr <Plug>(omnisharp_preview_implementations)
+  autocmd FileType cs nmap <silent> <buffer> gt <Plug>(omnisharp_type_lookup)
+  autocmd FileType cs nmap <silent> <buffer> K <Plug>(omnisharp_documentation)
+  autocmd FileType cs nmap <silent> <buffer> <Leader>gs <Plug>(omnisharp_find_symbol)
+  autocmd FileType cs nmap <silent> <buffer> <Leader>ufx <Plug>(omnisharp_fix_usings)
+  autocmd FileType cs nmap <silent> <buffer> <C-\> <Plug>(omnisharp_signature_help)
+  autocmd FileType cs imap <silent> <buffer> <C-\> <Plug>(omnisharp_signature_help)
+
+  " Navigate up and down by method/property/field
+  autocmd FileType cs nmap <silent> <buffer> [[ <Plug>(omnisharp_navigate_up)
+  autocmd FileType cs nmap <silent> <buffer> ]] <Plug>(omnisharp_navigate_down)
+  " Find all code errors/warnings for the current solution and populate the quickfix window
+  autocmd FileType cs nmap <silent> <buffer> <Leader>gcc <Plug>(omnisharp_global_code_check)
+  " Contextual code actions (uses fzf, vim-clap, CtrlP or unite.vim selector when available)
+  autocmd FileType cs nmap <silent> <buffer> <Leader>ac <Plug>(omnisharp_code_actions)
+  autocmd FileType cs xmap <silent> <buffer> <Leader>ac <Plug>(omnisharp_code_actions)
+  " Repeat the last code action performed (does not use a selector)
+  autocmd FileType cs nmap <silent> <buffer> <Leader>os. <Plug>(omnisharp_code_action_repeat)
+  autocmd FileType cs xmap <silent> <buffer> <Leader>os. <Plug>(omnisharp_code_action_repeat)
+
+  autocmd FileType cs nmap <silent> <buffer> <Leader>gf <Plug>(omnisharp_code_format)
+
+  autocmd FileType cs nmap <silent> <buffer> gR <Plug>(omnisharp_rename)
+
+  autocmd FileType cs nmap <silent> <buffer> <Leader>osre <Plug>(omnisharp_restart_server)
+  autocmd FileType cs nmap <silent> <buffer> <Leader>osst <Plug>(omnisharp_start_server)
+  autocmd FileType cs nmap <silent> <buffer> <Leader>ossp <Plug>(omnisharp_stop_server)
+  au BufReadPost,BufEnter *.cs setl sw=4
+augroup END
+"https://github.com/OmniSharp/omnisharp-vim/wiki/Example-config
+" ALE: {{{
+let g:ale_lint_on_text_changed = 'never'
+let g:ale_open_list = 0
+
+let g:ale_linters = {'cpp': ['clangtidy']}
+let g:ale_c_clangtidy_checks=[]
+let g:ale_cpp_clangtidy_checks=[]
+let g:ale_fixers = {
+      \   'javascript': ['eslint'],
+      \   'dart': ['dartfmt'],
+      \   'cpp': ['clang-format'],
+      \}
+let g:ale_linters = {'dart': []}
+let g:ale_fix_on_save = 1
+
+let g:ale_sign_error = '•'
+let g:ale_sign_warning = '•'
+let g:ale_sign_info = '·'
+let g:ale_sign_style_error = '·'
+let g:ale_sign_style_warning = '·'
+
+let g:ale_linters = { 'cs': ['OmniSharp'] }
+" }}}

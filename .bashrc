@@ -1,8 +1,12 @@
-# mkdir -p ~/kspace/dotfiles  ~/fshare/.tmp ~/fshare/.npm  ~/fshare/.nvm  should be owned by kayw
+# mkdir -p ~/kspace/dotfiles  ~/kspace/env/npm  ~/kspace/env/nvm  should be owned by kayw
 # git clone --bare git@github.com:kayw/dotfiles.git kspace/dotfiles/.git
 # alias kgit...   kgit checkout
 # git clone git@github.com:kayw/dwm.git kspace/dwm  make install
 # install nvm node trojan-go  vim plug install
+#
+# NOTES:
+# backup_rsync.timer backup_rsync.service  added into /etc/systemd/system/  systemd enable / start
+# /mnt/pc005/var/lib/docker linked to /var/lib/docker
 
 # Check for an interactive session
 [ -z "$PS1" ] && return
@@ -12,40 +16,55 @@
 export HISTCONTROL=$HISTCONTROL${HISTCONTROL+,}erasedups:ignoreboth
 # http://mewbies.com/how_to_disable_bash_history_or_limit_tutorial.html
 export HISTIGNORE='&:[ ]*:ls*:cd*:ps*:du*:rm*:cat*'
+# https://linuxhint.com/bash_command_history_usage/
+export HISTSIZE=100000
+export HISTFILESIZE=100000
 # ... or force ignoredups and ignorespace
 #export HISTCONTROL=ignoreboth
 
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib/  #rustlib node_modules
-#export PYTHONPATH=$PYTHONPATH:/home/kayw/share/codebase/hyde/kayw.github.com/extensions/
+#export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib/  #rustlib node_modules
 
-export GEM_HOME=$HOME/fshare/.gem
-export GEM_PATH=/usr/lib/ruby/gems/2.6.0
+KSPACE_ENV=$HOME/kspace/env
+export GEMRC=$HOME/.config/gemrc #https://docs.ruby-lang.org/en/2.5.0/Gem/ConfigFile.html  https://jordanelver.co.uk/blog/2020/12/06/project-specific-gemrc-files-using-the-gemrc-environment-variable/
+export GEM_HOME=$KSPACE_ENV/gems
+#export GEM_PATH=/usr/lib/ruby/gems/2.6.0
 export GEM_SPEC_CACHE=$GEM_HOME/specs
-export GRADLE_USER_HOME=$HOME/fshare/.gradle
-#export ANDROID_HOME=$HOME/fshare/.android  react-native use this for sdk
-export ANDROID_SDK_HOME=$HOME/fshare/.android
-export ANDROID_SDK_ROOT=$HOME/fshare/.android/sdk
-export ANDROID_EMULATOR_HOME=$HOME/fshare/.android
-export ANDROID_AVD_HOME=$HOME/fshare/.android/avd
-export STUDIO_PROPERTIES=$HOME/fshare/.android/idea.properties
-export PM2_HOME=$HOME/fshare/.pm2/
+export GRADLE_USER_HOME=$KSPACE_ENV/gradle
+#export ANDROID_HOME=$KSPACE_ENV/.android  react-native use this for sdk
+export ANDROID_SDK_HOME=$KSPACE_ENV/android
+export ANDROID_SDK_ROOT=$ANDROID_SDK_HOME/sdk
+export ANDROID_EMULATOR_HOME=$ANDROID_SDK_HOME
+export ANDROID_AVD_HOME=$ANDROID_SDK_HOME/avd
+export STUDIO_PROPERTIES=$ANDROID_SDK_HOME/idea.properties
+export PM2_HOME=$KSPACE_ENV/pm2/
 export BABEL_CACHE_PATH=/tmp/babel.json
-export NODE_REPL_HISTORY=$HOME/fshare/.node_history
-export PYTHONSTARTUP=$HOME/fshare/.py_history
-export PYTHONUSERBASE=$HOME/fshare/.pip
-export npm_config_devdir=/home/kayw/fshare/.npm/.node_gyp #https://github.com/nodejs/node-gyp/issues/21
-export ELECTRON_MIRROR="https://npm.taobao.org/mirrors/electron/"
-export ELECTRON_CACHE=/home/kayw/fshare/.npm/electron/
+export NODE_REPL_HISTORY=$HOME/.cache/.node_history
+export npm_config_userconfig=$HOME/.config/npmrc   #https://docs.npmjs.com/cli/v10/commands/npm#configuration
+export ELECTRON_MIRROR="https://npmmirror.com/mirrors/electron/"
+export ELECTRON_CACHE=$HOME/.cache/electron/
+export PYTHONSTARTUP=$HOME/.config/python/pythonrc #https://unix.stackexchange.com/questions/630642/change-location-of-python-history
+export PYTHONUSERBASE=$KSPACE_ENV/pip
 export PUB_HOSTED_URL=https://pub.flutter-io.cn
-export PUB_CACHE=/home/kayw/fshare/.pub-cache
+export PUB_CACHE=$KSPACE_ENV/flutter-pub
 export FLUTTER_STORAGE_BASE_URL=https://storage.flutter-io.cn
 export GOPROXY=https://goproxy.cn,direct
-
 #http://stackoverflow.com/questions/25433505/go-all-bash-compilation-testing-fails-with-permission-denied
 #export GOROOT=$HOME/kspace/goroot
-export GOPATH=$HOME/kspace/go
-export DOCKER_VOLUME=$HOME/fshare/volume
-export PATH=$PATH:/home/kayw/bin/:$GOPATH/bin:$GEM_HOME/bin:$HOME/fshare/.pip/bin:$ANDROID_SDK_ROOT/platform-tools:$ANDROID_SDK_ROOT/emulator:$ANDROID_SDK_ROOT/tools:/opt/flutter/bin:/opt/flutter/bin/cache/dart-sdk/bin/:/opt/flutter/.pub-cache/bin
+export GOPATH=$KSPACE_ENV/go
+export SQLITE_HISTORY=$HOME/.cache/sqlite_history  # https://unix.stackexchange.com/questions/306890/change-location-of-sqlite-history-file
+export DOCKER_CONFIG=$HOME/.config/docker
+#cat $(kpsewhich texmf.cnf) https://tex.stackexchange.com/questions/467824/is-it-possible-to-relocate-my-texmf-directory
+export TEXMFHOME=$HOME/.config/texlive/texmf
+export TEXMFVAR=$HOME/.config/texlive/texmf-var
+export TEXMFCONFIG=$HOME/.config/texlive/texmf-config
+
+export DOTNET_ROOT=/opt/dotnet
+FLUTTER_ROOT=/opt/flutter
+
+# https://stackoverflow.com/questions/229551/how-to-check-if-a-string-contains-a-substring-in-bash
+if [[ $PATH != *"/home/kayw/bin/"* ]]; then
+  export PATH=$PATH:$HOME/bin/:$GOPATH/bin:$GEM_HOME/bin:$PYTHONUSERBASE/bin:$ANDROID_SDK_ROOT/platform-tools:$ANDROID_SDK_ROOT/emulator:$ANDROID_SDK_ROOT/tools:$FLUTTER_ROOT/bin:$FLUTTER_ROOT/bin/cache/dart-sdk/bin/:$FLUTTER_ROOT/.pub-cache/bin:$DOTNET_ROOT:$DOTNET_ROOT/tools
+fi
 #http://stackoverflow.com/questions/13830594/when-i-execute-bash-the-path-keeps-repeating-itself
 #export PATH=$(echo "$PATH" | awk -v RS=: -v ORS=: '!(a[$0]++)' | sed 's/:$//')
 
@@ -164,11 +183,11 @@ alias work='. ~/bin/work'
 
 # nvm settings per terminal session
 #. "$HOME/.nvm/nvm.sh" && . "$HOME/.nvm/bash_completion" && nvm use iojs;(!!!this one need source Or . in script)
-export NVM_NODEJS_ORG_MIRROR=https://npm.taobao.org/mirrors/node  # https://cnodejs.org/topic/5338c5db7cbade005
-export NVM_DIR="$HOME/fshare/.nvm" # upgrade git fetch --tags origin git checkout `git describe --abbrev=0 --tags --match "v[0-9]*" $(git rev-list --tags --max-count=1)`
+export NVM_NODEJS_ORG_MIRROR=https://npmmirror.com/mirrors/node  # https://cnodejs.org/topic/5338c5db7cbade005
+export NVM_DIR="$KSPACE_ENV/nvm" # upgrade git fetch --tags origin git checkout `git describe --abbrev=0 --tags --match "v[0-9]*" $(git rev-list --tags --max-count=1)`
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion" # load nvm completion
-command -v nvm &> /dev/null && nvm use default
+#[ -z "${TMUX}" ] && command -v nvm &> /dev/null && nvm use default
 
 #command -v nodemon &> /dev/null || alias nodemon="pm2 start --no-daemon"
 

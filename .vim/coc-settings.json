@@ -1,17 +1,24 @@
 {
   "javascript.suggestionActions.enabled": false,
   "javascript.validate.enable": false,
-  "tsserver.implicitProjectConfig.experimentalDecorators":true,
+  "tsserver.implicitProjectConfig.experimentalDecorators": true,
   "typescript.validate.enable": true,
   "eslint.autoFixOnSave": true,
   "python.linting.enabled": true,
+  "explorer.keyMappings.global": {
+    "cd": ["wait", "expandable?", "cd", "noop"],
+    "<cr>": ["wait", "expandable?", "expand", "open"],
+    "gs": ["wait", "reveal:0:compact"],
+    "l": ["wait", "expandable?", "expand", "noop"],
+    "o": ["wait", "expandable?", ["expanded?", "collapse", "expand"], ["open","quit"]]
+  },
   "languageserver": {
     "dart": {
       "command": "dart",
       "args": [
         "/opt/flutter/bin/cache/dart-sdk/bin/snapshots/analysis_server.dart.snapshot",
         "--lsp",
-	"--suppress-analytics"
+        "--suppress-analytics"
       ],
       "filetypes": ["dart"],
       "disableDynamicRegister": true,
@@ -29,7 +36,7 @@
       }
     },
     "golang": {
-      "command": "/home/kayw/kspace/go/bin/gopls",
+      "command": "$HOME/kspace/env/go/bin/gopls",
       "rootPatterns": ["go.mod", ".git/", ".hg/"],
       "filetypes": ["go"]
     },

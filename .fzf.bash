@@ -1,7 +1,7 @@
 # Setup fzf
 # ---------
 if [[ ! "$PATH" == */home/kayw/.vim/bundle/fzf/bin* ]]; then
-  export PATH="${PATH:+${PATH}:}/home/kayw/.vim/bundle/fzf/bin"
+  PATH="${PATH:+${PATH}:}/home/kayw/.vim/bundle/fzf/bin"
 fi
 
 # Auto-completion

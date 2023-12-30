@@ -5,8 +5,9 @@
 #BG_IMG="$HOME/.dotfiles/wallpapers/blue-1920x1080.png"
 #feh >/dev/null 2>&1 && feh --bg-scale $BG_IMG & # set the background wallpaper
 xsetroot -name "" & # we status bar, set main WM window title to none
-DWM_STARTLOG="/tmp/dwm-start.log"
-$HOME/bin/trojan-go -config "$HOME/.config/shadowsocks/trojan.json"&
+DWM_STARTLOG="/var/log/dwm/run.log"
+#$HOME/bin/trojan-go -config "$HOME/.config/shadowsocks/trojan.json"&
+#$HOME/bin/clash -f ~/.config/shadowsocks/clash.yaml -d ~/.config/shadowsocks/ 2>&1 >/dev/null &
 devmon 2>&1 > $DWM_STARTLOG & # automount removable devices
 while true; do
 	(sleep 1 && $HOME/bin/dwm-statusbar) > /dev/null 2>&1 & # run status bar, need to make sure wm loads first
