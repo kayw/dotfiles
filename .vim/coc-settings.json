@@ -1,10 +1,14 @@
 {
+  "suggest.noselect": true,
   "javascript.suggestionActions.enabled": false,
   "javascript.validate.enable": false,
   "tsserver.implicitProjectConfig.experimentalDecorators": true,
   "typescript.validate.enable": true,
   "eslint.autoFixOnSave": true,
   "python.linting.enabled": true,
+  "pyright.inlayHints.functionReturnTypes": false,
+  "pyright.inlayHints.variableTypes": false,
+  "pyright.inlayHints.parameterTypes": false,
   "explorer.keyMappings.global": {
     "cd": ["wait", "expandable?", "cd", "noop"],
     "<cr>": ["wait", "expandable?", "expand", "open"],

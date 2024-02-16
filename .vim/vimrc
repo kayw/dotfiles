@@ -100,19 +100,25 @@ endif " has ("autocmd")
 "https://wiki.archlinuxcn.org/wiki/Fcitx
 let g:input_toggle = 1
 function! Fcitx2en()
-   let s:input_status = system("fcitx-remote")
-   if s:input_status == 2
-      let g:input_toggle = 1
-      let l:a = system("fcitx-remote -c")
-   endif
+  if !executable("fcitx-remote")
+    return
+  endif
+  let s:input_status = system("fcitx-remote")
+  if s:input_status == 2
+     let g:input_toggle = 1
+     let l:a = system("fcitx-remote -c")
+  endif
 endfunction
 
 function! Fcitx2zh()
-   let s:input_status = system("fcitx-remote")
-   if s:input_status != 2 && g:input_toggle == 1
-      let l:a = system("fcitx-remote -o")
-      let g:input_toggle = 0
-   endif
+  if !executable("fcitx-remote")
+    return
+  endif
+  let s:input_status = system("fcitx-remote")
+  if s:input_status != 2 && g:input_toggle == 1
+     let l:a = system("fcitx-remote -o")
+     let g:input_toggle = 0
+  endif
 endfunction
 
 set ttimeoutlen=150
@@ -136,6 +142,13 @@ inoremap <F12> <ESC>:e ~/.vim/vimrc<CR>
 " newline, and punctuation is "skipped"):
 " http://superuser.com/questions/290360/how-to-switch-words-in-an-easy-manner-in-vim
 nmap <silent> gw "_yiw:s/\(\%#\w\+\)\(\_W\+\)\(\w\+\)/\3\2\1/<CR><C-o>:noh<CR>
+"https://unix.stackexchange.com/questions/329641/can-i-remap-ctrl-j-and-ctrl-k-in-vim
+nnoremap <C-k> <C-u>
+nnoremap <C-j> <C-d>
+nnoremap ;v <C-v>
+nnoremap ;c <C-c>
+nnoremap ;w <C-w>
+nnoremap <leader>r <C-r>
 
 if has('gui_running')
   " Make shift-insert work like in Xterm
@@ -426,24 +439,36 @@ augroup END
 
 "fzf
 "copy from leaderf
-let $FZF_DEFAULT_COMMAND = 'ag -g ""'
+if executable('rg')
+  let $FZF_DEFAULT_COMMAND = 'rg --files -.'
+elseif executable('ag')
+  let $FZF_DEFAULT_COMMAND = 'ag -g ""'
+endif
 nnoremap <leader>f :<C-U>Files<CR>
 "nnoremap <leader>f :<C-U>GFiles --cached --others --exclude-standard<CR>
  "https://github.com/junegunn/fzf.vim/issues/121#issuecomment-575922206
 nnoremap <leader>b :<C-U>Buffers<CR>
 
-" https://github.com/junegunn/fzf.vim/issues/92
-" AgM: case sensitive Ag call
-autocmd VimEnter * command! -nargs=* -bang AgM call fzf#vim#ag_raw('-s '.fzf#shellescape('\b'.expand('<cword>').'\b'))
 
-nnoremap ;s :AgM<CR>
+function! s:fzf_ag(...)
+  if executable('rg')
+    call fzf#vim#grep("rg --column --line-number -. --no-heading --color=always --smart-case -- ".fzf#shellescape(a:1), fzf#vim#with_preview(), a:2)
+  elseif executable('ag')
+    " https://github.com/junegunn/fzf.vim/issues/92case sensitive Ag call
+    call fzf#vim#ag_raw('-s '.fzf#shellescape(a:1), fzf#vim#with_preview(), a:2)
+  endif
+endfunction
+
+command! -bang -nargs=* Ag  call s:fzf_ag(<q-args>,<bang>0)
+
+nnoremap ;s :Ag <C-R>='\b'.expand('<cword>').'\b'<CR><CR>
 " \b\s?<C-R><C-W>\b<CR>   "http://vi.stackexchange.com/a/3168
 " <C-R><C-W> word begin with b will eat \b
 "nnoremap ;s :<C-u>execute 'Ag! \b'.expand('<cword>').'\b'<CR>
 "map <leader>" :Ag! "<C-r>"" -Q<CR>  https://github.com/junegunn/fzf.vim/issues/586
 " result window "cover the whole because of -bang ! <bang>0
 " <C-R>" as current word
-vnoremap ;s y:Ag <C-R>=escape(@",'/\')<CR><CR>
+vnoremap ;s y:Ag <C-R>=escape(@",'\')<CR><CR>
 "https://www.reddit.com/r/vim/comments/4ffvt1/is_there_a_way_to_switch_between_fzf_commands/
 
 "http://vim.wikia.com/wiki/Search_for_visually_selected_text
@@ -461,27 +486,46 @@ vnoremap <silent> # :<C-U>
 
 "https://github.com/junegunn/fzf.vim/issues/27
 function! s:ag_in(...)
-  call fzf#vim#ag(join(a:000[1:], ' '), {'dir': a:1})
+  if executable('rg')
+    call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case -- ".fzf#shellescape(a:1), {'dir': join(a:000[1:],' ')})
+  elseif executable('ag')
+    call fzf#vim#ag(a:1, {'dir': join(a:000[1:], ' ')})
+  endif
 endfunction
 "AgIn dir pattern
 command! -nargs=+ -complete=dir AgIn call s:ag_in(<f-args>)
 
 nnoremap <expr> ;d ':AgIn '.expand('<cword>').' '
 
+   "use .. as start path placeholder
+vnoremap ;d y:AgIn <C-R>=@<CR> ..
+
 "https://github.com/mg979/vim-visual-multi  https://github.com/dyng/ctrlsf.vim
 "https://www.reddit.com/r/vim/comments/owm6o0/comment/h7h8mkf/
 function! s:grep_rename_cb(...)
   "let a = a:000[0]
   "https://vi.stackexchange.com/questions/2410/how-to-make-a-vimscript-function-with-optional-arguments
+  if executable('rg')
+    let searcher = 'rg'
+  elseif executable('ag')
+    let searcher = 'ag'
+  else
+    return
+  endif
   let a = get(a:, 1)
   let b = get(a:, 2, '')
-  if !b
+  if empty(b)
     let b = a:000[0]
     let a = expand('<cword>')
   endif
   if empty(a)
     return
   endif
+  let needle = a
+  if searcher == 'rg'
+    let needle = escape(needle, '*+\[](){}')
+  endif
+  let pattern = escape(a, '/"')
   "exec 'table | lv /\<' . a . '\>/j ** | ldo s/\<' . a . '\>/' . b . '/gc | up'
   " https://vi.stackexchange.com/questions/24992/how-to-put-the-output-of-a-function-call-into-quickfix-list
   "
@@ -489,13 +533,14 @@ function! s:grep_rename_cb(...)
   "silent grep foo ** | redraw! get rid of Press ENTER or type command to continue
   " ' no need for backslash, ' doubled  " as single quote   :h string
   " https://vi.stackexchange.com/questions/5612/how-to-redirect-the-output-of-a-command-as-the-quickfix-list-to-a-vim-server-f
-  exec 'cex system(''ag --vimgrep "\b' . a . '\b"'') | cfdo %s/\<' . a . '\>/' . b . '/gc | up'
+  exec 'cex system('''. searcher .' --vimgrep ' . needle . ''') | cfdo %s/\<' . pattern . '\>/' . b . '/gc | up'
 endfunction
 
 com! -nargs=+  GrepRename  call s:grep_rename_cb(<f-args>)
 "https://vi.stackexchange.com/questions/17194/expandcword-returns-empty-string-in-inoremap
 "https://vi.stackexchange.com/questions/16090/trouble-using-cword-in-mapping
-nnoremap <expr> ;r ':GrepRename '.expand('<cword>')
+nnoremap <expr> ;r ':GrepRename '.expand('<cword>').' '
+vnoremap ;r y:GrepRename <C-R>=@"<CR> <C-R>=<CR>
 
 "delimitMate
 au FileType vim let b:delimitMate_matchpairs = "(:),[:],{:},<:>"
