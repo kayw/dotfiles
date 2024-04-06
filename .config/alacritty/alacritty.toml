@@ -70,7 +70,7 @@ print_events = false
 render_timer = false
 
 [font]
-size = 14
+size = 12
 
 [font.glyph_offset]
 x = 0
@@ -82,6 +82,7 @@ y = 0
 
 [keyboard]
 bindings = [
+{ key = "v", mods = "Alt", action = "Paste" },
 { key = "v", mods = "option", chars = "\u0016"},
 { key = "r", mods = "option", chars = "\u0012"},
 { key = "w", mods = "option", chars = "\u0017"},
@@ -199,7 +200,6 @@ bindings = [
 { chars = "\u001B[24;3~", key = "F12", mods = "Super" },
 { chars = """, """, key = "NumpadEnter" }
 ]
-
 
 [mouse]
 hide_when_typing = false

@@ -131,6 +131,8 @@ autocmd InsertLeave * call Fcitx2en()
 " cd to the directory containing the file in the buffer
 " https://github.com/olalonde/dotfiles/blob/master/tag-vim/vimrc#L189
 nmap <silent> <leader>cd :lcd %:h<CR>
+noremap <F11> :source ~/.vim/vimrc<CR>
+inoremap <F11> <ESC>:source ~/.vim/vimrc<CR>
 noremap <F12> :e ~/.vim/vimrc<CR>
 inoremap <F12> <ESC>:e ~/.vim/vimrc<CR>
 "nnoremap <C-H> <C-W>h
@@ -470,7 +472,7 @@ nnoremap ;s :Ag <C-R>='\b'.expand('<cword>').'\b'<CR><CR>
 "map <leader>" :Ag! "<C-r>"" -Q<CR>  https://github.com/junegunn/fzf.vim/issues/586
 " result window "cover the whole because of -bang ! <bang>0
 " <C-R>" as current word
-vnoremap ;s y:Ag <C-R>=escape(@",'\')<CR><CR>
+vnoremap ;s y:Ag <C-R>=escape(@",'\"*+[]{}.?')<CR><CR>
 "https://www.reddit.com/r/vim/comments/4ffvt1/is_there_a_way_to_switch_between_fzf_commands/
 
 "http://vim.wikia.com/wiki/Search_for_visually_selected_text
@@ -494,6 +496,20 @@ function! s:ag_in(...)
     call fzf#vim#ag(a:1, {'dir': join(a:000[1:], ' ')})
   endif
 endfunction
+
+" An action can be a reference to a function that processes selected lines
+function! s:build_quickfix_list(lines)
+  call setqflist(map(copy(a:lines), '{ "filename": v:val, "lnum": 1 }'))
+  copen
+  cc
+endfunction
+
+let g:fzf_action = {
+  \ 'ctrl-q': function('s:build_quickfix_list'),
+  \ 'ctrl-t': 'tab split',
+  \ 'ctrl-x': 'split',
+  \ 'ctrl-v': 'vsplit' }
+
 "AgIn dir pattern
 command! -nargs=+ -complete=dir AgIn call s:ag_in(<f-args>)
 
@@ -518,16 +534,23 @@ function! s:grep_rename_cb(...)
   let b = get(a:, 2, '')
   if empty(b)
     let b = a:000[0]
-    let a = expand('<cword>')
+    let a = '\b'.expand('<cword>').'\b'
   endif
   if empty(a)
     return
   endif
-  let needle = a
+  let needle = substitute(a, "'", "''", 'g')
+  let needle = escape(searcher, '"')
   if searcher == 'rg'
     let needle = escape(needle, '*+\[](){}')
   endif
-  let pattern = escape(a, '/"')
+  let p = escape(a, '/\')
+  " https://vi.stackexchange.com/questions/29015/fastest-way-to-compare-string-with-pattern
+  " https://vi.stackexchange.com/questions/9706/what-is-the-difference-between-single-and-double-quoted-strings "\b\\w*\b"
+  if needle =~ '\\b\w*\\b'
+    let p = '\<'.p.'\>'
+  endif
+  let b = escape(b, '/\')
   "exec 'table | lv /\<' . a . '\>/j ** | ldo s/\<' . a . '\>/' . b . '/gc | up'
   " https://vi.stackexchange.com/questions/24992/how-to-put-the-output-of-a-function-call-into-quickfix-list
   "
@@ -535,14 +558,15 @@ function! s:grep_rename_cb(...)
   "silent grep foo ** | redraw! get rid of Press ENTER or type command to continue
   " ' no need for backslash, ' doubled  " as single quote   :h string
   " https://vi.stackexchange.com/questions/5612/how-to-redirect-the-output-of-a-command-as-the-quickfix-list-to-a-vim-server-f
-  exec 'cex system('''. searcher .' --vimgrep ' . needle . ''') | cfdo %s/\<' . pattern . '\>/' . b . '/gc | up'
+  " \b \< not work for word start with "@ nonalphanumberic
+  exec 'cex system('''. searcher .' --vimgrep "' . needle . '"'') | cfdo %s/' . p . '/' . b . '/gc | up'
 endfunction
 
 com! -nargs=+  GrepRename  call s:grep_rename_cb(<f-args>)
 "https://vi.stackexchange.com/questions/17194/expandcword-returns-empty-string-in-inoremap
 "https://vi.stackexchange.com/questions/16090/trouble-using-cword-in-mapping
-nnoremap <expr> ;r ':GrepRename '.expand('<cword>').' '
-vnoremap ;r y:GrepRename <C-R>=@"<CR> <C-R>=<CR>
+nnoremap <expr> ;r ':GrepRename '.expand('<cword>')
+vnoremap ;r y:GrepRename <C-R>=escape(@", ' ')<CR> <C-R>=escape(@", ' ')<CR>
 
 "delimitMate
 au FileType vim let b:delimitMate_matchpairs = "(:),[:],{:},<:>"
