@@ -18,5 +18,3 @@
 	autocrlf = input
 [http]
 	postBuffer = 1048576000
-[url "https://mirror.ghproxy.com/https://github.com/"]
-	insteadOf = https://github.com/

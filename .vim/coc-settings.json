@@ -4,11 +4,20 @@
   "javascript.validate.enable": false,
   "tsserver.implicitProjectConfig.experimentalDecorators": true,
   "typescript.validate.enable": true,
-  "eslint.autoFixOnSave": true,
-  "python.linting.enabled": true,
+  "python.linting.enabled": false,
+  "python.linting.ruffEnabled": false,
   "pyright.inlayHints.functionReturnTypes": false,
   "pyright.inlayHints.variableTypes": false,
   "pyright.inlayHints.parameterTypes": false,
+  "python.formatting.provider": "",
+  "ruff.enable": true,
+  "ruff.nativeBinaryPath": ".venv/bin/ruff",
+  "[python]": {
+    "coc.preferences.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+      "source.fixAll": true
+    }
+  },
   "explorer.keyMappings.global": {
     "cd": ["wait", "expandable?", "cd", "noop"],
     "<cr>": ["wait", "expandable?", "expand", "open"],
@@ -49,5 +58,8 @@
       "rootPatterns": [".git/", ".hg/"],
       "filetypes": ["zig"]
     }
+  },
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
   }
 }

@@ -1,13 +1,7 @@
 # Setup fzf
 # ---------
-if [[ ! "$PATH" == */home/kayw/.vim/bundle/fzf/bin* ]]; then
-  PATH="${PATH:+${PATH}:}/home/kayw/.vim/bundle/fzf/bin"
+if [[ ! "$PATH" == */Users/kayw/.vim/bundle/fzf/bin* ]]; then
+  PATH="${PATH:+${PATH}:}/Users/kayw/.vim/bundle/fzf/bin"
 fi
 
-# Auto-completion
-# ---------------
-[[ $- == *i* ]] && source "/home/kayw/.vim/bundle/fzf/shell/completion.bash" 2> /dev/null
-
-# Key bindings
-# ------------
-source "/home/kayw/.vim/bundle/fzf/shell/key-bindings.bash"
+eval "$(fzf --bash)"
