@@ -194,7 +194,7 @@ Plug 'andymass/vim-matchup'
 
 Plug 'pangloss/vim-javascript', { 'for': 'javascript*' }
 Plug 'mxw/vim-jsx', { 'for': 'javascript.jsx' }
-Plug 'wting/rust.vim', {'for': 'rust'}
+"Plug 'wting/rust.vim', {'for': 'rust'}
 Plug 'fatih/go.vim', {'for': 'go', 'do': ':GoUpdateBinaries' }
 "Plug 'cakebaker/scss-syntax.vim', {'for': 'scss'}
 

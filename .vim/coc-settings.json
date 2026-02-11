@@ -18,6 +18,18 @@
       "source.fixAll": true
     }
   },
+  "inlayHint.enableParameter": true,
+  "inlayHint.position": "eol",
+  "[rust]": {
+    "coc.preferences.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+      "source.fixAll": true
+    }
+  },
+  "workspace.ignoredFolders": [
+    "$HOME/.cargo/**",
+    "$HOME/.rustup/**"
+  ],
   "explorer.keyMappings.global": {
     "cd": ["wait", "expandable?", "cd", "noop"],
     "<cr>": ["wait", "expandable?", "expand", "open"],
@@ -41,7 +53,7 @@
       "command": "ccls",
       "filetypes": ["c", "cc", "cxx", "cpp", "objc", "objcpp"],
       "rootPatterns": [".ccls", "compile_commands.json", ".vim/", ".git/", ".hg/"],
-      "initializationOptions": {
+      "settings": {
         "cache": {
           "directory": "/tmp/ccls"
         },
@@ -53,7 +65,18 @@
       "rootPatterns": ["go.mod", ".git/", ".hg/"],
       "filetypes": ["go"]
     },
-    "zls":{
+    "rust": {
+      "command": "rust-analyzer",
+      "rootPatterns": ["Cargo.toml"],
+      "settings": {
+        "rust-analyzer.inlayHints.typeHints.enable": false,
+        "rust-analyzer.inlayHints.parameterHints.enable": true,
+        "rust-analyzer.inlayHints.chainingHints.enable": false,
+        "rust-analyzer.inlayHints.closingBraceHints.enable": false
+      },
+      "filetypes": ["rust"]
+    },
+    "zls": {
       "command": "zls",
       "rootPatterns": [".git/", ".hg/"],
       "filetypes": ["zig"]

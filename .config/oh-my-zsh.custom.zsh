@@ -14,7 +14,7 @@ export HOMEBREW_BOTTLE_DOMAIN="https://mirrors.tuna.tsinghua.edu.cn/homebrew-bot
 export HOMEBREW_BREW_GIT_REMOTE="https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/brew.git"
 export HOMEBREW_CORE_GIT_REMOTE="https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/homebrew-core.git"
 
-export PATH=/opt/homebrew/bin/:$PATH
+export PATH=/opt/homebrew/bin:/opt/homebrew/opt/rustup/bin:$HOME/.cargo/bin:$HOME/Library/Python/3.9/bin/:$PATH
 setopt COMPLETE_ALIASES
 
 #_kgit() {
@@ -40,6 +40,9 @@ precmd() {
 }
 
 alias kgit="GIT_DIR=~/dotfiles/.git GIT_WORK_TREE=~ git"
+#kgit() {
+#  GIT_DIR=~/dotfiles/.git GIT_WORK_TREE=~ git "$@"
+#}
 #zstyle ':completion:*:*:kgit:*' file-patterns '*:all-files'
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
