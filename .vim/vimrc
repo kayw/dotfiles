@@ -364,23 +364,7 @@ nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
 
 nmap <Leader>t <Cmd>CocCommand explorer --sources=buffer+,file+<CR>
 nmap <Leader>T <Cmd>CocCommand explorer --sources=buffer+,file+ --no-reveal-when-open<CR>
-"nmap <Leader>t :let NERDTreeQuitOnOpen = 1<bar>NERDTreeToggle<CR>
-"nmap <Leader>T NERDTreeFind<CR>
 "CocDisable
-
-"UltiSnip
-"ycm TAB key TODO https://github.com/Valloric/YouCompleteMe/issues/36
-let g:UltiSnipsExpandTrigger = "<C-e>"
-let g:UltiSnipsListSnippets = "<C-g>"
-let g:UltiSnipsJumpForwardTrigger="<C-e>"
-let g:UltiSnipsJumpBackwardTrigger="<c-f>"
-" this mapping Enter key to <C-y> to chose the current highlight item
-" " and close the selection list, same as other IDEs.
-" " CONFLICT with some plugins like tpope/Endwise
-inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-let g:snips_author="kayw"
-
-"let g:UltiSnipsSnippetDirectories=["UltiSnips", "snippets"]
 
 "airline
 set laststatus=2 "http://superuser.com/questions/634570/vim-how-to-install-airline
@@ -422,15 +406,8 @@ nmap <Leader>28 <Plug>AirlineSelectTab28
 nmap <Leader>29 <Plug>AirlineSelectTab29
 nmap <Leader>30 <Plug>AirlineSelectTab30
 
-"YouCompleteMe
-let g:ycm_autoclose_preview_window_after_completion = 1
-let g:ycm_filepath_blacklist = {} "https://github.com/Valloric/YouCompleteMe/issues/3102
-let g:ycm_global_ycm_extra_conf = '~/.vim/compiler/global.ycm_extra_conf.py'
-let g:ycm_confirm_extra_conf = 0
-let g:ycm_complete_in_comments = 1
 "https://github.com/junegunn/vim-plug/issues/444#issuecomment-195363891  au FileType javascript.jsx change twice autocommand nested e218 save e13 ycm load twice => use if &ft
 "https://github.com/junegunn/vim-plug/wiki/faq#loading-plugins-manually
-"https://github.com/Valloric/YouCompleteMe/issues/893#issuecomment-53151235
 augroup bufevent
   au!
   au BufReadPost,BufEnter * if &ft =~? g:on_demand_ft_regex |
@@ -577,26 +554,6 @@ au FileType vim let b:delimitMate_matchpairs = "(:),[:],{:},<:>"
 let javascript_enable_domhtmlcss=1
 let g:jsx_ext_required = 0
 
-"dart-vim
-let dart_format_on_save = 1
-"let dart_style_guide = 2
-"let g:ale_dart_dartanalyzer_executable = ''
-
-"vims-lsc
-"let g:lsc_auto_map = v:true
-"autocmd CompleteDone * silent! pclose
-
-"autoformat
-"http://stackoverflow.com/a/23496781
-"autocmd BufWritePre *.{js,jsx,go,py,go,rs} :Autoformat
-"http://stackoverflow.com/a/27334950
-"au BufWritePre * if &ft =~? join(g:on_demand_autoformat_fts, '\|') | Autoformat | endif
-
-"let g:formatdef_eslint_javascript = 'g:eslint_path." --fix"'
-"let g:formatters_javascript = ['eslint_javascript']
-"let g:formatters_python = [ 'yapf' ]
-"let g:formatter_yapf_style = 'chromium'
-
 "buftabline
 let g:buftabline_numbers = 1
 let g:buftabline_indicators = 1
@@ -612,78 +569,3 @@ let g:solarized_visibility="high"
   let g:solarized_termtrans=1
 "endif
 colo solarized
-
-"https://github.com/OmniSharp/omnisharp-vim/issues/703
-let g:OmniSharp_server_use_net6=1
-let g:OmniSharp_want_snippet=1
-"set completeopt=longest,menuone,popuphidden
-" Highlight the completion documentation popup background/foreground the same as
-" the completion menu itself, for better readability with highlighted
-" documentation.
-"set completepopup=highlight:Pmenu,border:off
-augroup omnisharp_commands
-  autocmd!
-
-  " Show type information automatically when the cursor stops moving.
-  " Note that the type is echoed to the Vim command line, and will overwrite
-  " any other messages in this space including e.g. ALE linting messages.
-  "autocmd CursorHold *.cs OmniSharpTypeLookup
-
-  " The following commands are contextual, based on the cursor position.
-  autocmd FileType cs nmap <silent> <buffer> gd <Plug>(omnisharp_go_to_definition)
-  autocmd FileType cs nmap <silent> <buffer> gr <Plug>(omnisharp_find_usages)
-  autocmd FileType cs nmap <silent> <buffer> gi <Plug>(omnisharp_find_implementations)
-  autocmd FileType cs nmap <silent> <buffer> gpd <Plug>(omnisharp_preview_definition)
-  autocmd FileType cs nmap <silent> <buffer> gpr <Plug>(omnisharp_preview_implementations)
-  autocmd FileType cs nmap <silent> <buffer> gt <Plug>(omnisharp_type_lookup)
-  autocmd FileType cs nmap <silent> <buffer> K <Plug>(omnisharp_documentation)
-  autocmd FileType cs nmap <silent> <buffer> <Leader>gs <Plug>(omnisharp_find_symbol)
-  autocmd FileType cs nmap <silent> <buffer> <Leader>ufx <Plug>(omnisharp_fix_usings)
-  autocmd FileType cs nmap <silent> <buffer> <C-\> <Plug>(omnisharp_signature_help)
-  autocmd FileType cs imap <silent> <buffer> <C-\> <Plug>(omnisharp_signature_help)
-
-  " Navigate up and down by method/property/field
-  autocmd FileType cs nmap <silent> <buffer> [[ <Plug>(omnisharp_navigate_up)
-  autocmd FileType cs nmap <silent> <buffer> ]] <Plug>(omnisharp_navigate_down)
-  " Find all code errors/warnings for the current solution and populate the quickfix window
-  autocmd FileType cs nmap <silent> <buffer> <Leader>gcc <Plug>(omnisharp_global_code_check)
-  " Contextual code actions (uses fzf, vim-clap, CtrlP or unite.vim selector when available)
-  autocmd FileType cs nmap <silent> <buffer> <Leader>ac <Plug>(omnisharp_code_actions)
-  autocmd FileType cs xmap <silent> <buffer> <Leader>ac <Plug>(omnisharp_code_actions)
-  " Repeat the last code action performed (does not use a selector)
-  autocmd FileType cs nmap <silent> <buffer> <Leader>os. <Plug>(omnisharp_code_action_repeat)
-  autocmd FileType cs xmap <silent> <buffer> <Leader>os. <Plug>(omnisharp_code_action_repeat)
-
-  autocmd FileType cs nmap <silent> <buffer> <Leader>gf <Plug>(omnisharp_code_format)
-
-  autocmd FileType cs nmap <silent> <buffer> gR <Plug>(omnisharp_rename)
-
-  autocmd FileType cs nmap <silent> <buffer> <Leader>osre <Plug>(omnisharp_restart_server)
-  autocmd FileType cs nmap <silent> <buffer> <Leader>osst <Plug>(omnisharp_start_server)
-  autocmd FileType cs nmap <silent> <buffer> <Leader>ossp <Plug>(omnisharp_stop_server)
-  au BufReadPost,BufEnter *.cs setl sw=4
-augroup END
-"https://github.com/OmniSharp/omnisharp-vim/wiki/Example-config
-" ALE: {{{
-let g:ale_lint_on_text_changed = 'never'
-let g:ale_open_list = 0
-
-let g:ale_linters = {'cpp': ['clangtidy']}
-let g:ale_c_clangtidy_checks=[]
-let g:ale_cpp_clangtidy_checks=[]
-let g:ale_fixers = {
-      \   'javascript': ['eslint'],
-      \   'dart': ['dartfmt'],
-      \   'cpp': ['clang-format'],
-      \}
-let g:ale_linters = {'dart': []}
-let g:ale_fix_on_save = 1
-
-let g:ale_sign_error = '•'
-let g:ale_sign_warning = '•'
-let g:ale_sign_info = '·'
-let g:ale_sign_style_error = '·'
-let g:ale_sign_style_warning = '·'
-
-let g:ale_linters = { 'cs': ['OmniSharp'] }
-" }}}

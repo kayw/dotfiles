@@ -58,8 +58,9 @@ export GNUPGHOME=$HOME/.local/share/gnupg
 export KODI_DATA=$HOME/.local/share/kodi
 export __GL_SHADER_DISK_CACHE_PATH=$HOME/.cache/nvidia
 export RUSTUP_HOME=$HOME/.local/share/rustup
+export CARGO_HOME=$HOME/.local/share/cargo
 
-export DOCKER_HOST=unix://$XDG_RUNTIME_DIR/podman/podman.sock
+#export DOCKER_HOST=unix://$XDG_RUNTIME_DIR/podman/podman.sock
 
 # append to the history file, don't overwrite it
 shopt -s histappend
