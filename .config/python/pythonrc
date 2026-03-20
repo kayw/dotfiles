@@ -28,6 +28,13 @@ try:
     readline.read_history_file(history)
 except FileNotFoundError:
     pass
+except OSError as e:
+    #from google search ai
+    if e.errno == 22:  # Invalid argument
+        print(f"Error reading history file: {history_file}. It might be corrupted or in an incompatible format.")
+        print("Consider deleting or renaming the file and letting readline create a new one.")
+    else:
+        raise
 
 # Prevents creation of default history if custom is empty
 if readline.get_current_history_length() == 0:

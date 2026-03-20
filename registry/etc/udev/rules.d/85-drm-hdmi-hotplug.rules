@@ -1,0 +1,1 @@
+ACTION=="change", KERNEL=="card1", SUBSYSTEM=="drm",ENV{DISPLAY}=":0", ENV{XAUTHORITY}="/tmp/.Xauthority", RUN+="/usr/bin/systemctl start hotplug-monitor.service"

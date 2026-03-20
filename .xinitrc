@@ -24,16 +24,15 @@ exec fcitx &
 #https://bbs.archlinux.org/viewtopic.php?id=130562&p=3   frank/dotfiles/.xinitrc
 xset +fp /usr/share/fonts/local/
 xset fp rehash
+#xrandr --output HDMI-0 --rotate left --right-of DP-4 --output DP-4
+#xrandr --output DP-4 --pos 0x700
+xrandr --output HDMI-0 --right-of DP-2 --output DP-2
 
 command -v VBoxClient-all >/dev/null && VBoxClient-all
-#export RXVT_SOCKET=/tmp/urxvtd-Arch
-#urxvtd -q -o -f
 if [[ -z "$TMUX" ]]; then
-  #urxvtc -e tmux
-  alacritty -e tmux &
+  alacritty -o "window.position={y=700,x=0}" -e tmux &
 else
-  #urxvtc -e tmux att  #https://unix.stackexchange.com/questions/43601/how-can-i-set-my-default-shell-to-start-up-tmux
   alacritty -e tmux att &
 fi
 
-exec $HOME/bin/start-dwm
+exec $HOME/.local/bin/start-dwm

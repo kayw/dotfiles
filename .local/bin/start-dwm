@@ -6,11 +6,13 @@
 #feh >/dev/null 2>&1 && feh --bg-scale $BG_IMG & # set the background wallpaper
 xsetroot -name "" & # we status bar, set main WM window title to none
 DWM_STARTLOG="/var/log/dwm/run.log"
+#DIR=(realpath (status dirname))
+DIR=$(dirname "$0")
 #$HOME/bin/trojan-go -config "$HOME/.config/shadowsocks/trojan.json"&
 #$HOME/bin/clash -f ~/.config/shadowsocks/clash.yaml -d ~/.config/shadowsocks/ 2>&1 >/dev/null &
 devmon 2>&1 > $DWM_STARTLOG & # automount removable devices
 while true; do
-	(sleep 1 && $HOME/bin/dwm-statusbar) > /dev/null 2>&1 & # run status bar, need to make sure wm loads first
+	(sleep 1 && $DIR/dwm-statusbar) > /dev/null 2>&1 & # run status bar, need to make sure wm loads first
 	# start dwm
 	dwm > $DWM_STARTLOG 2>&1 # never had any errors anyway
 	# if dwm exists with any error code, restart it

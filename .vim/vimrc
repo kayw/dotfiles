@@ -121,7 +121,7 @@ function! Fcitx2zh()
   endif
 endfunction
 
-set ttimeoutlen=150
+set ttimeoutlen=250
 "退出插入模式
 autocmd InsertLeave * call Fcitx2en()
 "进入插入模式
@@ -273,6 +273,7 @@ nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
+nmap <silent> gt <Plug>(coc-type-definition)
 
 " https://github.com/neoclide/coc.nvim/issues/3184
 nnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
@@ -444,7 +445,7 @@ augroup END
 "fzf
 "copy from leaderf
 if executable('rg')
-  let $FZF_DEFAULT_COMMAND = 'rg --files -.'
+  let $FZF_DEFAULT_COMMAND = 'rg --files '
 elseif executable('ag')
   let $FZF_DEFAULT_COMMAND = 'ag -g ""'
 endif
@@ -459,7 +460,7 @@ function! s:fzf_ag(...)
     call fzf#vim#grep("rg --column --line-number -. --no-heading --color=always --smart-case -- ".fzf#shellescape(a:1), fzf#vim#with_preview(), a:2)
   elseif executable('ag')
     " https://github.com/junegunn/fzf.vim/issues/92case sensitive Ag call
-    call fzf#vim#ag_raw('-s '.fzf#shellescape(a:1), fzf#vim#with_preview(), a:2)
+    call fzf#vim#ag_raw(fzf#shellescape(a:1), fzf#vim#with_preview(), a:2)
   endif
 endfunction
 
@@ -488,12 +489,12 @@ vnoremap <silent> # :<C-U>
                     \escape(@", '?\.*$^~['), '\_s\+', '\\_s\\+', 'g')<CR><CR>
                     \gV:call setreg('"', old_reg, old_regtype)<CR>
 
-"https://github.com/junegunn/fzf.vim/issues/27
+"https://github.com/junegunn/fzf.vim/issues/27#issuecomment-608294881
 function! s:ag_in(...)
   if executable('rg')
-    call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case -- ".fzf#shellescape(a:1), {'dir': join(a:000[1:],' ')})
+    call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case -- ".fzf#shellescape(join(a:000[1:],' ')), {'dir': a:1})
   elseif executable('ag')
-    call fzf#vim#ag(a:1, {'dir': join(a:000[1:], ' ')})
+    call fzf#vim#ag(join(a:000[1:], ' '), {'dir': a:1})
   endif
 endfunction
 

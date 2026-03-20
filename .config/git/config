@@ -18,3 +18,5 @@
 	autocrlf = input
 [http]
 	postBuffer = 1048576000
+[url "https://ghfast.top/https://github.com/"]
+	insteadOf = https://github.com/

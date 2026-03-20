@@ -1,0 +1,1 @@
+SUBSYSTEMS=="scsi", DRIVERS=="sd", ATTRS{model}=="Hitachi HTS72757", ENV{UDISKS_IGNORE}="1"

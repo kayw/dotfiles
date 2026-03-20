@@ -15,19 +15,17 @@
 # don't overwrite GNU Midnight Commander's setting of `ignorespace'.
 export HISTCONTROL=$HISTCONTROL${HISTCONTROL+,}erasedups:ignoreboth
 # http://mewbies.com/how_to_disable_bash_history_or_limit_tutorial.html
-export HISTIGNORE='&:[ ]*:ls*:cd*:ps*:du*:rm*:cat*'
+export HISTIGNORE='&:[ ]*:ls*:cd*:ps*:du*:rm*:cat*:vim'
 # https://linuxhint.com/bash_command_history_usage/
-export HISTSIZE=100000
-export HISTFILESIZE=100000
-# ... or force ignoredups and ignorespace
-#export HISTCONTROL=ignoreboth
 
-#export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib/  #rustlib node_modules
+# for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
+export HISTSIZE=1000000
+export HISTFILESIZE=10000000
 
+export XDG_CONFIG_HOME=$HOME/.config
 KSPACE_ENV=$HOME/kspace/env
 export GEMRC=$HOME/.config/gemrc #https://docs.ruby-lang.org/en/2.5.0/Gem/ConfigFile.html  https://jordanelver.co.uk/blog/2020/12/06/project-specific-gemrc-files-using-the-gemrc-environment-variable/
 export GEM_HOME=$KSPACE_ENV/gems
-#export GEM_PATH=/usr/lib/ruby/gems/2.6.0
 export GEM_SPEC_CACHE=$GEM_HOME/specs
 export GRADLE_USER_HOME=$KSPACE_ENV/gradle
 #export ANDROID_HOME=$KSPACE_ENV/.android  react-native use this for sdk
@@ -35,8 +33,6 @@ export ANDROID_SDK_HOME=$KSPACE_ENV/android
 export ANDROID_SDK_ROOT=$ANDROID_SDK_HOME/sdk
 export ANDROID_EMULATOR_HOME=$ANDROID_SDK_HOME
 export ANDROID_AVD_HOME=$ANDROID_SDK_HOME/avd
-export STUDIO_PROPERTIES=$ANDROID_SDK_HOME/idea.properties
-export PM2_HOME=$KSPACE_ENV/pm2/
 export BABEL_CACHE_PATH=/tmp/babel.json
 export NODE_REPL_HISTORY=$HOME/.cache/.node_history
 export npm_config_userconfig=$HOME/.config/npmrc   #https://docs.npmjs.com/cli/v10/commands/npm#configuration
@@ -57,21 +53,16 @@ export DOCKER_CONFIG=$HOME/.config/docker
 export TEXMFHOME=$HOME/.config/texlive/texmf
 export TEXMFVAR=$HOME/.config/texlive/texmf-var
 export TEXMFCONFIG=$HOME/.config/texlive/texmf-config
+export KUBECONFIG=$HOME/.config/kubeconfig
+export GNUPGHOME=$HOME/.local/share/gnupg
+export KODI_DATA=$HOME/.local/share/kodi
+export __GL_SHADER_DISK_CACHE_PATH=$HOME/.cache/nvidia
+export RUSTUP_HOME=$HOME/.local/share/rustup
 
-export DOTNET_ROOT=/opt/dotnet
-FLUTTER_ROOT=/opt/flutter
-
-# https://stackoverflow.com/questions/229551/how-to-check-if-a-string-contains-a-substring-in-bash
-if [[ $PATH != *"/home/kayw/bin/"* ]]; then
-  export PATH=$PATH:$HOME/bin/:$GOPATH/bin:$GEM_HOME/bin:$PYTHONUSERBASE/bin:$ANDROID_SDK_ROOT/platform-tools:$ANDROID_SDK_ROOT/emulator:$ANDROID_SDK_ROOT/tools:$FLUTTER_ROOT/bin:$FLUTTER_ROOT/bin/cache/dart-sdk/bin/:$FLUTTER_ROOT/.pub-cache/bin:$DOTNET_ROOT:$DOTNET_ROOT/tools
-fi
-#http://stackoverflow.com/questions/13830594/when-i-execute-bash-the-path-keeps-repeating-itself
-#export PATH=$(echo "$PATH" | awk -v RS=: -v ORS=: '!(a[$0]++)' | sed 's/:$//')
+export DOCKER_HOST=unix://$XDG_RUNTIME_DIR/podman/podman.sock
 
 # append to the history file, don't overwrite it
 shopt -s histappend
-
-# for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
 
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
@@ -83,18 +74,12 @@ alias ls='ls --color=auto -A'
 alias lst='ls -R | grep ":$" | sed -e '"'"'s/:$//'"'"' -e \
           '"'"'s/[^-][^\/]*\//--/g'"'"' -e '"'"'s/^/   /'"'"' -e '"'"'s/-/|/'"'"
 alias lss='find . -type f | grep -v ".git" | xargs du -b | sort -rn' #http://unix.stackexchange.com/questions/53737/how-to-list-all-files-in-the-size-order
-alias getack='curl -L http://betterthangrep.com/ack-standalone > ~/bin/ack'
 alias grep='grep --color=auto'
-alias fgrep='fgrep --color=auto'
-alias egrep='egrep --color=auto'
-#alias dotfiles='git --git-dir=/home/kayw/.git --work-tree=/home/kayw'
-alias studio='/opt/android-studio/bin/studio.sh >/dev/null 2>&1'
 
-# PS1='[\u@\h \W]\$ '
-# export PS1="\[\e[36;1m\]\u\[\e[34;1m\]@\[\e[32;1m\]\H\[\e[30;1m\](\j)\[\e[33;1m\]\W\[\033k\033\134\] \$ \[\e[0m\]" \134 is \
-# export PS1='\[\e[0;32m\]\u\[\e[m\] \[\e[1;34m\]\w\[\e[m\] \[\e[1;32m\]\$\[\e[m\] \[\e[1;37m\]' \[\e[m\] ending color
-# export PS1='\[\033[01;32m\]\u@\h\[\033[01;34m\] \w \[\033[1;$((31+3*!$?))m\]\$\[\033[00m\] '
-# export PS1="\[\e[33;1m\]\u\[\e[34;1m\]@\[\e[32;1m\]\H\[\e[30;1m\]\[\e[36;1m\] \W\[\033k\033\134\] \$ \[\e[0m\]\[\e[1;32m\]"
+alias kgit="GIT_DIR=~/kspace/dotfiles/.git GIT_WORK_TREE=~ git"
+alias kubectl="kubectl --cache-dir=$HOME/.cache/kube"
+alias docker="podman"
+
 export PS1="\[\e[33;1m\]\u\[\e[34;1m\]@\[\e[32;1m\]\H\[\e[30;1m\]\[\e[36;1m\] \W \$\[\e[0m\]\[\e[1;32m\]"
 # root
 if [[ $UID == 0 ]]; then
@@ -105,10 +90,9 @@ case $TERM in
 xterm*|rxvt)
 #PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME}: ${PWD}\007"'
 ;;
-#screen*)
-#PROMPT_COMMAND='echo -ne "\033k\033\134\033k${HOSTNAME}[`basename ${PWD}`]\033\134"'
 screen*)
 PROMPT_COMMAND='echo -ne "\033]2;`perl -pl0 -e "s|^${HOME}|~|;s|([^/])[^/]*/|$""1/|g" <<<${PWD} | tr -d "\000"`\033\\"'
+#PROMPT_COMMAND='echo -ne "\033k\033\134\033k${HOSTNAME}[`basename ${PWD}`]\033\134"'
 #PROMPT_COMMAND='echo -ne "\033]2;`sed "s|^${HOME}|~|;s:\([^/]\)[^/]*/:\1/:g" <<<$PWD`\033\\"'
 #http://unix.stackexchange.com/questions/26844/abbreviated-current-directory-in-shell-prompt  For vim bash prompt directory
 #http://vim.wikia.com/wiki/Automatically_set_screen_title
@@ -116,17 +100,11 @@ PROMPT_COMMAND='echo -ne "\033]2;`perl -pl0 -e "s|^${HOME}|~|;s|([^/])[^/]*/|$""
 esac
 
 
-#git alias
-#complete -o bashdefault -o default -o nospace -F _gitk co
-#http://benmabey.com/2008/05/07/git-bash-completion-git-aliases.html
-alias kgit="GIT_DIR=~/kspace/dotfiles/.git GIT_WORK_TREE=~ git"
-
-# man:
 function man
 {
 #http://vim.wikia.com/wiki/Using_vim_as_a_man-page_viewer_under_Unix
 #http://stackoverflow.com/questions/16740246/what-is-a-way-to-read-man-pages-in-vim-without-using-temporary-files
-#goog vim as man pager
+#vim as man pager
 Title=''
 for i in $@; do
   Title+='-'$i
@@ -135,15 +113,6 @@ done
 /usr/bin/man $* | col -b | vim -c 'file MAN'$Title -c 'set ft=man nomod nolist titlestring=MAN'$Title -c 'nmap K :Man <C-R>=expand("<cword>")<CR><CR>' -
 }
 
-### quinn dotfiles
-#alias ls='ls --group-directories-first --time-style=+"%d.%m.%Y %H:%M" --color=auto -F'
-#alias ll='ls -l --group-directories-first --time-style=+"%d.%m.%Y %H:%M" --color=auto -F'
-#alias la='ls -la --group-directories-first --time-style=+"%d.%m.%Y %H:%M" --color=auto -F'
-#alias grep='grep --color=tty -d skip'
-#alias cp="cp -i"                          # confirm before overwriting something
-#alias df='df -h'                          # human-readable sizes
-#alias free='free -m'                      # show sizes in MB
-#alias np='nano PKGBUILD'
 
 # ex - archive extractor
 # usage: ex <file>
@@ -179,17 +148,27 @@ top10() {
   | column -c3 -s " " -t | sort -nr | nl | head -n10
 }
 
-alias work='. ~/bin/work'
 
 # nvm settings per terminal session
-#. "$HOME/.nvm/nvm.sh" && . "$HOME/.nvm/bash_completion" && nvm use iojs;(!!!this one need source Or . in script)
 export NVM_NODEJS_ORG_MIRROR=https://npmmirror.com/mirrors/node  # https://cnodejs.org/topic/5338c5db7cbade005
 export NVM_DIR="$KSPACE_ENV/nvm" # upgrade git fetch --tags origin git checkout `git describe --abbrev=0 --tags --match "v[0-9]*" $(git rev-list --tags --max-count=1)`
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion" # load nvm completion
-#[ -z "${TMUX}" ] && command -v nvm &> /dev/null && nvm use default
 
-#command -v nodemon &> /dev/null || alias nodemon="pm2 start --no-daemon"
-
-[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+[ -f $HOME/.config/fzf/fzf.bash ] && source $HOME/.config/fzf/fzf.bash  #https://github.com/junegunn/fzf/pull/1282
 command -v kubectl &> /dev/null && source <(kubectl completion bash)
+
+# pnpm
+export PNPM_HOME="$HOME/.local/share/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end
+
+. "$HOME/.local/bin/env"
+
+if [[ $(ps --no-header --pid=$PPID --format=comm) != "fish" && -z ${BASH_EXECUTION_STRING} ]] then
+  shopt -q login_shell && LOGIN_OPTION='--login' || LOGIN_OPTION=''
+  exec fish $LOGIN_OPTION
+fi
