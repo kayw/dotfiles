@@ -172,7 +172,7 @@ let g:loaded_netrwPlugin = 0
 let g:loaded_logiPat = 0
 
 let g:on_demand_autoformat_fts = [ '\<cpp\>', '\<c\>', '\<javascript*', '\<typescript*', '\<go\>', 'python', 'rust', 'dart']
-let g:on_demand_fts = g:on_demand_autoformat_fts + [ 'vim', 'ruby', '\<cs*']
+let g:on_demand_fts = g:on_demand_autoformat_fts + [ 'vim', 'ruby', '\<cs*', 'svelte']
 let g:on_demand_ft_regex = join(g:on_demand_fts, '\|')
 
 "Vim-Plug
@@ -196,6 +196,7 @@ Plug 'andymass/vim-matchup'
 
 Plug 'pangloss/vim-javascript', { 'for': 'javascript*' }
 Plug 'mxw/vim-jsx', { 'for': 'javascript.jsx' }
+Plug 'leafOfTree/vim-svelte-plugin', { 'for': 'svelte' }
 "Plug 'wting/rust.vim', {'for': 'rust'}
 Plug 'fatih/go.vim', {'for': 'go', 'do': ':GoUpdateBinaries' }
 "Plug 'cakebaker/scss-syntax.vim', {'for': 'scss'}
@@ -553,6 +554,7 @@ au FileType vim let b:delimitMate_matchpairs = "(:),[:],{:},<:>"
 "javascript-vim
 let javascript_enable_domhtmlcss=1
 let g:jsx_ext_required = 0
+let g:vim_svelte_plugin_use_typescript=1
 
 "buftabline
 let g:buftabline_numbers = 1

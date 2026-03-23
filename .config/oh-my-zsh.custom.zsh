@@ -26,7 +26,10 @@ compdef kgit='git'
 # https://superuser.com/questions/735660/whats-the-zsh-equivalent-of-bashs-prompt-command
 # https://stackoverflow.com/questions/16624752/tmux-how-to-configure-tmux-to-display-the-current-working-directory-of-a-pane-o
 precmd() {
-  [[ -n "$TMUX" ]] && echo -ne "\033]2;`perl -pl0 -e "s|^${HOME}|~|;s|([^/])[^/]*/|$""1/|g" <<<${PWD} | tr -d "\000"`\033\\"
+  if [[ ! -n "$TMUX" ]]; then
+      return
+  fi
+  echo -ne "\033]2;`perl -pl0 -e "s|^${HOME}|~|;s|([^/])[^/]*/|$""1/|g" <<<${PWD} | tr -d "\000"`\033\\"
     # Restore original window name if it was changed
   #local current_name="$(tmux display-message -p '#W')"
   tmux rename-window ""
@@ -66,7 +69,7 @@ check_psql_host() {
     {
       for (i = 1; i <= NF; i++) {
         if ($i == "-h") {
-	  host = $(i+1)
+          host = $(i+1)
           if (host == "127.0.0.1" || host == "localhost") { print "safe"; exit }
           else { print "unsafe"; exit }
         }
@@ -95,6 +98,9 @@ check_psql_host() {
 
 
 preexec() {
+  if [[ ! -n "$TMUX" ]]; then
+      return
+  fi
   tmux set-window-option allow-rename on
   tmux set-window-option automatic-rename on
   #ORIG_TMUX_WINDOW_NAME="$(tmux display-message -p '#W')"
