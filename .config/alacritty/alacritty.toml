@@ -73,10 +73,10 @@ print_events = false
 render_timer = false
 
 [font]
-size = 12.25
+size = 14
 
 [font.normal]
-family = "Hack Nerd Font"
+#family = "Hack Nerd Font"
 
 #[font.glyph_offset]
 #x = 0
@@ -181,7 +181,6 @@ family = "Hack Nerd Font"
 [keyboard]
 bindings = [
 ## MacOS
-{ key = "v", mods = "Alt", action = "Paste" },
 { key = "v", mods = "option", chars = "\u0016"},
 { key = "r", mods = "option", chars = "\u0012"},
 { key = "w", mods = "option", chars = "\u0017"},
@@ -192,6 +191,7 @@ bindings = [
 { key = "a", mods = "super", chars = "\u001ba"},
 { key = "Key6", mods = "option", chars = "\u001e"},
 ## common
+#{ key = "v", mods = "Alt", action = "Paste" },
 { key = "Key6", mods = "Control", chars = "\u001e"},
 { key = "Paste",                                                                        action = "Paste"          },
 { key = "Copy",                                                                         action = "Copy"           },

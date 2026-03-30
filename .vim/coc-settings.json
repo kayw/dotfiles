@@ -5,7 +5,6 @@
   "tsserver.implicitProjectConfig.experimentalDecorators": true,
   "typescript.validate.enable": true,
   "eslint.autoFixOnSave": true,
-  "eslint.experimental.useFlatConfig": false,
   "python.linting.enabled": true,
   "python.linting.ruffEnabled": false,
   "pyright.inlayHints.functionReturnTypes": false,
@@ -14,7 +13,7 @@
   "python.formatting.provider": "",
   "ruff.enable": true,
   "ruff.nativeBinaryPath": ".venv/bin/ruff",
-  "[python]": {
+  "[python][svelte][rust]": {
     "coc.preferences.formatOnSave": true,
     "editor.codeActionsOnSave": {
       "source.fixAll": true
@@ -22,12 +21,6 @@
   },
   "inlayHint.enableParameter": true,
   "inlayHint.position": "eol",
-  "[rust]": {
-    "coc.preferences.formatOnSave": true,
-    "editor.codeActionsOnSave": {
-      "source.fixAll": true
-    }
-  },
   "workspace.ignoredFolders": [
     "$HOME/.cargo/**",
     "$HOME/.rustup/**"
