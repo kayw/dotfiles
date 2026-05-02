@@ -1,7 +1,7 @@
-# mkdir -p ~/kspace/dotfiles  ~/kspace/env/npm  ~/kspace/env/nvm  should be owned by kayw
-# git clone --bare git@github.com:kayw/dotfiles.git kspace/dotfiles/.git
+# mkdir -p ~/.local/share/dotfiles  /var/log/dwm should be owned by kayw
+# git clone --bare git@github.com:kayw/dotfiles.git .local/share/dotfiles/.git
 # alias kgit...   kgit checkout
-# git clone git@github.com:kayw/dwm.git kspace/dwm  make install
+# git clone git@github.com:kayw/dwm.git .local/share/dwm  make install
 # install nvm node trojan-go  vim plug install
 #
 # NOTES:
@@ -78,7 +78,6 @@ alias lss='find . -type f | grep -v ".git" | xargs du -b | sort -rn' #http://uni
 alias grep='grep --color=auto'
 
 alias kgit="GIT_DIR=~/kspace/dotfiles/.git GIT_WORK_TREE=~ git"
-alias kubectl="kubectl --cache-dir=$HOME/.cache/kube"
 alias docker="podman"
 
 export PS1="\[\e[33;1m\]\u\[\e[34;1m\]@\[\e[32;1m\]\H\[\e[30;1m\]\[\e[36;1m\] \W \$\[\e[0m\]\[\e[1;32m\]"

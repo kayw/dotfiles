@@ -44,6 +44,7 @@
       "disableDynamicRegister": true,
       "trace.server": "verbose"
     },
+    /*
     "ccls": {
       "command": "ccls",
       "filetypes": ["c", "cc", "cxx", "cpp", "objc", "objcpp"],
@@ -55,6 +56,7 @@
         "highlight": { "lsRanges" : true }
       }
     },
+    */
     "golang": {
       "command": "$HOME/kspace/env/go/bin/gopls",
       "rootPatterns": ["go.mod", ".git/", ".hg/"],

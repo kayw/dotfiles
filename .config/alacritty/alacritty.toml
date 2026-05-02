@@ -73,10 +73,10 @@ print_events = false
 render_timer = false
 
 [font]
-size = 14
+size = 12
 
 [font.normal]
-#family = "Hack Nerd Font"
+family = "Hack Nerd Font"
 
 #[font.glyph_offset]
 #x = 0
@@ -317,7 +317,7 @@ save_to_clipboard = true
 semantic_escape_chars = ",│`|:\"' ()[]{}<>"
 
 [window]
-decorations = "full"
+decorations = "Full"
 dynamic_padding = false
 dynamic_title = true
 startup_mode = "Windowed"

@@ -4,15 +4,15 @@
 
 #BG_IMG="$HOME/.dotfiles/wallpapers/blue-1920x1080.png"
 #feh >/dev/null 2>&1 && feh --bg-scale $BG_IMG & # set the background wallpaper
-xsetroot -name "" & # we status bar, set main WM window title to none
-DWM_STARTLOG="/var/log/dwm/run.log"
+DWM_STARTLOG="/var/tmp/dwm.log"
 #DIR=(realpath (status dirname))
 DIR=$(dirname "$0")
 #$HOME/bin/trojan-go -config "$HOME/.config/shadowsocks/trojan.json"&
 #$HOME/bin/clash -f ~/.config/shadowsocks/clash.yaml -d ~/.config/shadowsocks/ 2>&1 >/dev/null &
-devmon 2>&1 > $DWM_STARTLOG & # automount removable devices
+command -v devmon >/dev/null && devmon 2>&1 > $DWM_STARTLOG & # automount removable devices
+command -v dwmblocks >/dev/null && dwmblocks > /dev/null 2>&1 &
 while true; do
-	(sleep 1 && $DIR/dwm-statusbar) > /dev/null 2>&1 & # run status bar, need to make sure wm loads first
+	#(sleep 1 && $DIR/dwm-statusbar) > /dev/null 2>&1 & # run status bar, need to make sure wm loads first
 	# start dwm
 	dwm > $DWM_STARTLOG 2>&1 # never had any errors anyway
 	# if dwm exists with any error code, restart it
@@ -24,5 +24,5 @@ while true; do
 	# http://askubuntu.com/questions/239923/shell-script-to-9-kill-based-on-name
 	# kill $(pidof ruby $HOME/bin/dwm-statusbar)
 	# http://stackoverflow.com/questions/21224813/how-can-i-make-this-script-to-kill-rails-processes-work-better
-	ps aux | grep -ie [r]uby.*wm-statusbar | awk '{print $2}'# | xargs kill
+	#ps aux | grep -ie [r]uby.*wm-statusbar | awk '{print $2}' | xargs kill
 done

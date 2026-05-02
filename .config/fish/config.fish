@@ -1,6 +1,6 @@
 # https://wiki.archlinux.org/title/Fish
 if status is-interactive
-  atuin init fish | source
+  if command -q atuin; atuin init fish | source; end
 end
 
 set -U fish_greeting
@@ -20,6 +20,6 @@ alias ls='ls --color=auto -A'
 alias lst='ls -R | grep \':$\' | sed -e \'s/:$//\' -e \'s/[^-][^\/]*\//--/g\' -e \'s/^/   /\' -e \'s/-/|/\''
 alias lss='find . -type f | grep -v ".git" | xargs du -b | sort -rn' #http://unix.stackexchange.com/questions/53737/how-to-list-all-files-in-the-size-order
 alias grep='grep --color=auto'
-alias kgit="GIT_DIR=~/kspace/dotfiles/.git GIT_WORK_TREE=~ command git $argv"
+alias kgit="GIT_DIR=$HOME/.local/share/dotfiles/.git GIT_WORK_TREE=~ command git $argv"
 alias kubectl="kubectl --cache-dir=$HOME/.cache/kube $argv"
 #complete -c kgit -w git
